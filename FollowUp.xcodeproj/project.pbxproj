@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21379043275AE6EE004059F4 /* FollowUpStore.swift */; };
+		21379047275AE82B004059F4 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379046275AE82B004059F4 /* Collections */; };
+		21379049275AE82B004059F4 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379048275AE82B004059F4 /* OrderedCollections */; };
 		2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD42711F49C005A2387 /* FollowUpApp.swift */; };
 		2159CFD72711F49C005A2387 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD62711F49C005A2387 /* ContentView.swift */; };
 		2159CFD92711F49D005A2387 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2159CFD82711F49D005A2387 /* Assets.xcassets */; };
@@ -14,7 +17,7 @@
 		2159CFE72711F49E005A2387 /* FollowUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFE62711F49E005A2387 /* FollowUpTests.swift */; };
 		2159CFF22711F49E005A2387 /* FollowUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFF12711F49E005A2387 /* FollowUpUITests.swift */; };
 		2159D0012711F4C5005A2387 /* NewContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159D0002711F4C5005A2387 /* NewContactsView.swift */; };
-		2159D0042711F4DF005A2387 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159D0032711F4DF005A2387 /* Contact.swift */; };
+		2159D0042711F4DF005A2387 /* Contactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159D0032711F4DF005A2387 /* Contactable.swift */; };
 		2159D0062711F887005A2387 /* ContactRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159D0052711F887005A2387 /* ContactRowView.swift */; };
 		2159D0082711FABC005A2387 /* ContactBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159D0072711FABC005A2387 /* ContactBadge.swift */; };
 		2159D00B2711FC2A005A2387 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159D00A2711FC2A005A2387 /* Constant.swift */; };
@@ -57,6 +60,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		21379043275AE6EE004059F4 /* FollowUpStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpStore.swift; sourceTree = "<group>"; };
 		2159CFD12711F49C005A2387 /* FollowUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FollowUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2159CFD42711F49C005A2387 /* FollowUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpApp.swift; sourceTree = "<group>"; };
 		2159CFD62711F49C005A2387 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -70,7 +74,7 @@
 		2159CFF12711F49E005A2387 /* FollowUpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpUITests.swift; sourceTree = "<group>"; };
 		2159CFF32711F49E005A2387 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2159D0002711F4C5005A2387 /* NewContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewContactsView.swift; sourceTree = "<group>"; };
-		2159D0032711F4DF005A2387 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		2159D0032711F4DF005A2387 /* Contactable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contactable.swift; sourceTree = "<group>"; };
 		2159D0052711F887005A2387 /* ContactRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRowView.swift; sourceTree = "<group>"; };
 		2159D0072711FABC005A2387 /* ContactBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactBadge.swift; sourceTree = "<group>"; };
 		2159D00A2711FC2A005A2387 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -99,7 +103,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21379047275AE82B004059F4 /* Collections in Frameworks */,
 				2159D01027120349005A2387 /* Fakery in Frameworks */,
+				21379049275AE82B004059F4 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,9 +211,10 @@
 		2159D0022711F4D3005A2387 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2159D0032711F4DF005A2387 /* Contact.swift */,
+				2159D0032711F4DF005A2387 /* Contactable.swift */,
 				218B390C271C695F002720BC /* DateGrouping.swift */,
 				21CB9CA0273F1A1600471C34 /* PhoneNumber.swift */,
+				21379043275AE6EE004059F4 /* FollowUpStore.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -283,6 +290,8 @@
 			name = FollowUp;
 			packageProductDependencies = (
 				2159D00F27120349005A2387 /* Fakery */,
+				21379046275AE82B004059F4 /* Collections */,
+				21379048275AE82B004059F4 /* OrderedCollections */,
 			);
 			productName = FollowUp;
 			productReference = 2159CFD12711F49C005A2387 /* FollowUp.app */;
@@ -357,6 +366,7 @@
 			mainGroup = 2159CFC82711F49C005A2387;
 			packageReferences = (
 				2159D00E27120349005A2387 /* XCRemoteSwiftPackageReference "Fakery" */,
+				21379045275AE82B004059F4 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 2159CFD22711F49C005A2387 /* Products */;
 			projectDirPath = "";
@@ -409,8 +419,9 @@
 				218B3919271C9A0D002720BC /* ContactModalView.swift in Sources */,
 				2159D00B2711FC2A005A2387 /* Constant.swift in Sources */,
 				218B3914271C73F9002720BC /* ContactListView.swift in Sources */,
+				21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */,
 				21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */,
-				2159D0042711F4DF005A2387 /* Contact.swift in Sources */,
+				2159D0042711F4DF005A2387 /* Contactable.swift in Sources */,
 				218B3917271C972B002720BC /* MockContactInteractor.swift in Sources */,
 				2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */,
 				2159CFD72711F49C005A2387 /* ContentView.swift in Sources */,
@@ -746,6 +757,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		21379045275AE82B004059F4 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.4;
+			};
+		};
 		2159D00E27120349005A2387 /* XCRemoteSwiftPackageReference "Fakery" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/vadymmarkov/Fakery.git";
@@ -757,6 +776,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		21379046275AE82B004059F4 /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 21379045275AE82B004059F4 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+		21379048275AE82B004059F4 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 21379045275AE82B004059F4 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
 		2159D00F27120349005A2387 /* Fakery */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2159D00E27120349005A2387 /* XCRemoteSwiftPackageReference "Fakery" */;

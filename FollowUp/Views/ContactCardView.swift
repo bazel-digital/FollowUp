@@ -9,11 +9,15 @@ import SwiftUI
 
 struct ContactCardView: View {
     
-    var contact: Contact
+    // MARK: - Stored Properties
+
+    var contact: Contactable
     var cornerRadius: CGFloat = Constant.cornerRadius
     
     var onAddToFollowUps: () -> Void = { }
     var onClose: () -> Void = { }
+
+    @State private var contactModalDisplayed: Bool = false
 
     // MARK: - Computed Properties
 
@@ -58,7 +62,7 @@ struct ContactCardView: View {
         
         VStack(alignment: .leading) {
             HStack {
-                ContactBadge(initials: contact.initials)
+                BadgeView(name: contact.name, image: contact.thumbnailImage, size: .small)
                 Spacer()
                 CloseButton(onClose: onClose)
             }
@@ -71,9 +75,25 @@ struct ContactCardView: View {
             addToFollowUpsButton
         }
         .padding()
-        .background(Color(.secondarySystemGroupedBackground))
+        .background(
+            Color(.secondarySystemGroupedBackground)
+                .onTapGesture {
+                    self.toggleContactModal()
+                }
+                .accessibilityAddTraits(.isButton)
+                .accessibilityLabel("Open")
+        )
         .aspectRatio(1, contentMode: .fit)
         .cornerRadius(cornerRadius)
+        .sheet(isPresented: $contactModalDisplayed, content: {
+            ContactModalView(contact: contact, onClose: toggleContactModal)
+        })
+    }
+
+    // MARK: - Methods
+
+    func toggleContactModal() {
+        self.contactModalDisplayed.toggle()
     }
 }
 

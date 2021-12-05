@@ -9,7 +9,7 @@ import Fakery
 import Foundation
 import UIKit
 
-struct MockedContact: Contact {
+struct MockedContact: Contactable {
 
     
 
@@ -19,7 +19,7 @@ struct MockedContact: Contact {
     var phoneNumber: PhoneNumber?
     var email: String?
     var thumbnailImage: UIImage?
-    var note: String
+    var note: String?
     var followUps: Int
     var createDate: Date
     var highlighted: Bool
@@ -45,6 +45,6 @@ extension ContactSection {
     }
 }
 
-extension Contact where Self == RecentContact {
-    static var mocked: Contact { MockedContact() }
+extension Contactable where Self == Contact {
+    static var mocked: Contactable { MockedContact() }
 }

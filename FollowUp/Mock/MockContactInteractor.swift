@@ -8,9 +8,9 @@
 import Foundation
 
 class MockContactsInteractor: ContactsInteracting, ObservableObject {
-    @Published var contacts: [Contact] = []
+    @Published var contacts: [Contactable] = []
     
-    var contactsPublisher: Published<[Contact]>.Publisher {
+    var contactsPublisher: Published<[Contactable]>.Publisher {
         $contacts
     }
 
@@ -27,7 +27,7 @@ class MockContactsInteractor: ContactsInteracting, ObservableObject {
         self.contacts.append(contentsOf: generateContacts(withCount: 10))
     }
 
-    private func generateContacts(withCount count: Int) -> [Contact] {
+    private func generateContacts(withCount count: Int) -> [Contactable] {
         (0...count).map { _ in MockedContact() }
     }
     

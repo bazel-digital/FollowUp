@@ -9,13 +9,13 @@ import SwiftUI
 
 struct NewContactsView: View {
 
-    @State var contacts: [Contact] = []
+    @State var contacts: [Contactable] = []
 
     @EnvironmentObject var contactsInteractor: ContactsInteractor
 
     // MARK: - Computed Properties
 
-    private var sortedContacts: [Contact] {
+    private var sortedContacts: [Contactable] {
         contactsInteractor
                     .contacts
                     .sorted(by: \.createDate)

@@ -23,18 +23,33 @@ struct BadgeView: View {
         (firstName.first?.uppercased() ?? "") + (lastName.first?.uppercased() ?? "")
     }
 
-    var body: some View {
-        if let uiImage = image {
-            Image(uiImage: uiImage)
-        } else {
-            ContactBadge(initials: initials, size: size)
+    // MARK: - Views
+
+    @ViewBuilder
+    private var imageView: some View {
+        if let image = image {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(1, contentMode: .fit)
+                .mask(Circle())
         }
+    }
+
+    var body: some View {
+        ContactBadge(initials: initials, size: size)
+            .overlay(
+                imageView
+            )
     }
 
 }
 
 struct BadgeView_Previews: PreviewProvider {
     static var previews: some View {
-        BadgeView(name: "Aaron Baw")
+        Group {
+            BadgeView(name: "Aaron Baw")
+            BadgeView(name: "Melissa Waterson", image: .init(named: "AppIcon"))
+
+        }.previewLayout(.sizeThatFits)
     }
 }

@@ -34,11 +34,17 @@ enum Constant {
         case sms = "bubble.left.fill"
         case star = "star.fill"
         case thumbsUp = "hand.thumbsup.fill"
+        case whatsApp = "w.circle"
 
     }
 
     // MARK: - Contact Card
     enum ContactCard {
         static let minSize: CGFloat = 200.0
+    }
+
+    // MARK: - Contact Modal
+    enum ContactModal {
+        static let verticalSpacing: CGFloat = 10.0
     }
 }

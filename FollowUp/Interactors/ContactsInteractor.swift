@@ -10,19 +10,20 @@ import Combine
 import Contacts
 import Foundation
 import SwiftUI
+import Fakery
 
 protocol ContactsInteracting {
-    var contacts: [Contact] { get }
-    var contactsPublisher: Published<[Contact]>.Publisher { get }
+    var contacts: [Contactable] { get }
+    var contactsPublisher: Published<[Contactable]>.Publisher { get }
     func fetchContacts() async
 }
 
 class ContactsInteractor: ContactsInteracting, ObservableObject {
 
     // MARK: - Public Properties
-    @Published var contacts: [Contact] = []
+    @Published var contacts: [Contactable] = []
 
-    var contactsPublisher: Published<[Contact]>.Publisher {
+    var contactsPublisher: Published<[Contactable]>.Publisher {
         self.$contacts
     }
     
@@ -51,7 +52,7 @@ extension ContactsInteractor {
                 )
         else { return }
         print("Received contacts:", fetchedContacts)
-        self.contacts = fetchedContacts.map(RecentContact.init(from:))
+        self.contacts = fetchedContacts.map(Contact.init(from:))
     }
 
     private func fetchABContacts() {
@@ -81,7 +82,7 @@ extension ContactsInteractor {
 
         var abContacts: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
 
-        let contacts: [Contact] = abContacts.compactMap { record in
+        let contacts: [Contactable] = abContacts.compactMap { record in
             
             let abRecord = record as ABRecord
             let recordID = getID(for: abRecord)
@@ -94,15 +95,15 @@ extension ContactsInteractor {
             else { return nil }
 
             let email =  get(property: kABPersonEmailProperty, fromRecord: abRecord, castedAs: NSString.self, returnedAs: String.self)
-            let phoneNumberString = get(property: kABPersonPhoneProperty, fromRecord: abRecord, castedAs: NSString.self, returnedAs: String.self)
-            let phoneNumber = PhoneNumber(from: phoneNumberString ?? "")
+            let phoneNumbers = getPhoneNumbers(fromRecord: abRecord)
+            print("Obtained phone number:", phoneNumbers)
             let thumbnailImage = get(imageOfSize: .thumbnail, from: abRecord)?.uiImage
             let fullImage = get(imageOfSize: .full, from: abRecord)?.uiImage
             
-            return RecentContact(
+            return Contact(
                 id: recordID.description,
                 name: [firstName, middleName, lastName].compactMap { $0 }.joined(separator: " "),
-                phoneNumber: phoneNumber,
+                phoneNumber: phoneNumbers.first,
                 email: email,
                 thumbnailImage: thumbnailImage,
                 note: "",
@@ -125,8 +126,29 @@ extension ContactsInteractor {
         ABRecordGetRecordID(record)
     }
 
+    private func getPhoneNumbers(
+        fromRecord record: ABRecord
+    ) -> [PhoneNumber] {
+        guard
+            let abPhoneNumbers: ABMultiValue = ABRecordCopyValue(record, kABPersonPhoneProperty)?.takeRetainedValue()
+        else { return [] }
+
+        var phoneNumbers: [PhoneNumber] = []
+        for index in 0..<ABMultiValueGetCount(abPhoneNumbers) {
+            let phoneLabel = ABMultiValueCopyLabelAtIndex(abPhoneNumbers, index)?.takeRetainedValue()
+            let localizedPhoneLabel = localized(phoneLabel: phoneLabel)
+            guard
+                let abPhoneNumber = ABMultiValueCopyValueAtIndex(abPhoneNumbers, index)?.takeRetainedValue() as? String,
+                let phoneNumber = PhoneNumber(from: abPhoneNumber, withLabel: localizedPhoneLabel)
+            else { continue }
+            phoneNumbers.append(phoneNumber)
+        }
+
+        return phoneNumbers
+    }
+
     private func get(
-        imageOfSize imageFormat: RecentContact.ImageFormat,
+        imageOfSize imageFormat: Contact.ImageFormat,
         from record: ABRecord
     ) -> Data? {
 
@@ -174,7 +196,37 @@ extension ContactsInteractor {
 
     private func extractABEmailAddress (abEmailAddress: Unmanaged<AnyObject>!) -> String? {
         guard let ab = abEmailAddress else { return nil }
-        return Unmanaged.fromOpaque(abEmailAddress.toOpaque()).takeUnretainedValue() as CFString as String
+        return Unmanaged.fromOpaque(ab.toOpaque()).takeUnretainedValue() as CFString as String
+    }
+
+    private func localized(phoneLabel: CFString?) -> String? {
+        guard let phoneLabel = phoneLabel else {
+            return nil
+        }
+        
+        if CFStringCompare(phoneLabel, kABHomeLabel, []) == .compareEqualTo {            // use `[]` for options in Swift 2.0
+            return "Home"
+        } else if CFStringCompare(phoneLabel, kABWorkLabel, []) == .compareEqualTo {
+            return "Work"
+        } else if CFStringCompare(phoneLabel, kABOtherLabel, []) == .compareEqualTo {
+            return "Other"
+        } else if CFStringCompare(phoneLabel, kABPersonPhoneMobileLabel, []) == .compareEqualTo {
+            return "Mobile"
+        } else if CFStringCompare(phoneLabel, kABPersonPhoneIPhoneLabel, []) == .compareEqualTo {
+            return "iPhone"
+        } else if CFStringCompare(phoneLabel, kABPersonPhoneMainLabel, []) == .compareEqualTo {
+            return "Main"
+        } else if CFStringCompare(phoneLabel, kABPersonPhoneHomeFAXLabel, []) == .compareEqualTo {
+            return "Home fax"
+        } else if CFStringCompare(phoneLabel, kABPersonPhoneWorkFAXLabel, []) == .compareEqualTo {
+            return "Work fax"
+        } else if CFStringCompare(phoneLabel, kABPersonPhoneOtherFAXLabel, []) == .compareEqualTo {
+            return "Other fax"
+        } else if CFStringCompare(phoneLabel, kABPersonPhonePagerLabel, []) == .compareEqualTo {
+            return "Pager"
+        } else {
+            return phoneLabel as String
+        }
     }
 
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct ContactRowView: View {
 
     // MARK: - Stored Properties
-    var contact: Contact
+    var contact: Contactable
     var verticalPadding: CGFloat = Constant.verticalPadding
     var cornerRadius: CGFloat = Constant.cornerRadius
 
@@ -22,38 +22,21 @@ struct ContactRowView: View {
 
     var image: UIImage? { contact.thumbnailImage }
 
-    private var firstName: String { name.split(separator: " ").first?.capitalized ?? name }
-
-    private var lastName: String { name.split(separator: " ").last?.capitalized ?? "" }
-
-    var initials: String {
-        (firstName.first?.uppercased() ?? "") + (lastName.first?.uppercased() ?? "")
-    }
-
     // MARK: - Views
-
-    @ViewBuilder
-    private var badge: some View {
-        if let uiImage = image {
-            Image(uiImage: uiImage)
-        } else {
-            ContactBadge(initials: initials)
-        }
-    }
 
     var rowContent: some View {
         HStack {
-            ContactBadge(initials: initials)
+            BadgeView(name: name, image: image, size: .small)
             Text(name)
                 .fontWeight(.medium)
                 .lineLimit(1)
                 .truncationMode(.tail)
             Spacer()
 
-            if contact.phoneNumber != nil {
-                CircularButton(icon: .phone, action: { })
+            if let phoneNumber = contact.phoneNumber {
+                CircularButton(icon: .phone, action: .call(number: phoneNumber))
                     .accentColor(.accentColor)
-                CircularButton(icon: .sms, action: { })
+                CircularButton(icon: .sms, action: .sms(number: phoneNumber))
                 .accentColor(.accentColor)
             }
         }
@@ -95,7 +78,7 @@ struct ContactRowView: View {
         verticalPadding: CGFloat = Constant.verticalPadding,
         cornerRadius: CGFloat = Constant.cornerRadius
     ) {
-        self.contact = RecentContact(
+        self.contact = Contact(
             name: name,
             phoneNumber: phoneNumber,
             email: email,
@@ -108,7 +91,7 @@ struct ContactRowView: View {
     }
 
     init(
-        contact: Contact,
+        contact: Contactable,
         verticalPadding: CGFloat = Constant.verticalPadding,
         cornerRadius: CGFloat = Constant.cornerRadius
     ) {

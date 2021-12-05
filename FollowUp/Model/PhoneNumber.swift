@@ -7,27 +7,32 @@
 
 import Foundation
 
-struct PhoneNumber {
+struct PhoneNumber: Hashable {
 
     // MARK: - Static Properties
     static let numberFormatter = NumberFormatter()
     static let phoneNumberDetector: NSDataDetector? = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
 
     // MARK: - Stored Properties
-    var string: String
+    var label: String? = nil
+    var value: String
 
     var callURL: URL? {
-        URL(string: "tel://\(string)")
+        URL(string: "tel://\(value)")
     }
 
     var smsURL: URL? {
-        URL(string: "sms://\(string)")
+        URL(string: "sms://\(value)")
+    }
 
+    var whatsAppURL: URL? {
+        URL(string:"https://api.whatsapp.com/send?phone=\(value)")
     }
 
     // MARK: - Initializer
     init?(
-        from phoneNumberString: String
+        from phoneNumberString: String,
+        withLabel label: String? = nil
     ) {
         guard Self
                 .phoneNumberDetector?
@@ -40,6 +45,7 @@ struct PhoneNumber {
                     )
                 ) != nil
         else { return nil }
-        self.string = phoneNumberString
+        self.value = phoneNumberString
+        self.label = label
     }
 }

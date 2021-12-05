@@ -9,11 +9,9 @@ import SwiftUI
 
 struct ContactModalView: View {
     
-    // MARK: - Environment Values
-    @Environment(\.openURL) var openURL
-    
-    var contact: Contact
+    var contact: Contactable
     var onClose: () -> Void
+    var verticalSpacing: CGFloat = Constant.ContactModal.verticalSpacing
     
     // MARK: - Computed Properties
     var relativeTimeSinceMeetingString: String {
@@ -30,41 +28,62 @@ struct ContactModalView: View {
     @ViewBuilder
     private var contactDetailsView: some View {
         VStack {
-            if let phoneNumber = contact.phoneNumber?.string {
-                Text(phoneNumber)
+            if let phoneNumber = contact.phoneNumber {
+                Text(phoneNumber.value)
                     .font(.title2)
                     .foregroundColor(.secondary)
-            }
-            HStack {
-                CircularButton(icon: .phone, action: callAction)
-                CircularButton(icon: .sms, action: smsAction)
+                HStack {
+                    CircularButton(icon: .phone, action: .call(number: phoneNumber))
+                    CircularButton(icon: .sms, action: .sms(number: phoneNumber))
+                    CircularButton(icon: .whatsApp, action: .whatsApp(number: phoneNumber))
+                }
             }
         }
     }
 
+    private var highlightButton: some View {
+        Button(action: {}, label: {
+            VStack {
+                Image(icon: .star)
+                Text("Highlight")
+            }
+        })
+        .accentColor(.yellow)
+    }
+
+    private var followedUpButton: some View {
+        Button(action: {}, label: {
+            VStack {
+                Image(icon: .thumbsUp)
+                Text("I followed up")
+            }
+        })
+        .accentColor(.green)
+    }
+
+    private var addToFollowUpsButton: some View {
+        Button(action: {}, label: {
+            VStack {
+                Image(icon: .thumbsUp)
+                Text("Add to follow ups")
+            }
+        })
+    }
+
     private var actionButtonGrid: some View {
         LazyVGrid(columns: [
-            .init(), .init()
+            .init(), .init(), .init()
         ], alignment: .center, content: {
-            Button(action: {}, label: {
-                VStack {
-                    Image(icon: .star)
-                    Text("Highlight")
-                }
-            })
-                .accentColor(.yellow)
-            Button(action: {}, label: {
-                VStack {
-                    Image(icon: .thumbsUp)
-                    Text("I followed up")
-                }
-            })
-                .accentColor(.green)
+  
+            highlightButton
+            addToFollowUpsButton
+            followedUpButton
+            
         })
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: verticalSpacing) {
             
             HStack {
                 Spacer()
@@ -82,29 +101,25 @@ struct ContactModalView: View {
             Text(contact.name)
                 .font(.largeTitle)
                 .fontWeight(.medium)
-            Text(contact.note)
+                .multilineTextAlignment(.center)
+            
+            if let note = contact.note, !note.isEmpty {
+                Text(note)
+                    .italic()
+            }
+            
             relativeTimeSinceMeetingView
             
             contactDetailsView
                 .padding(.top)
             
             Spacer()
-
+            
             actionButtonGrid
                 .padding()
         }
     }
     
-    // MARK: - Methods
-    func callAction() {
-        guard let phoneNumberURL = contact.phoneNumber?.callURL else { return }
-        openURL(phoneNumberURL)
-    }
-    
-    func smsAction() {
-        guard let phoneNumberURL = contact.phoneNumber?.smsURL else { return }
-        openURL(phoneNumberURL)
-    }
 }
 
 struct ContactModalView_Previews: PreviewProvider {
@@ -112,6 +127,15 @@ struct ContactModalView_Previews: PreviewProvider {
         Group {
             ContactModalView(contact: MockedContact(), onClose: { })
             ContactModalView(contact: MockedContact(), onClose: { })
+            ContactModalView(contact: Contact(
+                name: "Estebon Julio Ricardo Montoya Rodriguez",
+                phoneNumber: .init(from: "+44 738 737 2817", withLabel: "mobile"),
+                email: "estebonjulioricardo@gmail.com",
+                thumbnailImage: nil,
+                note: "This is a long name!",
+                createDate: Date()
+            ),
+                             onClose: { })
                 .preferredColorScheme(.dark)
         }
     }
