@@ -9,6 +9,10 @@ import SwiftUI
 
 struct ContactModalView: View {
     
+    // MARK: - Environment
+    @EnvironmentObject var followUpStore: FollowUpStore
+
+    // MARK: - Stored Properties
     var contact: Contactable
     var onClose: () -> Void
     var verticalSpacing: CGFloat = Constant.ContactModal.verticalSpacing
@@ -42,7 +46,11 @@ struct ContactModalView: View {
     }
 
     private var highlightButton: some View {
-        Button(action: {}, label: {
+        Button(action: {
+            followUpStore
+                .contactsInteractor
+                .highlight(contact)
+        }, label: {
             VStack {
                 Image(icon: .star)
                 Text("Highlight")
@@ -51,21 +59,57 @@ struct ContactModalView: View {
         .accentColor(.yellow)
     }
 
+    private var unhighlightButton: some View {
+        Button(action: {
+            followUpStore
+                .contactsInteractor
+                .highlight(contact)
+        }, label: {
+            VStack {
+                Image(icon: .slashedStar)
+                Text("Unhighlight")
+            }
+        })
+        .accentColor(.orange)
+    }
+
     private var followedUpButton: some View {
-        Button(action: {}, label: {
+        Button(action: {
+            followUpStore
+                .contactsInteractor
+                .markAsFollowedUp(contact)
+        }, label: {
             VStack {
                 Image(icon: .thumbsUp)
                 Text("I followed up")
             }
         })
         .accentColor(.green)
+        .disabled(contact.hasBeenFollowedUpToday)
     }
 
     private var addToFollowUpsButton: some View {
-        Button(action: {}, label: {
+        Button(action: {
+            followUpStore
+                .contactsInteractor
+                .addToFollowUps(contact)
+        }, label: {
             VStack {
-                Image(icon: .thumbsUp)
+                Image(icon: .plus)
                 Text("Add to follow ups")
+            }
+        })
+    }
+
+    private var removeFromFollowUpsButton: some View {
+        Button(action: {
+            followUpStore
+                .contactsInteractor
+                .removeFromFollowUps(contact)
+        }, label: {
+            VStack {
+                Image(icon: .minus)
+                Text("Remove from follow ups")
             }
         })
     }
@@ -75,8 +119,9 @@ struct ContactModalView: View {
             .init(), .init(), .init()
         ], alignment: .center, content: {
   
-            highlightButton
-            addToFollowUpsButton
+            
+            if !contact.highlighted { highlightButton } else { unhighlightButton }
+            if !contact.hasBeenFollowedUpToday { addToFollowUpsButton } else { removeFromFollowUpsButton }
             followedUpButton
             
         })

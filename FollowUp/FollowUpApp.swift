@@ -12,12 +12,12 @@ import SwiftUI
 struct FollowUpApp: App {
 
     // MARK: - State Objects
-    @StateObject var contactsInteractor: ContactsInteractor = .init()
+    @AppStorage(Constant.Key.followUpStore) var followUpStore: FollowUpStore = .init()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(contactsInteractor)
+                .environmentObject(followUpStore)
         }
     }
 }

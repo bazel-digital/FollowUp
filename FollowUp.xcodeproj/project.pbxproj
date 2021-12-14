@@ -10,6 +10,7 @@
 		21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21379043275AE6EE004059F4 /* FollowUpStore.swift */; };
 		21379047275AE82B004059F4 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379046275AE82B004059F4 /* Collections */; };
 		21379049275AE82B004059F4 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379048275AE82B004059F4 /* OrderedCollections */; };
+		2137904B275D2665004059F4 /* UIImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2137904A275D2665004059F4 /* UIImage+Additions.swift */; };
 		2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD42711F49C005A2387 /* FollowUpApp.swift */; };
 		2159CFD72711F49C005A2387 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD62711F49C005A2387 /* ContentView.swift */; };
 		2159CFD92711F49D005A2387 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2159CFD82711F49D005A2387 /* Assets.xcassets */; };
@@ -27,7 +28,7 @@
 		2159D0162712081C005A2387 /* View+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159D0152712081C005A2387 /* View+Additions.swift */; };
 		218B39062712240F002720BC /* Data+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B39052712240F002720BC /* Data+Additions.swift */; };
 		218B390927137FE2002720BC /* ContactsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B390827137FE2002720BC /* ContactsInteractor.swift */; };
-		218B390B2718CB50002720BC /* EnvironmentValues+Addition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B390A2718CB50002720BC /* EnvironmentValues+Addition.swift */; };
+		218B390B2718CB50002720BC /* EnvironmentValues+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B390A2718CB50002720BC /* EnvironmentValues+Additions.swift */; };
 		218B390D271C695F002720BC /* DateGrouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B390C271C695F002720BC /* DateGrouping.swift */; };
 		218B390F271C6D5A002720BC /* Sequence+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B390E271C6D5A002720BC /* Sequence+Additions.swift */; };
 		218B3912271C6EA4002720BC /* ContactSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B3911271C6EA4002720BC /* ContactSection.swift */; };
@@ -61,6 +62,7 @@
 
 /* Begin PBXFileReference section */
 		21379043275AE6EE004059F4 /* FollowUpStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpStore.swift; sourceTree = "<group>"; };
+		2137904A275D2665004059F4 /* UIImage+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Additions.swift"; sourceTree = "<group>"; };
 		2159CFD12711F49C005A2387 /* FollowUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FollowUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2159CFD42711F49C005A2387 /* FollowUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpApp.swift; sourceTree = "<group>"; };
 		2159CFD62711F49C005A2387 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -83,7 +85,7 @@
 		2159D0152712081C005A2387 /* View+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Additions.swift"; sourceTree = "<group>"; };
 		218B39052712240F002720BC /* Data+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Additions.swift"; sourceTree = "<group>"; };
 		218B390827137FE2002720BC /* ContactsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsInteractor.swift; sourceTree = "<group>"; };
-		218B390A2718CB50002720BC /* EnvironmentValues+Addition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Addition.swift"; sourceTree = "<group>"; };
+		218B390A2718CB50002720BC /* EnvironmentValues+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Additions.swift"; sourceTree = "<group>"; };
 		218B390C271C695F002720BC /* DateGrouping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateGrouping.swift; sourceTree = "<group>"; };
 		218B390E271C6D5A002720BC /* Sequence+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Additions.swift"; sourceTree = "<group>"; };
 		218B3911271C6EA4002720BC /* ContactSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSection.swift; sourceTree = "<group>"; };
@@ -241,9 +243,10 @@
 			children = (
 				2159D0152712081C005A2387 /* View+Additions.swift */,
 				218B39052712240F002720BC /* Data+Additions.swift */,
-				218B390A2718CB50002720BC /* EnvironmentValues+Addition.swift */,
+				218B390A2718CB50002720BC /* EnvironmentValues+Additions.swift */,
 				218B390E271C6D5A002720BC /* Sequence+Additions.swift */,
 				21CB9CA4273F221C00471C34 /* Image+Additions.swift */,
+				2137904A275D2665004059F4 /* UIImage+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -413,11 +416,12 @@
 				218B3912271C6EA4002720BC /* ContactSection.swift in Sources */,
 				218B390D271C695F002720BC /* DateGrouping.swift in Sources */,
 				218B390F271C6D5A002720BC /* Sequence+Additions.swift in Sources */,
-				218B390B2718CB50002720BC /* EnvironmentValues+Addition.swift in Sources */,
+				218B390B2718CB50002720BC /* EnvironmentValues+Additions.swift in Sources */,
 				21CB9CA5273F221C00471C34 /* Image+Additions.swift in Sources */,
 				21CB9C9F273D311500471C34 /* CloseButton.swift in Sources */,
 				218B3919271C9A0D002720BC /* ContactModalView.swift in Sources */,
 				2159D00B2711FC2A005A2387 /* Constant.swift in Sources */,
+				2137904B275D2665004059F4 /* UIImage+Additions.swift in Sources */,
 				218B3914271C73F9002720BC /* ContactListView.swift in Sources */,
 				21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */,
 				21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */,

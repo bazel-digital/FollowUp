@@ -5,13 +5,15 @@
 //  Created by Aaron Baw on 17/10/2021.
 //
 
+import Combine
 import Foundation
 
 class MockContactsInteractor: ContactsInteracting, ObservableObject {
+
     @Published var contacts: [Contactable] = []
     
-    var contactsPublisher: Published<[Contactable]>.Publisher {
-        $contacts
+    var contactsPublisher: AnyPublisher<[Contactable], Never> {
+        $contacts.eraseToAnyPublisher()
     }
 
     private var addToContactAmount: Int
@@ -29,6 +31,28 @@ class MockContactsInteractor: ContactsInteracting, ObservableObject {
 
     private func generateContacts(withCount count: Int) -> [Contactable] {
         (0...count).map { _ in MockedContact() }
+    }
+
+    // MARK: - Public Methods
+
+    func highlight(_ contact: Contactable) {
+        
+    }
+    
+    func unhighlight(_ contact: Contactable) {
+        
+    }
+    
+    func addToFollowUps(_ contact: Contactable) {
+        
+    }
+    
+    func removeFromFollowUps(_ contact: Contactable) {
+        
+    }
+    
+    func markAsFollowedUp(_ contact: Contactable) {
+        
     }
     
 }

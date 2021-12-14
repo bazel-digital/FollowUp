@@ -13,18 +13,52 @@ import SwiftUI
 import Fakery
 
 protocol ContactsInteracting {
-    var contacts: [Contactable] { get }
-    var contactsPublisher: Published<[Contactable]>.Publisher { get }
+    var contactsPublisher: AnyPublisher<[Contactable], Never> { get }
     func fetchContacts() async
+    func highlight(_ contact: Contactable)
+    func unhighlight(_ contact: Contactable)
+    func addToFollowUps(_ contact: Contactable)
+    func removeFromFollowUps(_ contact: Contactable)
+    func markAsFollowedUp(_ contact: Contactable)
 }
 
 class ContactsInteractor: ContactsInteracting, ObservableObject {
 
-    // MARK: - Public Properties
-    @Published var contacts: [Contactable] = []
+    // MARK: - Private Properties
+    private var _contactsPublisher: PassthroughSubject<[Contactable], Never> = .init()
 
-    var contactsPublisher: Published<[Contactable]>.Publisher {
-        self.$contacts
+    // MARK: - Public Properties
+    var contactsPublisher: AnyPublisher<[Contactable], Never> { _contactsPublisher.eraseToAnyPublisher() }
+
+    // MARK: - Public Methods
+    func highlight(_ contact: Contactable) {
+        var contact = contact.concrete
+        contact.highlighted = true
+        self._contactsPublisher.send([contact])
+    }
+
+    func unhighlight(_ contact: Contactable) {
+        var contact = contact.concrete
+        contact.highlighted = false
+        self._contactsPublisher.send([contact])
+    }
+
+    func addToFollowUps(_ contact: Contactable) {
+        var contact = contact.concrete
+        contact.containedInFollowUps = true
+        self._contactsPublisher.send([contact])
+    }
+
+    func removeFromFollowUps(_ contact: Contactable) {
+        var contact = contact.concrete
+        contact.containedInFollowUps = false
+        self._contactsPublisher.send([contact])
+    }
+
+    func markAsFollowedUp(_ contact: Contactable) {
+        var contact = contact.concrete
+        contact
+        self._contactsPublisher.send([contact])
     }
     
 }
@@ -52,7 +86,7 @@ extension ContactsInteractor {
                 )
         else { return }
         print("Received contacts:", fetchedContacts)
-        self.contacts = fetchedContacts.map(Contact.init(from:))
+        self._contactsPublisher.send(fetchedContacts.map(Contact.init(from:)))
     }
 
     private func fetchABContacts() {
@@ -113,7 +147,7 @@ extension ContactsInteractor {
 
         DispatchQueue.main.async {
             self.objectWillChange.send()
-            self.contacts = contacts
+            self._contactsPublisher.send(contacts)
         }
 
     }
@@ -240,7 +274,7 @@ extension ContactsInteractor {
     }
 }
 
-extension Sequence {
+extension Collection {
     func sorted<Value>(by keyPath: KeyPath<Element, Value>) -> [Element] where Value: Comparable {
         self.sorted(by: { firstElement, secondElement in
             firstElement[keyPath: keyPath] < secondElement[keyPath: keyPath]

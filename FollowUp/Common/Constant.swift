@@ -30,9 +30,12 @@ enum Constant {
         case clock = "clock.arrow.circlepath"
         case close = "xmark.circle.fill"
         case email = "envelope.fill"
+        case minus = "minus"
         case phone = "phone.fill"
+        case plus = "plus"
         case sms = "bubble.left.fill"
         case star = "star.fill"
+        case slashedStar = "star.slash.fill"
         case thumbsUp = "hand.thumbsup.fill"
         case whatsApp = "w.circle"
 
@@ -46,5 +49,10 @@ enum Constant {
     // MARK: - Contact Modal
     enum ContactModal {
         static let verticalSpacing: CGFloat = 10.0
+    }
+
+    // MARK: - Keys
+    enum Key {
+        static let followUpStore: String = "storage.FollowUpStore"
     }
 }

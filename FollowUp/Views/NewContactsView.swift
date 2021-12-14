@@ -11,13 +11,15 @@ struct NewContactsView: View {
 
     @State var contacts: [Contactable] = []
 
-    @EnvironmentObject var contactsInteractor: ContactsInteractor
+    @EnvironmentObject var followUpStore: FollowUpStore
 
     // MARK: - Computed Properties
 
     private var sortedContacts: [Contactable] {
-        contactsInteractor
+        $followUpStore
                     .contacts
+                    .elements
+                    .wrappedValue
                     .sorted(by: \.createDate)
                     .reversed()
     }
@@ -57,7 +59,7 @@ struct NewContactsView: View {
         .padding(.top)
         .background(Color(.systemGroupedBackground))
         .task {
-            await self.contactsInteractor.fetchContacts()
+            await self.followUpStore.fetchContacts()
         }
     }
 

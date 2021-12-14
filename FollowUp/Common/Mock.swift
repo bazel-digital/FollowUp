@@ -11,8 +11,6 @@ import UIKit
 
 struct MockedContact: Contactable {
 
-    
-
     // MARK: - Stored Properties
     var id: String = UUID().uuidString
     var name: String
@@ -22,6 +20,7 @@ struct MockedContact: Contactable {
     var note: String?
     var followUps: Int
     var createDate: Date
+    var lastFollowedUp: Date?
     var highlighted: Bool
     var containedInFollowUps: Bool
 
@@ -33,6 +32,7 @@ struct MockedContact: Contactable {
         self.note = faker.hobbit.quote()
         self.followUps = faker.number.randomInt(min: 0, max: 10)
         self.createDate = faker.date.backward(days: 30)
+        self.lastFollowedUp = faker.date.backward(days: faker.number.randomInt(min: 0, max: 1))
         self.highlighted = faker.number.randomBool()
         self.containedInFollowUps = faker.number.randomBool()
     }

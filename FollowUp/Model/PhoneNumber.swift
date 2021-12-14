@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import UIKit
 
-struct PhoneNumber: Hashable {
+struct PhoneNumber: Hashable, Codable {
 
     // MARK: - Static Properties
     static let numberFormatter = NumberFormatter()
