@@ -12,12 +12,16 @@ import SwiftUI
 struct FollowUpApp: App {
 
     // MARK: - State Objects
-    @AppStorage(Constant.Key.followUpStore) var followUpStore: FollowUpStore = .init()
+    @StateObject var followUpManager: FollowUpManager = .init()
+
+    // MARK: - Static Properties
+    static var decoder: JSONDecoder = .init()
+    static var encoder: JSONEncoder = .init()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(followUpStore)
+                .environmentObject(followUpManager)
         }
     }
 }

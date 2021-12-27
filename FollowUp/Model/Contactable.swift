@@ -25,7 +25,7 @@ protocol Contactable {
     var containedInFollowUps: Bool { get }
 }
 
-struct Contact: Contactable, Hashable {
+struct Contact: Contactable, Hashable, Identifiable {
 
     // MARK: - Enums
     enum ImageFormat {

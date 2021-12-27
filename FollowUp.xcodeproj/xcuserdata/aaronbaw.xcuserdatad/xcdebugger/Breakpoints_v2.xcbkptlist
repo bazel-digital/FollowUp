@@ -7,48 +7,80 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BA47A285-2546-4760-BBD9-AEFF47C7CD73"
-            shouldBeEnabled = "Yes"
+            uuid = "40002CB3-60F1-49C1-8B8D-764D6F6C9CB3"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FollowUp/Interactors/ContactsInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
-            landmarkName = "processABContacts()"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "highlight(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D2E8CB4E-7CC9-4013-BC69-0CC2DA6D33BA"
-            shouldBeEnabled = "Yes"
+            uuid = "B58C4D6F-D0EE-4490-B1ED-86E818697C4D"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FollowUp/Interactors/ContactsInteractor.swift"
+            filePath = "FollowUp/Model/FollowUpStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
-            landmarkName = "getPhoneNumbers(fromRecord:)"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "init(from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9554EE64-6C9E-401C-A24B-AB582F4FD21D"
-            shouldBeEnabled = "Yes"
+            uuid = "B66ACEC6-7EAB-4C5D-9A4B-2306AD8973B0"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FollowUp/Interactors/ContactsInteractor.swift"
+            filePath = "FollowUp/Utility/Persisted.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
-            landmarkName = "getPhoneNumbers(fromRecord:)"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "loadValueFromUserDefaults(forKey:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CE4259D5-4A8B-4748-BC05-E851588A6B08"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FollowUp/Model/FollowUpStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "subscribeForNewContacts()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "61EF98DA-2FA9-4C84-B8E7-0EB1AB2C08A2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FollowUp/Utility/Persisted.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "loadValueFromUserDefaults(forKey:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -24,6 +24,9 @@ protocol ContactsInteracting {
 
 class ContactsInteractor: ContactsInteracting, ObservableObject {
 
+    // MARK: - Static Properties
+    public static var shared: ContactsInteracting = ContactsInteractor()
+
     // MARK: - Private Properties
     private var _contactsPublisher: PassthroughSubject<[Contactable], Never> = .init()
 
@@ -119,7 +122,7 @@ extension ContactsInteractor {
         let contacts: [Contactable] = abContacts.compactMap { record in
             
             let abRecord = record as ABRecord
-            let recordID = getID(for: abRecord)
+            let recordID = Int(getID(for: abRecord))
 
             guard
                 let firstName = get(property: kABPersonFirstNameProperty, fromRecord: abRecord, castedAs: NSString.self, returnedAs: String.self),
@@ -130,10 +133,8 @@ extension ContactsInteractor {
 
             let email =  get(property: kABPersonEmailProperty, fromRecord: abRecord, castedAs: NSString.self, returnedAs: String.self)
             let phoneNumbers = getPhoneNumbers(fromRecord: abRecord)
-            print("Obtained phone number:", phoneNumbers)
             let thumbnailImage = get(imageOfSize: .thumbnail, from: abRecord)?.uiImage
             let fullImage = get(imageOfSize: .full, from: abRecord)?.uiImage
-            
             return Contact(
                 id: recordID.description,
                 name: [firstName, middleName, lastName].compactMap { $0 }.joined(separator: " "),

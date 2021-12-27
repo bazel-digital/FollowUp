@@ -41,6 +41,7 @@
 		21CB9CA1273F1A1600471C34 /* PhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CB9CA0273F1A1600471C34 /* PhoneNumber.swift */; };
 		21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CB9CA2273F214100471C34 /* CircularButton.swift */; };
 		21CB9CA5273F221C00471C34 /* Image+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CB9CA4273F221C00471C34 /* Image+Additions.swift */; };
+		21FB24242774D2400078BABC /* Persisted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB24232774D2400078BABC /* Persisted.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 		21CB9CA0273F1A1600471C34 /* PhoneNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumber.swift; sourceTree = "<group>"; };
 		21CB9CA2273F214100471C34 /* CircularButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularButton.swift; sourceTree = "<group>"; };
 		21CB9CA4273F221C00471C34 /* Image+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Additions.swift"; sourceTree = "<group>"; };
+		21FB24232774D2400078BABC /* Persisted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persisted.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 		2159CFD32711F49C005A2387 /* FollowUp */ = {
 			isa = PBXGroup;
 			children = (
+				21FB24222774D2370078BABC /* Utility */,
 				218B3915271C96AF002720BC /* Mock */,
 				218B390727137FD5002720BC /* Interactors */,
 				2159D0142712080B005A2387 /* Extensions */,
@@ -273,6 +276,14 @@
 				218B3916271C972B002720BC /* MockContactInteractor.swift */,
 			);
 			path = Mock;
+			sourceTree = "<group>";
+		};
+		21FB24222774D2370078BABC /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				21FB24232774D2400078BABC /* Persisted.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -422,6 +433,7 @@
 				218B3919271C9A0D002720BC /* ContactModalView.swift in Sources */,
 				2159D00B2711FC2A005A2387 /* Constant.swift in Sources */,
 				2137904B275D2665004059F4 /* UIImage+Additions.swift in Sources */,
+				21FB24242774D2400078BABC /* Persisted.swift in Sources */,
 				218B3914271C73F9002720BC /* ContactListView.swift in Sources */,
 				21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */,
 				21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */,

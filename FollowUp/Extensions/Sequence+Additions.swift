@@ -13,4 +13,10 @@ extension Sequence {
             partialResult[element[keyPath: keyPath], default: []].append(element)
         }
     }
+
+    func mappedToDictionary<Key>(by keyPath: KeyPath<Element, Key>) -> Dictionary<Key, Element> {
+        self.reduce(into: [:]) { partialResult, item in
+            partialResult[item[keyPath: keyPath]] = item
+        }
+    }
 }

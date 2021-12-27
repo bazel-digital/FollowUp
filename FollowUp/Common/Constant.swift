@@ -54,5 +54,10 @@ enum Constant {
     // MARK: - Keys
     enum Key {
         static let followUpStore: String = "storage.FollowUpStore"
+
+        enum FollowUpStore {
+            static let contacts: String = "storage.FollowUpStore.contacts"
+            static let contactDictionary: String = "storage.FollowUpStore.contactDictionary"
+        }
     }
 }

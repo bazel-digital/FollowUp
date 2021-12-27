@@ -10,7 +10,7 @@ import SwiftUI
 struct ContactModalView: View {
     
     // MARK: - Environment
-    @EnvironmentObject var followUpStore: FollowUpStore
+    @EnvironmentObject var followUpManager: FollowUpManager
 
     // MARK: - Stored Properties
     var contact: Contactable
@@ -47,7 +47,7 @@ struct ContactModalView: View {
 
     private var highlightButton: some View {
         Button(action: {
-            followUpStore
+            followUpManager
                 .contactsInteractor
                 .highlight(contact)
         }, label: {
@@ -61,7 +61,7 @@ struct ContactModalView: View {
 
     private var unhighlightButton: some View {
         Button(action: {
-            followUpStore
+            followUpManager
                 .contactsInteractor
                 .highlight(contact)
         }, label: {
@@ -75,7 +75,7 @@ struct ContactModalView: View {
 
     private var followedUpButton: some View {
         Button(action: {
-            followUpStore
+            followUpManager
                 .contactsInteractor
                 .markAsFollowedUp(contact)
         }, label: {
@@ -90,7 +90,7 @@ struct ContactModalView: View {
 
     private var addToFollowUpsButton: some View {
         Button(action: {
-            followUpStore
+            followUpManager
                 .contactsInteractor
                 .addToFollowUps(contact)
         }, label: {
@@ -103,7 +103,7 @@ struct ContactModalView: View {
 
     private var removeFromFollowUpsButton: some View {
         Button(action: {
-            followUpStore
+            followUpManager
                 .contactsInteractor
                 .removeFromFollowUps(contact)
         }, label: {
