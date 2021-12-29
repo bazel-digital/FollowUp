@@ -60,7 +60,7 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
 
     func markAsFollowedUp(_ contact: Contactable) {
         var contact = contact.concrete
-        contact
+        contact.followUps += 1
         self._contactsPublisher.send([contact])
     }
     

@@ -35,10 +35,6 @@ struct NewContactsView: View {
                 )
             }
             .sorted(by: \.grouping)
-//        [
-//            .init(contacts: [RecentContact.mocked, .mocked, .mocked], grouping: .thisWeek),
-//            .init(contacts: [RecentContact.mocked, RecentContact.mocked], grouping: .thisMonth)
-//        ]
     }
 
     // MARK: - Views

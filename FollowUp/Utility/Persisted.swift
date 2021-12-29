@@ -11,6 +11,7 @@ import Foundation
     
     // MARK: - Stored Properties
     private let key: String
+
     private var currentStoredValue: Value
 
     var wrappedValue: Value {

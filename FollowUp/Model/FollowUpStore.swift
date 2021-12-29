@@ -29,11 +29,17 @@ struct FollowUpStore: Codable, RawRepresentable {
     private static var decoder = JSONDecoder()
 
     // MARK: - Methods
-    mutating public func updateWithFetchedContacts(_ contacts: [Contact]) {
+    mutating public func updateWithFetchedContacts(_ contacts: [Contactable]) {
         let mapped = contacts
             .map(\.concrete)
             .mappedToDictionary(by: \.id)
-        self.contactDictionary.merge(mapped, uniquingKeysWith: { _, second in second })
+        self.contactDictionary.merge(mapped, uniquingKeysWith: { first, second in
+            first.lastInteractedWith ?? .distantPast
+                >
+            second.lastInteractedWith ?? .distantPast
+            ? first
+            : second
+        })
         self.lastFetchedContacts = .now
     }
 
@@ -56,21 +62,22 @@ struct FollowUpStore: Codable, RawRepresentable {
 
     // MARK: - CodingKeys
     enum CodingKeys: CodingKey {
-        case contacts
+        case contactDictionary
         case lastFetchedContacts
     }
 
     // MARK: - Codable Conformance
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(contactDictionary, forKey: .contacts)
+        try container.encode(contactDictionary, forKey: .contactDictionary)
         try container.encode(lastFetchedContacts, forKey: .lastFetchedContacts)
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.contactDictionary = try container.decode([String:Contact].self, forKey: .contacts)
+        self.contactDictionary = try container.decode([String:Contact].self, forKey: .contactDictionary)
         self.lastFetchedContacts = try container.decodeIfPresent(Date.self, forKey: .lastFetchedContacts)
+        self.contacts = self.contactDictionary.values.map { $0 }
     }
 
     // MARK: - RawRepresentable Conformance
@@ -110,6 +117,7 @@ final class FollowUpManager: ObservableObject {
     // MARK: - Initialization
     init() {
         self.subscribeForNewContacts()
+        self.objectWillChange.send()
     }
 
     // MARK: - Methods
@@ -117,10 +125,7 @@ final class FollowUpManager: ObservableObject {
         self.contactsInteractor
             .contactsPublisher
             .sink(receiveValue: { newContacts in
-                let mapped = newContacts
-                    .map(\.concrete)
-                    .mappedToDictionary(by: \.id)
-                self.store.contactDictionary.merge(mapped, uniquingKeysWith: { _, second in second })
+                self.store.updateWithFetchedContacts(newContacts)
             })
             .store(in: &self.subscriptions)
     }

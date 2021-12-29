@@ -23,6 +23,7 @@ struct MockedContact: Contactable {
     var lastFollowedUp: Date?
     var highlighted: Bool
     var containedInFollowUps: Bool
+    var lastInteractedWith: Date?
 
     init(){
         let faker = Faker()
@@ -35,6 +36,7 @@ struct MockedContact: Contactable {
         self.lastFollowedUp = faker.date.backward(days: faker.number.randomInt(min: 0, max: 1))
         self.highlighted = faker.number.randomBool()
         self.containedInFollowUps = faker.number.randomBool()
+        self.lastInteractedWith = faker.date.backward(days: 10)
     }
 
 }

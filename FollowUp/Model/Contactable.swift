@@ -16,17 +16,21 @@ protocol Contactable {
     var phoneNumber: PhoneNumber? { get }
     var email: String? { get }
     var thumbnailImage: UIImage? { get }
-    var note: String? { get }
+    var note: String? { get set }
     var followUps: Int { get set }
     var createDate: Date { get }
-    var lastFollowedUp: Date? { get set }
-    var hasBeenFollowedUpToday: Bool { get }
     var highlighted: Bool { get }
     var containedInFollowUps: Bool { get }
+
+    // MARK: - Interaction Indicators
+    var lastFollowedUp: Date? { get set }
+    var hasBeenFollowedUpToday: Bool { get }
+    var lastInteractedWith: Date? { get set }
+    var hasInteractedWithToday: Bool { get }
 }
 
 struct Contact: Contactable, Hashable, Identifiable {
-
+    
     // MARK: - Enums
     enum ImageFormat {
         case thumbnail
@@ -39,12 +43,17 @@ struct Contact: Contactable, Hashable, Identifiable {
     var phoneNumber: PhoneNumber?
     var email: String?
     let thumbnailImage: UIImage?
-    var note: String?
-    var followUps: Int
     let createDate: Date
-    var lastFollowedUp: Date?
-    var highlighted: Bool
-    var containedInFollowUps: Bool
+    
+    // MARK: - Interactive Properties
+    var followUps: Int { didSet { lastFollowedUp = .now } }
+    var lastFollowedUp: Date? { didSet { lastInteractedWith = .now } }
+    var highlighted: Bool { didSet { lastInteractedWith = .now } }
+    var containedInFollowUps: Bool { didSet { lastInteractedWith = .now } }
+    var note: String? { didSet { lastInteractedWith = .now } }
+
+    // MARK: - Interaction Indicators
+    var lastInteractedWith: Date?
 
     // MARK: - Initialisation
     init(
@@ -58,7 +67,8 @@ struct Contact: Contactable, Hashable, Identifiable {
         createDate: Date,
         lastFollowedUp: Date? = nil,
         highlighted: Bool = false,
-        containedInFollowUps: Bool = false
+        containedInFollowUps: Bool = false,
+        lastInteractedWith: Date? = nil
     ) {
         self.id = id
         self.name = name
@@ -71,6 +81,7 @@ struct Contact: Contactable, Hashable, Identifiable {
         self.lastFollowedUp = lastFollowedUp
         self.highlighted = highlighted
         self.containedInFollowUps = containedInFollowUps
+        self.lastInteractedWith = lastInteractedWith
     }
 }
 
@@ -98,6 +109,7 @@ extension Contact {
         self.followUps = contact.followUps
         self.createDate = contact.createDate
         self.lastFollowedUp = contact.lastFollowedUp
+        self.lastInteractedWith = contact.lastInteractedWith
         self.highlighted = contact.highlighted
         self.containedInFollowUps = contact.containedInFollowUps
     }
@@ -123,7 +135,7 @@ extension Contactable {
 extension Contact: Codable {
 
     enum CodingKeys: CodingKey {
-        case id, name, phoneNumber, thumbnailImage, note, followUps, createDate, lastFollowedUp, highlighted, containedInFollowUps
+        case id, name, phoneNumber, thumbnailImage, note, followUps, createDate, lastFollowedUp, highlighted, containedInFollowUps, lastInteractedWith
     }
 
     init(from decoder: Decoder) throws {
@@ -138,6 +150,7 @@ extension Contact: Codable {
         self.lastFollowedUp = try container.decodeIfPresent(Date.self, forKey: .lastFollowedUp)
         self.highlighted = try container.decode(Bool.self, forKey: .highlighted)
         self.containedInFollowUps = try container.decode(Bool.self, forKey: .containedInFollowUps)
+        self.lastInteractedWith = try container.decodeIfPresent(Date.self, forKey: .lastInteractedWith)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -152,6 +165,7 @@ extension Contact: Codable {
         try container.encode(lastFollowedUp, forKey: .lastFollowedUp)
         try container.encode(highlighted, forKey: .highlighted)
         try container.encode(containedInFollowUps, forKey: .containedInFollowUps)
+        try container.encode(lastInteractedWith, forKey: .lastInteractedWith)
     }
 
 }
@@ -169,5 +183,10 @@ extension Contactable {
     var hasBeenFollowedUpToday: Bool {
         guard let lastFollowedUpDate = self.lastFollowedUp else { return false}
         return Calendar.current.isDateInToday(lastFollowedUpDate)
+    }
+
+    var hasInteractedWithToday: Bool {
+        guard let lastInteractionDate = self.lastInteractedWith else { return false }
+        return Calendar.current.isDateInToday(lastInteractionDate)
     }
 }

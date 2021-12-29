@@ -63,7 +63,7 @@ struct ContactModalView: View {
         Button(action: {
             followUpManager
                 .contactsInteractor
-                .highlight(contact)
+                .unhighlight(contact)
         }, label: {
             VStack {
                 Image(icon: .slashedStar)
@@ -121,7 +121,7 @@ struct ContactModalView: View {
   
             
             if !contact.highlighted { highlightButton } else { unhighlightButton }
-            if !contact.hasBeenFollowedUpToday { addToFollowUpsButton } else { removeFromFollowUpsButton }
+            if !contact.containedInFollowUps { addToFollowUpsButton } else { removeFromFollowUpsButton }
             followedUpButton
             
         })
