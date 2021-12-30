@@ -10,6 +10,7 @@ import SwiftUI
 struct NewContactsView: View {
 
     @State var contacts: [Contactable] = []
+    @State private var contactSheet: ContactSheet?
 
     @EnvironmentObject var followUpManager: FollowUpManager
 
@@ -58,6 +59,16 @@ struct NewContactsView: View {
                 .followUpManager
                 .fetchContacts()
         }
+        .sheet(item: $contactSheet, onDismiss: {
+            followUpManager.contactsInteractor.hideContactSheet()
+        }, content: {
+            ContactModalView(sheet: $0, onClose: {
+                followUpManager.contactsInteractor.hideContactSheet()
+            })
+        })
+        .onReceive(followUpManager.contactsInteractor.contactSheetPublisher, perform: {
+            self.contactSheet = $0
+        })
     }
 
 }

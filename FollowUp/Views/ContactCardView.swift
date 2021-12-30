@@ -85,9 +85,6 @@ struct ContactCardView: View {
         )
         .aspectRatio(1, contentMode: .fit)
         .cornerRadius(cornerRadius)
-        .sheet(isPresented: $contactModalDisplayed, content: {
-            ContactModalView(contact: contact, onClose: toggleContactModal)
-        })
     }
 
     // MARK: - Methods

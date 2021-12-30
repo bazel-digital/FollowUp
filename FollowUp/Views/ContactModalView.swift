@@ -13,7 +13,7 @@ struct ContactModalView: View {
     @EnvironmentObject var followUpManager: FollowUpManager
 
     // MARK: - Stored Properties
-    var contact: Contactable
+    var sheet: ContactSheet
     var onClose: () -> Void
     var verticalSpacing: CGFloat = Constant.ContactModal.verticalSpacing
     
@@ -27,6 +27,10 @@ struct ContactModalView: View {
          Text(" Met ") +
          Text(relativeTimeSinceMeetingString))
             .fontWeight(.medium)
+    }
+
+    private var contact: Contact {
+        followUpManager.store.contact(forID: sheet.contactID) ?? .unknown
     }
     
     @ViewBuilder
@@ -170,16 +174,16 @@ struct ContactModalView: View {
 struct ContactModalView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContactModalView(contact: MockedContact(), onClose: { })
-            ContactModalView(contact: MockedContact(), onClose: { })
-            ContactModalView(contact: Contact(
+            ContactModalView(sheet: MockedContact().sheet, onClose: { })
+            ContactModalView(sheet: MockedContact().sheet, onClose: { })
+            ContactModalView(sheet: Contact(
                 name: "Estebon Julio Ricardo Montoya Rodriguez",
                 phoneNumber: .init(from: "+44 738 737 2817", withLabel: "mobile"),
                 email: "estebonjulioricardo@gmail.com",
                 thumbnailImage: nil,
                 note: "This is a long name!",
                 createDate: Date()
-            ),
+            ).sheet,
                              onClose: { })
                 .preferredColorScheme(.dark)
         }

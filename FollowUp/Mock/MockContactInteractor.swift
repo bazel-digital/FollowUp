@@ -9,11 +9,16 @@ import Combine
 import Foundation
 
 class MockContactsInteractor: ContactsInteracting, ObservableObject {
+    @Published var contactSheet: ContactSheet?
 
     @Published var contacts: [Contactable] = []
     
     var contactsPublisher: AnyPublisher<[Contactable], Never> {
         $contacts.eraseToAnyPublisher()
+    }
+
+    var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> {
+        self.$contactSheet.eraseToAnyPublisher()
     }
 
     private var addToContactAmount: Int
@@ -53,6 +58,14 @@ class MockContactsInteractor: ContactsInteracting, ObservableObject {
     
     func markAsFollowedUp(_ contact: Contactable) {
         
+    }
+
+    func displayContactSheet(_ contact: Contactable) {
+        self.contactSheet = contact.sheet
+    }
+
+    func hideContactSheet() {
+        self.contactSheet = nil
     }
     
 }

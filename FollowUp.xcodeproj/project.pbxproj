@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21064076277D04950065AD50 /* ContactSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21064075277D04950065AD50 /* ContactSheet.swift */; };
 		21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21379043275AE6EE004059F4 /* FollowUpStore.swift */; };
 		21379047275AE82B004059F4 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379046275AE82B004059F4 /* Collections */; };
 		21379049275AE82B004059F4 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379048275AE82B004059F4 /* OrderedCollections */; };
@@ -62,6 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		21064075277D04950065AD50 /* ContactSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSheet.swift; sourceTree = "<group>"; };
 		21379043275AE6EE004059F4 /* FollowUpStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpStore.swift; sourceTree = "<group>"; };
 		2137904A275D2665004059F4 /* UIImage+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Additions.swift"; sourceTree = "<group>"; };
 		2159CFD12711F49C005A2387 /* FollowUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FollowUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,6 +222,7 @@
 				218B390C271C695F002720BC /* DateGrouping.swift */,
 				21CB9CA0273F1A1600471C34 /* PhoneNumber.swift */,
 				21379043275AE6EE004059F4 /* FollowUpStore.swift */,
+				21064075277D04950065AD50 /* ContactSheet.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 			files = (
 				218B3912271C6EA4002720BC /* ContactSection.swift in Sources */,
 				218B390D271C695F002720BC /* DateGrouping.swift in Sources */,
+				21064076277D04950065AD50 /* ContactSheet.swift in Sources */,
 				218B390F271C6D5A002720BC /* Sequence+Additions.swift in Sources */,
 				218B390B2718CB50002720BC /* EnvironmentValues+Additions.swift in Sources */,
 				21CB9CA5273F221C00471C34 /* Image+Additions.swift in Sources */,

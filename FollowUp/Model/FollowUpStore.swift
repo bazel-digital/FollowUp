@@ -13,7 +13,7 @@ import SwiftUI
 struct FollowUpStore: Codable, RawRepresentable {
 
     // MARK: - Stored Properties
-    var contactDictionary: [String: Contact] = [:] {
+    private var contactDictionary: [String: Contact] = [:] {
         didSet {
             self.updateHighlightedAndFollowUps()
             self.contacts = contactDictionary.values.map { $0 }
@@ -43,16 +43,20 @@ struct FollowUpStore: Codable, RawRepresentable {
         self.lastFetchedContacts = .now
     }
 
-    mutating private func updateHighlightedAndFollowUps() {
+    private mutating func updateHighlightedAndFollowUps() {
         self.highlightedContacts = contacts.filter(\.highlighted)
         self.followUpContacts = contacts.filter(\.containedInFollowUps)
     }
 
-    func getHighlightedContacts() -> [Contact] {
+    public func contact(forID contactID: ContactID) -> Contact? {
+        self.contactDictionary[contactID]
+    }
+
+    public func getHighlightedContacts() -> [Contact] {
         contacts.filter(\.highlighted)
     }
 
-    func getFollowUpContacts() -> [Contact] {
+    public func getFollowUpContacts() -> [Contact] {
         contacts.filter(\.containedInFollowUps)
     }
 
@@ -106,7 +110,7 @@ final class FollowUpManager: ObservableObject {
     @Persisted(Constant.Key.followUpStore) var store: FollowUpStore = .init() {
         didSet { self.objectWillChange.send() }
     }
-    public var contactsInteractor: ContactsInteracting = ContactsInteractor()
+    public lazy var contactsInteractor: ContactsInteracting = ContactsInteractor()
     private var subscriptions: Set<AnyCancellable> = .init()
 
     // MARK: - Public Methods

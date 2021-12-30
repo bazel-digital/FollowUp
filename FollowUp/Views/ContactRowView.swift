@@ -9,12 +9,13 @@ import SwiftUI
 
 struct ContactRowView: View {
 
+    // MARK: - Environment Objects
+    @EnvironmentObject var followUpManager: FollowUpManager
+
     // MARK: - Stored Properties
     var contact: Contactable
     var verticalPadding: CGFloat = Constant.verticalPadding
     var cornerRadius: CGFloat = Constant.cornerRadius
-
-    @State private var contactModalDisplayed: Bool = false
 
     // MARK: - Computed Properties
 
@@ -52,18 +53,12 @@ struct ContactRowView: View {
             rowContent
         })
             .accentColor(.primary)
-            .sheet(isPresented: $contactModalDisplayed, content: {
-                ContactModalView(
-                    contact: contact,
-                    onClose: toggleContactModal
-                )
-            })
     }
 
     // MARK: - Methods
 
     func toggleContactModal() {
-        self.contactModalDisplayed.toggle()
+        followUpManager.contactsInteractor.displayContactSheet(contact)
     }
 
     // MARK: - Initialisers

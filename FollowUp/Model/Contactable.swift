@@ -29,7 +29,7 @@ protocol Contactable {
     var hasInteractedWithToday: Bool { get }
 }
 
-struct Contact: Contactable, Hashable, Identifiable {
+struct Contact: Contactable, Hashable, Identifiable, Equatable {
     
     // MARK: - Enums
     enum ImageFormat {
@@ -188,5 +188,22 @@ extension Contactable {
     var hasInteractedWithToday: Bool {
         guard let lastInteractionDate = self.lastInteractedWith else { return false }
         return Calendar.current.isDateInToday(lastInteractionDate)
+    }
+
+    var sheet: ContactSheet {
+        .init(contactID: self.id)
+    }
+}
+
+// MARK: - Static Property Extension
+extension Contact {
+    static var unknown: Contact {
+        .init(
+            name: "Unknown",
+            phoneNumber: nil,
+            email: nil,
+            thumbnailImage: nil,
+            createDate: .distantPast
+        )
     }
 }

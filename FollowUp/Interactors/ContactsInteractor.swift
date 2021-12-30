@@ -12,16 +12,25 @@ import Foundation
 import SwiftUI
 import Fakery
 
+// MARK: - Typealiases
+typealias ContactID = String
+
+// MARK: -
 protocol ContactsInteracting {
     var contactsPublisher: AnyPublisher<[Contactable], Never> { get }
+    var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> { get }
+    var contactSheet: ContactSheet? { get }
     func fetchContacts() async
     func highlight(_ contact: Contactable)
     func unhighlight(_ contact: Contactable)
     func addToFollowUps(_ contact: Contactable)
     func removeFromFollowUps(_ contact: Contactable)
     func markAsFollowedUp(_ contact: Contactable)
+    func displayContactSheet(_ contact: Contactable)
+    func hideContactSheet()
 }
 
+// MARK: -
 class ContactsInteractor: ContactsInteracting, ObservableObject {
 
     // MARK: - Static Properties
@@ -32,6 +41,10 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
 
     // MARK: - Public Properties
     var contactsPublisher: AnyPublisher<[Contactable], Never> { _contactsPublisher.eraseToAnyPublisher() }
+
+    var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> { self.$contactSheet.eraseToAnyPublisher() }
+
+    @Published var contactSheet: ContactSheet?
 
     // MARK: - Public Methods
     func highlight(_ contact: Contactable) {
@@ -63,7 +76,14 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
         contact.followUps += 1
         self._contactsPublisher.send([contact])
     }
-    
+
+    func displayContactSheet(_ contact: Contactable) {
+        self.contactSheet = contact.sheet
+    }
+
+    func hideContactSheet() {
+        self.contactSheet = nil
+    }
 }
 
 // MARK: - Fetch Logic Extension
