@@ -21,6 +21,15 @@ struct ContactModalView: View {
     var relativeTimeSinceMeetingString: String {
         Constant.relativeDateTimeFormatter.localizedString(for: contact.createDate, relativeTo: .now)
     }
+
+    private var relativeTimeSinceFollowingUp: String {
+        guard let lastFollowedUpDate = contact.lastFollowedUp else { return "Never" }
+        return Constant.relativeDateTimeFormatter
+            .localizedString(
+                for: lastFollowedUpDate,
+                   relativeTo: .now
+            )
+    }
     
     private var relativeTimeSinceMeetingView: some View {
         (Text(Image(icon: .clock)) +
@@ -30,9 +39,23 @@ struct ContactModalView: View {
     }
 
     private var contact: Contact {
-        followUpManager.store.contact(forID: sheet.contactID) ?? .unknown
+        followUpManager.store.contact(forID: sheet.contactID)?.concrete ?? .unknown
     }
     
+    // MARK: - Views
+    @ViewBuilder
+    private var contactBadgeAndNameView: some View {
+        BadgeView(
+            name: contact.name,
+            image: contact.thumbnailImage,
+            size: .large
+        )
+        Text(contact.name)
+            .font(.largeTitle)
+            .fontWeight(.medium)
+            .multilineTextAlignment(.center)
+    }
+
     @ViewBuilder
     private var contactDetailsView: some View {
         VStack {
@@ -49,6 +72,17 @@ struct ContactModalView: View {
         }
     }
 
+    @ViewBuilder
+    private var followUpDetailsView: some View {
+        VStack {
+            Text("Last followed up: \(relativeTimeSinceFollowingUp)")
+            Text("Total follow ups: \(contact.followUps)")
+        }
+        .font(.subheadline)
+        .foregroundColor(.secondary)
+    }
+
+    // MARK: - Buttons
     private var highlightButton: some View {
         Button(action: {
             followUpManager
@@ -133,24 +167,16 @@ struct ContactModalView: View {
     
     var body: some View {
         VStack(spacing: verticalSpacing) {
+
             
             HStack {
                 Spacer()
                 CloseButton(onClose: onClose)
                     .padding([.top, .trailing])
             }
-            
             Spacer()
             
-            BadgeView(
-                name: contact.name,
-                image: contact.thumbnailImage,
-                size: .large
-            )
-            Text(contact.name)
-                .font(.largeTitle)
-                .fontWeight(.medium)
-                .multilineTextAlignment(.center)
+            contactBadgeAndNameView
             
             if let note = contact.note, !note.isEmpty {
                 Text(note)
@@ -161,9 +187,9 @@ struct ContactModalView: View {
             
             contactDetailsView
                 .padding(.top)
-            
             Spacer()
-            
+            followUpDetailsView
+            Spacer()
             actionButtonGrid
                 .padding()
         }
@@ -174,18 +200,11 @@ struct ContactModalView: View {
 struct ContactModalView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContactModalView(sheet: MockedContact().sheet, onClose: { })
-            ContactModalView(sheet: MockedContact().sheet, onClose: { })
-            ContactModalView(sheet: Contact(
-                name: "Estebon Julio Ricardo Montoya Rodriguez",
-                phoneNumber: .init(from: "+44 738 737 2817", withLabel: "mobile"),
-                email: "estebonjulioricardo@gmail.com",
-                thumbnailImage: nil,
-                note: "This is a long name!",
-                createDate: Date()
-            ).sheet,
-                             onClose: { })
+            ContactModalView(sheet: MockedContact(id: "1").sheet, onClose: { })
+            ContactModalView(sheet: MockedContact(id: "0").sheet, onClose: { })
+            ContactModalView(sheet: MockedContact(id: "0").sheet, onClose: { })
                 .preferredColorScheme(.dark)
         }
+        .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
     }
 }

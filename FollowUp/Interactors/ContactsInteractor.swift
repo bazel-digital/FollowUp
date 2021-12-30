@@ -28,6 +28,7 @@ protocol ContactsInteracting {
     func markAsFollowedUp(_ contact: Contactable)
     func displayContactSheet(_ contact: Contactable)
     func hideContactSheet()
+    func dismiss(_ contact: Contactable)
 }
 
 // MARK: -
@@ -83,6 +84,12 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
 
     func hideContactSheet() {
         self.contactSheet = nil
+    }
+
+    func dismiss(_ contact: Contactable) {
+        var contact = contact.concrete
+        contact.lastInteractedWith = .now
+        self._contactsPublisher.send([contact])
     }
 }
 

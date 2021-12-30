@@ -7,6 +7,20 @@
 
 import Foundation
 
+enum Grouping: Hashable, Comparable {
+    case new
+    case date(grouping: DateGrouping)
+
+    var title: String {
+        switch self {
+        case let .date(dateGrouping):
+            return dateGrouping.title
+        case .new:
+            return "New"
+        }
+    }
+}
+
 enum DateGrouping: CaseIterable, Hashable, Comparable {
     case thisWeek
     case thisMonth

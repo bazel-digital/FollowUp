@@ -10,18 +10,31 @@ import Combine
 import Foundation
 import SwiftUI
 
-struct FollowUpStore: Codable, RawRepresentable {
+protocol FollowUpStoring: Codable {
+    var contacts: [Contactable] { get }
+    var highlightedContacts: [Contactable] { get }
+    var followUpContacts: [Contactable] { get }
 
+    mutating func updateWithFetchedContacts(_ contacts: [Contactable])
+    func contact(forID contactID: ContactID) -> Contactable?
+}
+
+// MARK: - Default Implementations
+extension FollowUpStoring {
+    var highlightedContacts: [Contactable] { contacts.filter(\.highlighted) }
+    var followUpContacts: [Contactable] { contacts.filter(\.containedInFollowUps) }
+}
+
+struct FollowUpStore: FollowUpStoring, RawRepresentable {
+    
     // MARK: - Stored Properties
     private var contactDictionary: [String: Contact] = [:] {
         didSet {
-            self.updateHighlightedAndFollowUps()
+//            self.updateHighlightedAndFollowUps()
             self.contacts = contactDictionary.values.map { $0 }
         }
     }
-    var contacts: [Contact] = []
-    lazy var highlightedContacts: [Contact] = getHighlightedContacts()
-    lazy var followUpContacts: [Contact] = getFollowUpContacts()
+    var contacts: [Contactable] = []
     private var lastFetchedContacts: Date?
 
     // MARK: - Static Properties
@@ -29,7 +42,7 @@ struct FollowUpStore: Codable, RawRepresentable {
     private static var decoder = JSONDecoder()
 
     // MARK: - Methods
-    mutating public func updateWithFetchedContacts(_ contacts: [Contactable]) {
+    mutating func updateWithFetchedContacts(_ contacts: [Contactable]) {
         let mapped = contacts
             .map(\.concrete)
             .mappedToDictionary(by: \.id)
@@ -43,21 +56,13 @@ struct FollowUpStore: Codable, RawRepresentable {
         self.lastFetchedContacts = .now
     }
 
-    private mutating func updateHighlightedAndFollowUps() {
-        self.highlightedContacts = contacts.filter(\.highlighted)
-        self.followUpContacts = contacts.filter(\.containedInFollowUps)
-    }
+//    private mutating func updateHighlightedAndFollowUps() {
+//        self.highlightedContacts = contacts.filter(\.highlighted)
+//        self.followUpContacts = contacts.filter(\.containedInFollowUps)
+//    }
 
-    public func contact(forID contactID: ContactID) -> Contact? {
+    func contact(forID contactID: ContactID) -> Contactable? {
         self.contactDictionary[contactID]
-    }
-
-    public func getHighlightedContacts() -> [Contact] {
-        contacts.filter(\.highlighted)
-    }
-
-    public func getFollowUpContacts() -> [Contact] {
-        contacts.filter(\.containedInFollowUps)
     }
 
     init() {
@@ -101,39 +106,6 @@ struct FollowUpStore: Codable, RawRepresentable {
         self.contactDictionary = followUpStore.contactDictionary
         self.lastFetchedContacts = followUpStore.lastFetchedContacts
     }
-}
-
-/// Persistent App Storage container.
-final class FollowUpManager: ObservableObject {
-
-    // MARK: - Private Stored Properties
-    @Persisted(Constant.Key.followUpStore) var store: FollowUpStore = .init() {
-        didSet { self.objectWillChange.send() }
-    }
-    public lazy var contactsInteractor: ContactsInteracting = ContactsInteractor()
-    private var subscriptions: Set<AnyCancellable> = .init()
-
-    // MARK: - Public Methods
-    public func fetchContacts() async {
-        await self.contactsInteractor.fetchContacts()
-    }
-
-    // MARK: - Initialization
-    init() {
-        self.subscribeForNewContacts()
-        self.objectWillChange.send()
-    }
-
-    // MARK: - Methods
-    private func subscribeForNewContacts() {
-        self.contactsInteractor
-            .contactsPublisher
-            .sink(receiveValue: { newContacts in
-                self.store.updateWithFetchedContacts(newContacts)
-            })
-            .store(in: &self.subscriptions)
-    }
-
 }
 
 fileprivate extension String {

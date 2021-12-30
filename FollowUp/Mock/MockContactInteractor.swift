@@ -67,5 +67,8 @@ class MockContactsInteractor: ContactsInteracting, ObservableObject {
     func hideContactSheet() {
         self.contactSheet = nil
     }
-    
+
+    func dismiss(_ contact: Contactable) {
+        
+    }
 }

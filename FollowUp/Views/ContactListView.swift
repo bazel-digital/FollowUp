@@ -61,6 +61,7 @@ struct ContactListView: View {
                 .padding(.horizontal)
             }
         }
+        .animation(.easeInOut, value: 1)
     }
     
     var body: some View {
@@ -77,11 +78,11 @@ struct ContactListView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             ContactListView(
-                section: .mocked(forGrouping: .thisWeek),
+                section: .mocked(forGrouping: .date(grouping: .thisWeek)),
                 layoutDirection: .horizontal
             )
             ContactListView(
-                section: .mocked(forGrouping: .thisWeek),
+                section: .mocked(forGrouping: .new),
                 layoutDirection: .vertical
             )
         }

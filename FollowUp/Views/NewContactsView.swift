@@ -20,13 +20,13 @@ struct NewContactsView: View {
         followUpManager
                     .store
                     .contacts
-                    .sorted(by: \Contact.createDate)
+                    .sorted(by: \.createDate)
                     .reversed()
     }
 
     private var contactSections: [ContactSection] {
         sortedContacts
-            .grouped(by: \.dateGrouping)
+            .grouped(by: \.grouping)
             .map { grouping, contacts in
                 .init(
                     contacts: contacts
@@ -46,7 +46,7 @@ struct NewContactsView: View {
                 ForEach(contactSections) { section in
                     ContactListView(
                         section: section,
-                        layoutDirection: section.grouping == .thisWeek ? .horizontal : .vertical
+                        layoutDirection: section.grouping == .new ? .horizontal : .vertical
                     )
                 }
                 .padding(.vertical)

@@ -25,8 +25,11 @@ struct MockedContact: Contactable {
     var containedInFollowUps: Bool
     var lastInteractedWith: Date?
 
-    init(){
+    init(id: String? = nil){
         let faker = Faker()
+        if let id = id {
+            self.id = id
+        }
         self.name = faker.name.name()
         self.phoneNumber = PhoneNumber(from: faker.phoneNumber.phoneNumber())
         self.email = faker.internet.email()
@@ -36,13 +39,14 @@ struct MockedContact: Contactable {
         self.lastFollowedUp = faker.date.backward(days: faker.number.randomInt(min: 0, max: 1))
         self.highlighted = faker.number.randomBool()
         self.containedInFollowUps = faker.number.randomBool()
+        self.lastFollowedUp = faker.date.backward(days: 30)
         self.lastInteractedWith = faker.date.backward(days: 10)
     }
 
 }
 
 extension ContactSection {
-    static func mocked(forGrouping grouping: DateGrouping) -> ContactSection {
+    static func mocked(forGrouping grouping: Grouping) -> ContactSection {
         .init(contacts: (0...5).map { _ in MockedContact() }, grouping: grouping)
     }
 }

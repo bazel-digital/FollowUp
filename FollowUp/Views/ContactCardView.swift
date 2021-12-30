@@ -8,25 +8,22 @@
 import SwiftUI
 
 struct ContactCardView: View {
+
+    // MARK: - Environment
+    @EnvironmentObject var followUpManager: FollowUpManager
     
     // MARK: - Stored Properties
-
     var contact: Contactable
     var cornerRadius: CGFloat = Constant.cornerRadius
-    
-    var onAddToFollowUps: () -> Void = { }
-    var onClose: () -> Void = { }
 
     @State private var contactModalDisplayed: Bool = false
 
     // MARK: - Computed Properties
-
     var relativeTimeSinceMeeting: String {
         Constant.relativeDateTimeFormatter.localizedString(for: contact.createDate, relativeTo: .now)
     }
     
     // MARK: - Views
-    
     var nameAndTimeSinceView: some View {
         VStack(alignment: .leading) {
             Text(contact.name)
@@ -45,7 +42,7 @@ struct ContactCardView: View {
     
     var addToFollowUpsButton: some View {
         Button(action: {
-            onAddToFollowUps()
+            addToFollowUps()
         }, label: {
             (
                 Text(Image(systemName: "plus")) +
@@ -64,7 +61,7 @@ struct ContactCardView: View {
             HStack {
                 BadgeView(name: contact.name, image: contact.thumbnailImage, size: .small)
                 Spacer()
-                CloseButton(onClose: onClose)
+                CloseButton(onClose: { dismissNewContact() })
             }
             
             Spacer()
@@ -90,7 +87,15 @@ struct ContactCardView: View {
     // MARK: - Methods
 
     func toggleContactModal() {
-        self.contactModalDisplayed.toggle()
+        followUpManager.contactsInteractor.displayContactSheet(contact)
+    }
+
+    func addToFollowUps() {
+        followUpManager.contactsInteractor.addToFollowUps(contact)
+    }
+
+    func dismissNewContact() {
+        followUpManager.contactsInteractor.dismiss(contact)
     }
 }
 
@@ -99,11 +104,16 @@ struct ContactCardView_Previews: PreviewProvider {
         GeometryReader { geometry in
             ScrollView(.horizontal) {
                 LazyHStack {
-                    ContactCardView(contact: MockedContact())
+                    ContactCardView(
+                        contact: MockedContact()
+                    )
                         .frame(maxWidth: geometry.size.width / 2)
-                    ContactCardView(contact: MockedContact())
+                    ContactCardView(
+                        contact: MockedContact()
+                    )
                         .frame(maxWidth: geometry.size.width / 2)
                 }.background(Color(.systemGroupedBackground))
+                .environmentObject(FollowUpManager())
             }
         }
     }

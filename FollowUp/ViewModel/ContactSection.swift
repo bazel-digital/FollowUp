@@ -10,7 +10,7 @@ import Foundation
 struct ContactSection: Identifiable {
     var id: String = UUID().uuidString
     let contacts: [Contactable]
-    let grouping: DateGrouping
+    let grouping: Grouping
     var expanded: Bool = false
 
     var title: String { "\(grouping.title)  (\(contacts.count))" }

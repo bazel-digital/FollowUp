@@ -22,6 +22,9 @@ protocol Contactable {
     var highlighted: Bool { get }
     var containedInFollowUps: Bool { get }
 
+    /// New contacts are not older than one week, and have not been interacted with.
+    var isNew: Bool { get }
+
     // MARK: - Interaction Indicators
     var lastFollowedUp: Date? { get set }
     var hasBeenFollowedUpToday: Bool { get }
@@ -29,7 +32,14 @@ protocol Contactable {
     var hasInteractedWithToday: Bool { get }
 }
 
-struct Contact: Contactable, Hashable, Identifiable, Equatable {
+// MARK: - Default Implementations
+extension Contactable {
+    var isNew: Bool {
+        self.dateGrouping == .thisWeek && lastInteractedWith == nil
+    }
+}
+
+struct Contact: Contactable, Hashable, Identifiable, Equatable, Codable {
     
     // MARK: - Enums
     enum ImageFormat {
@@ -124,15 +134,21 @@ extension Contactable {
 
 // MARK: - Grouping Extension
 extension Contactable {
+
     var dateGrouping: DateGrouping {
         DateGrouping.allCases.first(where: { grouping in
             grouping.dateInterval?.contains(self.createDate) == true
         }) ?? .previous
     }
+
+    var grouping: Grouping {
+        isNew ? .new : .date(grouping: dateGrouping)
+    }
+
 }
 
 // MARK: - Codable Conformance
-extension Contact: Codable {
+extension Contact {
 
     enum CodingKeys: CodingKey {
         case id, name, phoneNumber, thumbnailImage, note, followUps, createDate, lastFollowedUp, highlighted, containedInFollowUps, lastInteractedWith
@@ -200,10 +216,12 @@ extension Contact {
     static var unknown: Contact {
         .init(
             name: "Unknown",
-            phoneNumber: nil,
+            phoneNumber: .init(from: "+350 54022819", withLabel: "Gib Number"),
             email: nil,
             thumbnailImage: nil,
-            createDate: .distantPast
+            followUps: 2,
+            createDate: .distantPast,
+            lastFollowedUp: Date()
         )
     }
 }

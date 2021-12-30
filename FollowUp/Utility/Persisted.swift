@@ -40,6 +40,8 @@ import Foundation
 
     static func saveToUserDefaults(value: Value, forKey key: String) {
         guard let encoded = try? FollowUpApp.encoder.encode(value) else { return }
-        UserDefaults.standard.set(encoded, forKey: key)
+        FollowUpApp.serialWriteQueue.async {
+            UserDefaults.standard.set(encoded, forKey: key)
+        }
     }
 }

@@ -17,6 +17,7 @@ struct FollowUpApp: App {
     // MARK: - Static Properties
     static var decoder: JSONDecoder = .init()
     static var encoder: JSONEncoder = .init()
+    static var serialWriteQueue: DispatchQueue = .init(label: "com.ventr.write.UserDefaults", qos: .background)
 
     var body: some Scene {
         WindowGroup {
