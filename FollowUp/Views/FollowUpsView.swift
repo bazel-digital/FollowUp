@@ -81,7 +81,6 @@ struct FollowUpsView: View {
             idealHeight: contactSheetMaxHeight
         )
         .padding()
-        .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(Constant.cornerRadius)
         .padding()
     }

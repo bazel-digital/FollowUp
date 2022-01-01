@@ -28,6 +28,7 @@ struct ContentView: View {
                             Label("FollowUp", systemImage: "repeat")
                         }.tag(2)
                 })
+                .background(Color(.systemGroupedBackground))
         }
     }
 

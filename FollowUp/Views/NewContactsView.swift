@@ -46,7 +46,6 @@ struct NewContactsView: View {
 
     var body: some View {
         ContactListView(contactSetions: contactSections)
-            .background(Color(.systemGroupedBackground))
             .task {
                 await self
                     .followUpManager

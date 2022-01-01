@@ -19,6 +19,14 @@ struct ContactListSectionView: View {
     var section: ContactSection
     var layoutDirection: LayoutDirection
     var minContactCardSize: CGFloat = Constant.ContactCard.minSize
+
+    // MARK: - Stored Properties
+    var verticalListRowItemEdgeInsets: EdgeInsets = .init(
+        top: 5,
+        leading: -20,
+        bottom: 0,
+        trailing: 0
+    )
     
     // MARK: - Local State
     @State var expanded: Bool = true
@@ -31,11 +39,10 @@ struct ContactListSectionView: View {
     
     private var verticalContactList: some View {
         DisclosureGroup(isExpanded: $expanded, content: {
-            LazyVStack(alignment: .center) {
                 ForEach(section.contacts, id: \.id) { contact in
                     ContactRowView(contact: contact)
                 }
-            }
+                .listRowInsets(.init(verticalListRowItemEdgeInsets))
         }, label: {
             sectionTitle
         })
