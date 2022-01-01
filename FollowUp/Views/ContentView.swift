@@ -17,13 +17,13 @@ struct ContentView: View {
             TabView(selection: $selectedTab,
                     content:  {
                         NewContactsView()
-                        .navigationBarTitle("New Contacts")
+                        .navigationBarTitle("Contacts")
                         .tabItem {
-                            Label("New", systemImage: "person.crop.circle")
+                            Label("Contacts", systemImage: "person.crop.circle")
                         }.tag(1)
                         
-                        Text("Tab Content 2")
-                        .navigationBarTitle("FollowUp")
+                        FollowUpsView()
+                        .navigationBarTitle("FollowUps")
                         .tabItem {
                             Label("FollowUp", systemImage: "repeat")
                         }.tag(2)

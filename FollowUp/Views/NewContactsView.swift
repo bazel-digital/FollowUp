@@ -38,45 +38,42 @@ struct NewContactsView: View {
             .sorted(by: \.grouping)
     }
 
+    private var newContactsCount: Int {
+        contactSections.filter { $0.grouping == .new }.count
+    }
+
     // MARK: - Views
 
     var body: some View {
-        ScrollView {
-            LazyVStack {
-                ForEach(contactSections) { section in
-                    ContactListView(
-                        section: section,
-                        layoutDirection: section.grouping == .new ? .horizontal : .vertical
-                    )
-                }
-                .padding(.vertical)
+        ContactListView(contactSetions: contactSections)
+            .background(Color(.systemGroupedBackground))
+            .task {
+                await self
+                    .followUpManager
+                    .fetchContacts()
             }
-        }
-        .padding(.top)
-        .background(Color(.systemGroupedBackground))
-        .task {
-            await self
-                .followUpManager
-                .fetchContacts()
-        }
-        .sheet(item: $contactSheet, onDismiss: {
-            followUpManager.contactsInteractor.hideContactSheet()
-        }, content: {
-            ContactModalView(sheet: $0, onClose: {
+            .sheet(item: $contactSheet, onDismiss: {
                 followUpManager.contactsInteractor.hideContactSheet()
+            }, content: {
+                ContactSheetView(
+                    kind: .modal,
+                    sheet: $0,
+                    onClose: {
+                        followUpManager.contactsInteractor.hideContactSheet()
+                    })
             })
-        })
-        .onReceive(followUpManager.contactsInteractor.contactSheetPublisher, perform: {
-            self.contactSheet = $0
-        })
+            .onReceive(followUpManager.contactsInteractor.contactSheetPublisher, perform: {
+                self.contactSheet = $0
+            })
+            .animation(.easeInOut, value: contacts.count)
+            .animation(.easeInOut, value: newContactsCount)
     }
 
 }
 
 struct NewContactsView_Previews: PreviewProvider {
     static var previews: some View {
-        NewContactsView(contacts: [])
-            .background(Color(.systemGroupedBackground))
-            .environmentObject(ContactsInteractor())
+        NewContactsView()
+            .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 4)))
     }
 }

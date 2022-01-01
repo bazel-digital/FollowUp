@@ -35,6 +35,7 @@ enum Constant {
         case plus = "plus"
         case sms = "bubble.left.fill"
         case star = "star.fill"
+        case starWithText = "text.badge.star"
         case slashedStar = "star.slash.fill"
         case thumbsUp = "hand.thumbsup.fill"
         case whatsApp = "w.circle"
@@ -46,9 +47,11 @@ enum Constant {
         static let minSize: CGFloat = 200.0
     }
 
-    // MARK: - Contact Modal
-    enum ContactModal {
+    // MARK: - Contact Sheet
+    enum ContactSheet {
         static let verticalSpacing: CGFloat = 10.0
+        static let maxHeight: CGFloat = 400.0
+        static let noHighlightsViewMaxContentWidth: CGFloat = 250.0
     }
 
     // MARK: - Keys

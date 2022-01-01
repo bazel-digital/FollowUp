@@ -1,5 +1,5 @@
 //
-//  ContactModalView.swift
+//  ContactSheetView.swift
 //  FollowUp
 //
 //  Created by Aaron Baw on 17/10/2021.
@@ -7,15 +7,22 @@
 
 import SwiftUI
 
-struct ContactModalView: View {
+struct ContactSheetView: View {
     
     // MARK: - Environment
     @EnvironmentObject var followUpManager: FollowUpManager
 
+    // MARK: - Enums
+    enum Kind {
+        case modal
+        case inline
+    }
+
     // MARK: - Stored Properties
+    var kind: Kind
     var sheet: ContactSheet
     var onClose: () -> Void
-    var verticalSpacing: CGFloat = Constant.ContactModal.verticalSpacing
+    var verticalSpacing: CGFloat = Constant.ContactSheet.verticalSpacing
     
     // MARK: - Computed Properties
     var relativeTimeSinceMeetingString: String {
@@ -165,7 +172,7 @@ struct ContactModalView: View {
         })
     }
     
-    var body: some View {
+    var modalContactSheetView: some View {
         VStack(spacing: verticalSpacing) {
 
             
@@ -194,15 +201,43 @@ struct ContactModalView: View {
                 .padding()
         }
     }
+
+    private var inlineContactSheetView: some View {
+        VStack(spacing: verticalSpacing) {
+            contactBadgeAndNameView
+            
+            if let note = contact.note, !note.isEmpty {
+                Text(note)
+                    .italic()
+            }
+            
+            relativeTimeSinceMeetingView
+            
+            contactDetailsView
+                .padding(.top)
+            actionButtonGrid
+                .padding([.top, .horizontal])
+        }
+        .padding(.vertical)
+        .background(Color(.secondarySystemGroupedBackground))
+        .cornerRadius(Constant.cornerRadius)
+    }
+
+    var body: some View {
+        switch kind {
+        case .modal: modalContactSheetView
+        case .inline: inlineContactSheetView
+        }
+    }
     
 }
 
 struct ContactModalView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContactModalView(sheet: MockedContact(id: "1").sheet, onClose: { })
-            ContactModalView(sheet: MockedContact(id: "0").sheet, onClose: { })
-            ContactModalView(sheet: MockedContact(id: "0").sheet, onClose: { })
+            ContactSheetView(kind: .modal, sheet: MockedContact(id: "1").sheet, onClose: { })
+            ContactSheetView(kind: .inline, sheet: MockedContact(id: "0").sheet, onClose: { })
+            ContactSheetView(kind: .modal, sheet: MockedContact(id: "0").sheet, onClose: { })
                 .preferredColorScheme(.dark)
         }
         .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
