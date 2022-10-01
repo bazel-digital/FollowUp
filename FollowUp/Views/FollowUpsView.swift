@@ -47,19 +47,6 @@ struct FollowUpsView: View {
     }
 
     // MARK: - Views
-    private var highlightsTabView: some View {
-        TabView(content: {
-            ForEach(highlightedContacts) {
-                ContactSheetView(
-                    kind: .inline,
-                    sheet: $0.sheet,
-                    onClose: {}
-                )
-                .padding()
-            }
-        })
-            .tabViewStyle(PageTabViewStyle())
-    }
 
     private var noHighlightsView: some View {
         VStack(alignment: .center, spacing: noHighlightsViewVerticalSpacing) {
@@ -99,7 +86,7 @@ struct FollowUpsView: View {
             }
             .padding()
 
-            highlightsTabView
+            HighlightsTabView(highlightedContacts: highlightedContacts)
                 .frame(height: contactSheetMaxHeight)
         }
     }
@@ -118,7 +105,6 @@ struct FollowUpsView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
 
                 if highlightedContacts.isEmpty {
                     noHighlightsView
@@ -128,10 +114,9 @@ struct FollowUpsView: View {
 
                 followUpsSectionView
 
-            }
         }
         .background(Color(.systemGroupedBackground))
-        .animation(.easeInOut, value: highlightedContacts.count + sortedContacts.count)
+//        .animation(.easeInOut, value: highlightedContacts.count + sortedContacts.count)
     }
 }
 

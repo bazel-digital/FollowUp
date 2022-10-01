@@ -53,4 +53,9 @@ extension ContactSection {
 
 extension Contactable where Self == Contact {
     static var mocked: Contactable { MockedContact() }
+    static var mockedFollowedUpToday: Contactable {
+        var contact = MockedContact()
+        contact.lastFollowedUp = .now
+        return contact
+    }
 }

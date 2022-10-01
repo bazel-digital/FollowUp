@@ -16,6 +16,7 @@ struct ContactRowView: View {
     var contact: Contactable
     var verticalPadding: CGFloat = Constant.verticalPadding
     var cornerRadius: CGFloat = Constant.cornerRadius
+    var size: CGSize = Constant.ContactBadge.smallSize
 
     // MARK: - Computed Properties
 
@@ -25,13 +26,36 @@ struct ContactRowView: View {
 
     // MARK: - Views
 
+    var followedUpMark: some View {
+        Circle()
+            .foregroundColor(.green)
+            .frame(width: 40, height: 40)
+            .overlay(
+                Image(icon: .checkmark)
+                    .foregroundColor(.white)
+            )
+    }
+
     var rowContent: some View {
         HStack {
-            BadgeView(name: name, image: image, size: .small)
-            Text(name)
-                .fontWeight(.medium)
-                .lineLimit(1)
-                .truncationMode(.tail)
+
+            if contact.hasBeenFollowedUpToday {
+                followedUpMark
+            } else {
+                BadgeView(name: name, image: image, size: .small)
+            }
+
+            VStack(alignment: .leading) {
+                Text(name)
+                    .fontWeight(.medium)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                if contact.hasBeenFollowedUpToday {
+                Text("Followed Up today")
+                    .foregroundColor(.secondary)
+                    .font(.caption)
+                }
+            }
             Spacer()
 
             if let phoneNumber = contact.phoneNumber {
@@ -106,9 +130,9 @@ struct ContactRowView_Previews: PreviewProvider {
             }
             .padding()
             VStack {
-                ContactRowView(contact: MockedContact())
-                ContactRowView(contact: MockedContact())
-                ContactRowView(contact: MockedContact())
+                ContactRowView(contact: .mocked)
+                ContactRowView(contact: .mocked)
+                ContactRowView(contact: .mockedFollowedUpToday)
             }
             .padding()
             .preferredColorScheme(.dark)

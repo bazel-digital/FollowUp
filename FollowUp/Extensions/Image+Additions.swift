@@ -10,6 +10,9 @@ import SwiftUI
 
 extension Image {
     init(icon: Constant.Icon) {
-        self.init(systemName: icon.rawValue)
+        switch icon.kind {
+        case .asset: self.init(icon.rawValue)
+        case .sfSymbol: self.init(systemName: icon.rawValue)
+        }
     }
 }

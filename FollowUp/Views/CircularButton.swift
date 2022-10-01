@@ -45,7 +45,10 @@ struct CircularButton: View {
 
     var body: some View {
         Button(action: action.closure, label: {
-            Image(systemName: icon.rawValue)
+            Image(icon: icon)
+                .resizable()
+                .renderingMode(.template)
+                .frame(width: 15, height: 15, alignment: .center)
         })
             .accentColor(accentColour)
             .padding(padding)
@@ -56,6 +59,10 @@ struct CircularButton: View {
 
 struct CircularButton_Previews: PreviewProvider {
     static var previews: some View {
-        CircularButton(icon: .phone, action: .other(action: {}))
+        Group {
+            CircularButton(icon: .phone, action: .other(action: {}))
+            CircularButton(icon: .whatsApp, action: .other(action: {}))
+
+        }.previewLayout(.sizeThatFits)
     }
 }

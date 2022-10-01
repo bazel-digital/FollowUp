@@ -41,6 +41,7 @@
 		218B3919271C9A0D002720BC /* ContactSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B3918271C9A0C002720BC /* ContactSheetView.swift */; };
 		218B391B271C9A3B002720BC /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B391A271C9A3B002720BC /* BadgeView.swift */; };
 		218CAC58272F1B130048F54C /* ContactCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218CAC57272F1B130048F54C /* ContactCardView.swift */; };
+		219F940128830408008980CB /* HighlightsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F940028830408008980CB /* HighlightsTabView.swift */; };
 		21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7FEFE278091BA00138819 /* ContactListView.swift */; };
 		21CB9C9F273D311500471C34 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CB9C9E273D311500471C34 /* CloseButton.swift */; };
 		21CB9CA1273F1A1600471C34 /* PhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CB9CA0273F1A1600471C34 /* PhoneNumber.swift */; };
@@ -104,6 +105,7 @@
 		218B3918271C9A0C002720BC /* ContactSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSheetView.swift; sourceTree = "<group>"; };
 		218B391A271C9A3B002720BC /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		218CAC57272F1B130048F54C /* ContactCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCardView.swift; sourceTree = "<group>"; };
+		219F940028830408008980CB /* HighlightsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightsTabView.swift; sourceTree = "<group>"; };
 		21B7FEFE278091BA00138819 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
 		21CB9C9E273D311500471C34 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		21CB9CA0273F1A1600471C34 /* PhoneNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumber.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				21CB9CA2273F214100471C34 /* CircularButton.swift */,
 				2106407B277E5E270065AD50 /* FollowUpsView.swift */,
 				21B7FEFE278091BA00138819 /* ContactListView.swift */,
+				219F940028830408008980CB /* HighlightsTabView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 				21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */,
 				21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */,
 				2159D0042711F4DF005A2387 /* Contactable.swift in Sources */,
+				219F940128830408008980CB /* HighlightsTabView.swift in Sources */,
 				218B3917271C972B002720BC /* MockContactInteractor.swift in Sources */,
 				2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */,
 				2159CFD72711F49C005A2387 /* ContentView.swift in Sources */,
@@ -558,7 +562,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -613,7 +617,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -633,7 +637,7 @@
 				DEVELOPMENT_TEAM = A5YJ22GHFR;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = FollowUp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -655,7 +659,7 @@
 				DEVELOPMENT_TEAM = A5YJ22GHFR;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = FollowUp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

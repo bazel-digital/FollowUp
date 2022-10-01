@@ -23,10 +23,13 @@ enum Constant {
     enum ContactBadge {
         static let smallSizePadding: CGFloat = 10.0
         static let largeSizePadding: CGFloat = 20.0
+        static let smallSize: CGSize = .init(width: 40, height: 40)
+        static let largeSize: CGSize = .init(width: 80, height: 80)
     }
 
     // MARK: - Icons
     enum Icon: String {
+        case checkmark = "checkmark"
         case clock = "clock.arrow.circlepath"
         case close = "xmark.circle.fill"
         case email = "envelope.fill"
@@ -38,8 +41,19 @@ enum Constant {
         case starWithText = "text.badge.star"
         case slashedStar = "star.slash.fill"
         case thumbsUp = "hand.thumbsup.fill"
-        case whatsApp = "w.circle"
+        case whatsApp = "whatsAppIcon"
 
+        enum Kind {
+            case asset
+            case sfSymbol
+        }
+
+        var kind: Kind {
+            switch self {
+            case .checkmark, .clock, .close, .email, .minus, .phone, .plus, .sms, .star, .starWithText, .slashedStar, .thumbsUp, .thumbsUp: return .sfSymbol
+            case .whatsApp: return .asset
+            }
+        }
     }
 
     // MARK: - Contact Card

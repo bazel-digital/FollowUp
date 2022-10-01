@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContactListSectionView: View {
+
+    // MARK: - Envirnment Values
+    @EnvironmentObject var followUpManager: FollowUpManager
     
     // MARK: - Nested Enums
     enum LayoutDirection {
@@ -36,18 +39,81 @@ struct ContactListSectionView: View {
             .font(.headline)
             .padding(.bottom)
     }
+
+    @ViewBuilder
+    private func createHighlightToggleButton(for contact: Contact) -> some View {
+        if !contact.highlighted {
+            highlightButton(for: contact)
+        }
+        else {
+            unhighlightButton(for: contact)
+        }
+    }
+
+    private func highlightButton(for contact: Contact) -> some View {
+        Button(action: {
+            followUpManager.contactsInteractor.highlight(contact)
+        }, label: {
+            Label("Highlight", systemImage: "star.fill")
+        })
+        .tint(.yellow)
+    }
+
+    private func unhighlightButton(for contact: Contact) -> some View {
+        Button(action: {
+            followUpManager.contactsInteractor.unhighlight(contact)
+        }, label: {
+            Label("Unhighlight", systemImage: "star.slash.fill")
+        })
+        .tint(.yellow)
+    }
+
+    @ViewBuilder
+    private func createAddToFollowUpsToggleButton(for contact: Contact) -> some View {
+        if !contact.containedInFollowUps {
+            addToFollowUpsButton(for: contact)
+        } else {
+            removeFromFollowUpsButton(for: contact)
+        }
+    }
+
+    private func addToFollowUpsButton(for contact: Contact) -> some View {
+        Button(action: {
+            followUpManager.contactsInteractor.addToFollowUps(contact)
+        }, label: {
+            Label("Add to Follow Ups", systemImage: "plus")
+        })
+        .tint(.blue)
+    }
+
+    private func removeFromFollowUpsButton(for contact: Contact) -> some View {
+        Button(action: {
+            followUpManager.contactsInteractor.addToFollowUps(contact)
+        }, label: {
+            Label("Remove from Follow Ups", systemImage: "minus")
+        })
+        .tint(.red)
+    }
+
+    
     
     private var verticalContactList: some View {
         DisclosureGroup(isExpanded: $expanded, content: {
-                ForEach(section.contacts, id: \.id) { contact in
-                    ContactRowView(contact: contact)
-                }
-                .listRowInsets(.init(verticalListRowItemEdgeInsets))
+            ForEach(section.contacts, id: \.id) { contact in
+                ContactRowView(contact: contact)
+                    .swipeActions(edge: .leading, allowsFullSwipe: true, content: {
+                        createAddToFollowUpsToggleButton(for: contact.concrete)
+                    })
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false, content: {
+                        createHighlightToggleButton(for: contact.concrete)
+                    })
+            }
+            .listRowInsets(.init(verticalListRowItemEdgeInsets))
         }, label: {
             sectionTitle
         })
-            .accentColor(Color(.secondaryLabel))
-            .padding(.horizontal)
+        .accentColor(Color(.secondaryLabel))
+        .padding(.horizontal)
     }
     
     private var horizontalContactList: some View {
@@ -84,7 +150,7 @@ struct ContactListSectionView: View {
 struct ContactListView_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
-            VStack {
+            LazyVStack {
                 ContactListSectionView(
                     section: .mocked(forGrouping: .date(grouping: .thisWeek)),
                     layoutDirection: .horizontal
