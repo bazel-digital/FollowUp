@@ -18,16 +18,22 @@ struct PhoneNumber: Hashable, Codable {
     var label: String? = nil
     var value: String
 
+    // MARK: - Computed Properties
+    private var urlFriendlyValue: String {
+        value.filter { !$0.isWhitespace }
+    }
+
     var callURL: URL? {
-        URL(string: "tel://\(value)")
+        URL(string: "tel://\(urlFriendlyValue)")
     }
 
     var smsURL: URL? {
-        URL(string: "sms://\(value)")
+        URL(string: "sms://\(urlFriendlyValue)")
     }
 
     var whatsAppURL: URL? {
-        URL(string:"https://api.whatsapp.com/send?phone=\(value)")
+        guard let parsedInt = Int.parse(from: value) else { return nil }
+        return URL(string:"https://wa.me/\(parsedInt)")
     }
 
     // MARK: - Initializer

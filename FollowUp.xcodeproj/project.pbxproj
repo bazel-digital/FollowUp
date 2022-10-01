@@ -43,6 +43,8 @@
 		218CAC58272F1B130048F54C /* ContactCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218CAC57272F1B130048F54C /* ContactCardView.swift */; };
 		219F940128830408008980CB /* HighlightsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F940028830408008980CB /* HighlightsTabView.swift */; };
 		21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7FEFE278091BA00138819 /* ContactListView.swift */; };
+		21C8BA0228E8D83F005298CE /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C8BA0128E8D83F005298CE /* Log.swift */; };
+		21C8BA0428E8D97D005298CE /* Int+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C8BA0328E8D97D005298CE /* Int+Additions.swift */; };
 		21CB9C9F273D311500471C34 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CB9C9E273D311500471C34 /* CloseButton.swift */; };
 		21CB9CA1273F1A1600471C34 /* PhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CB9CA0273F1A1600471C34 /* PhoneNumber.swift */; };
 		21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CB9CA2273F214100471C34 /* CircularButton.swift */; };
@@ -107,6 +109,8 @@
 		218CAC57272F1B130048F54C /* ContactCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCardView.swift; sourceTree = "<group>"; };
 		219F940028830408008980CB /* HighlightsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightsTabView.swift; sourceTree = "<group>"; };
 		21B7FEFE278091BA00138819 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
+		21C8BA0128E8D83F005298CE /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		21C8BA0328E8D97D005298CE /* Int+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Additions.swift"; sourceTree = "<group>"; };
 		21CB9C9E273D311500471C34 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		21CB9CA0273F1A1600471C34 /* PhoneNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumber.swift; sourceTree = "<group>"; };
 		21CB9CA2273F214100471C34 /* CircularButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularButton.swift; sourceTree = "<group>"; };
@@ -267,6 +271,7 @@
 				218B390E271C6D5A002720BC /* Sequence+Additions.swift */,
 				21CB9CA4273F221C00471C34 /* Image+Additions.swift */,
 				2137904A275D2665004059F4 /* UIImage+Additions.swift */,
+				21C8BA0328E8D97D005298CE /* Int+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -300,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				21FB24232774D2400078BABC /* Persisted.swift */,
+				21C8BA0128E8D83F005298CE /* Log.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -457,6 +463,7 @@
 				21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */,
 				218B3914271C73F9002720BC /* ContactListSectionView.swift in Sources */,
 				21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */,
+				21C8BA0428E8D97D005298CE /* Int+Additions.swift in Sources */,
 				21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */,
 				2159D0042711F4DF005A2387 /* Contactable.swift in Sources */,
 				219F940128830408008980CB /* HighlightsTabView.swift in Sources */,
@@ -464,6 +471,7 @@
 				2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */,
 				2159CFD72711F49C005A2387 /* ContentView.swift in Sources */,
 				2159D0082711FABC005A2387 /* ContactBadge.swift in Sources */,
+				21C8BA0228E8D83F005298CE /* Log.swift in Sources */,
 				2106407C277E5E270065AD50 /* FollowUpsView.swift in Sources */,
 				218CAC58272F1B130048F54C /* ContactCardView.swift in Sources */,
 				21CB9CA1273F1A1600471C34 /* PhoneNumber.swift in Sources */,
