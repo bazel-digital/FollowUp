@@ -16,7 +16,7 @@ struct ContactRowView: View {
     var contact: Contactable
     var verticalPadding: CGFloat = Constant.verticalPadding
     var cornerRadius: CGFloat = Constant.cornerRadius
-    var size: CGSize = Constant.ContactBadge.smallSize
+    var size: Constant.ContactBadge.Size = .small
 
     // MARK: - Computed Properties
 
@@ -29,7 +29,10 @@ struct ContactRowView: View {
     var followedUpMark: some View {
         Circle()
             .foregroundColor(.green)
-            .frame(width: 40, height: 40)
+            .frame(
+                width: size.width + (size.padding*2),
+                height: (size.width + size.padding*2)
+            )
             .overlay(
                 Image(icon: .checkmark)
                     .foregroundColor(.white)
@@ -76,7 +79,7 @@ struct ContactRowView: View {
         Button(action: toggleContactModal, label: {
             rowContent
         })
-            .accentColor(.primary)
+        .accentColor(.primary)
     }
 
     // MARK: - Methods
@@ -130,9 +133,16 @@ struct ContactRowView_Previews: PreviewProvider {
             }
             .padding()
             VStack {
+                ContactRowView(name: "        Aaron    ")
+                ContactRowView(contact: .mocked)
+                ContactRowView(contact: .mockedFollowedUpToday)
                 ContactRowView(contact: .mocked)
                 ContactRowView(contact: .mocked)
                 ContactRowView(contact: .mockedFollowedUpToday)
+                ContactRowView(contact: .mocked)
+                ContactRowView(contact: .mocked)
+                ContactRowView(contact: .mockedFollowedUpToday)
+                ContactRowView(contact: .mocked)
             }
             .padding()
             .preferredColorScheme(.dark)

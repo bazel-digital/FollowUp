@@ -31,9 +31,15 @@ struct PhoneNumber: Hashable, Codable {
         URL(string: "sms://\(urlFriendlyValue)")
     }
 
-    var whatsAppURL: URL? {
-        guard let parsedInt = Int.parse(from: value) else { return nil }
-        return URL(string:"https://wa.me/\(parsedInt)")
+    func whatsAppURL(withPrefilledText prefilledText: String?) -> URL? {
+        guard let parsedNumber = Int.parse(from: value) else { return nil }
+        
+        if let prefilledText = prefilledText,
+           let urlEncodedString = prefilledText.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+            return URL(string: "https://wa.me/\(parsedNumber)?text=\(urlEncodedString)")
+        }
+        
+        return URL(string:"https://wa.me/\(parsedNumber)")
     }
 
     // MARK: - Initializer

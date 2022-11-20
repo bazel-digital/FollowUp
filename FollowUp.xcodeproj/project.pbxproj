@@ -11,6 +11,8 @@
 		21064078277DDCA90065AD50 /* MockFollowUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21064077277DDCA90065AD50 /* MockFollowUpStore.swift */; };
 		2106407A277DDCE90065AD50 /* FollowUpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21064079277DDCE90065AD50 /* FollowUpManager.swift */; };
 		2106407C277E5E270065AD50 /* FollowUpsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2106407B277E5E270065AD50 /* FollowUpsView.swift */; };
+		2115FCC328E8E732001A6E4E /* ConversationActionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115FCC228E8E732001A6E4E /* ConversationActionButtonView.swift */; };
+		2115FCC528E8E83D001A6E4E /* ButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115FCC428E8E83D001A6E4E /* ButtonAction.swift */; };
 		21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21379043275AE6EE004059F4 /* FollowUpStore.swift */; };
 		21379047275AE82B004059F4 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379046275AE82B004059F4 /* Collections */; };
 		21379049275AE82B004059F4 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379048275AE82B004059F4 /* OrderedCollections */; };
@@ -42,6 +44,7 @@
 		218B391B271C9A3B002720BC /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B391A271C9A3B002720BC /* BadgeView.swift */; };
 		218CAC58272F1B130048F54C /* ContactCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218CAC57272F1B130048F54C /* ContactCardView.swift */; };
 		219F940128830408008980CB /* HighlightsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F940028830408008980CB /* HighlightsTabView.swift */; };
+		21A74CCD28F85C9400B9EAC1 /* DailyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */; };
 		21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7FEFE278091BA00138819 /* ContactListView.swift */; };
 		21C8BA0228E8D83F005298CE /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C8BA0128E8D83F005298CE /* Log.swift */; };
 		21C8BA0428E8D97D005298CE /* Int+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C8BA0328E8D97D005298CE /* Int+Additions.swift */; };
@@ -74,6 +77,8 @@
 		21064077277DDCA90065AD50 /* MockFollowUpStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFollowUpStore.swift; sourceTree = "<group>"; };
 		21064079277DDCE90065AD50 /* FollowUpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpManager.swift; sourceTree = "<group>"; };
 		2106407B277E5E270065AD50 /* FollowUpsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpsView.swift; sourceTree = "<group>"; };
+		2115FCC228E8E732001A6E4E /* ConversationActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationActionButtonView.swift; sourceTree = "<group>"; };
+		2115FCC428E8E83D001A6E4E /* ButtonAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonAction.swift; sourceTree = "<group>"; };
 		21379043275AE6EE004059F4 /* FollowUpStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpStore.swift; sourceTree = "<group>"; };
 		2137904A275D2665004059F4 /* UIImage+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Additions.swift"; sourceTree = "<group>"; };
 		2159CFD12711F49C005A2387 /* FollowUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FollowUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +113,7 @@
 		218B391A271C9A3B002720BC /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		218CAC57272F1B130048F54C /* ContactCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCardView.swift; sourceTree = "<group>"; };
 		219F940028830408008980CB /* HighlightsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightsTabView.swift; sourceTree = "<group>"; };
+		21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalView.swift; sourceTree = "<group>"; };
 		21B7FEFE278091BA00138819 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
 		21C8BA0128E8D83F005298CE /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		21C8BA0328E8D97D005298CE /* Int+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Additions.swift"; sourceTree = "<group>"; };
@@ -228,6 +234,8 @@
 				2106407B277E5E270065AD50 /* FollowUpsView.swift */,
 				21B7FEFE278091BA00138819 /* ContactListView.swift */,
 				219F940028830408008980CB /* HighlightsTabView.swift */,
+				2115FCC228E8E732001A6E4E /* ConversationActionButtonView.swift */,
+				21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -241,6 +249,7 @@
 				21379043275AE6EE004059F4 /* FollowUpStore.swift */,
 				21064075277D04950065AD50 /* ContactSheet.swift */,
 				21064079277DDCE90065AD50 /* FollowUpManager.swift */,
+				2115FCC428E8E83D001A6E4E /* ButtonAction.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -448,10 +457,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21A74CCD28F85C9400B9EAC1 /* DailyGoalView.swift in Sources */,
 				218B3912271C6EA4002720BC /* ContactSection.swift in Sources */,
 				218B390D271C695F002720BC /* Grouping.swift in Sources */,
 				21064076277D04950065AD50 /* ContactSheet.swift in Sources */,
 				218B390F271C6D5A002720BC /* Sequence+Additions.swift in Sources */,
+				2115FCC328E8E732001A6E4E /* ConversationActionButtonView.swift in Sources */,
 				218B390B2718CB50002720BC /* EnvironmentValues+Additions.swift in Sources */,
 				21CB9CA5273F221C00471C34 /* Image+Additions.swift in Sources */,
 				21CB9C9F273D311500471C34 /* CloseButton.swift in Sources */,
@@ -470,6 +481,7 @@
 				218B3917271C972B002720BC /* MockContactInteractor.swift in Sources */,
 				2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */,
 				2159CFD72711F49C005A2387 /* ContentView.swift in Sources */,
+				2115FCC528E8E83D001A6E4E /* ButtonAction.swift in Sources */,
 				2159D0082711FABC005A2387 /* ContactBadge.swift in Sources */,
 				21C8BA0228E8D83F005298CE /* Log.swift in Sources */,
 				2106407C277E5E270065AD50 /* FollowUpsView.swift in Sources */,
@@ -570,7 +582,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -625,7 +637,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -645,7 +657,7 @@
 				DEVELOPMENT_TEAM = A5YJ22GHFR;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = FollowUp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -667,7 +679,7 @@
 				DEVELOPMENT_TEAM = A5YJ22GHFR;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = FollowUp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

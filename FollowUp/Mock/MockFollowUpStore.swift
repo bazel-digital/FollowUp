@@ -9,6 +9,7 @@ import Foundation
 
 struct MockFollowUpStore: FollowUpStoring {
     var contacts: [Contactable] = []
+    var dailyFollowUpGoal: Int? = nil
     
     func updateWithFetchedContacts(_ contacts: [Contactable]) {
         //

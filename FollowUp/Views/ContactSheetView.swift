@@ -73,7 +73,7 @@ struct ContactSheetView: View {
                 HStack {
                     CircularButton(icon: .phone, action: .call(number: phoneNumber))
                     CircularButton(icon: .sms, action: .sms(number: phoneNumber))
-                    CircularButton(icon: .whatsApp, action: .whatsApp(number: phoneNumber))
+                    CircularButton(icon: .whatsApp, action: .whatsApp(number: phoneNumber, prefilledText: nil))
                 }
             }
         }
@@ -171,29 +171,53 @@ struct ContactSheetView: View {
             
         })
     }
+
+    // TODO: Refactor this out into a separate view.
+    @ViewBuilder
+    private var startAConversationRowView: some View {
+        if let phoneNumber = contact.phoneNumber {
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(Constant.conversationStarters, id: \.self) { conversationStarter in
+                        ConversationActionButtonView(
+                            type: .whatsApp,
+                            contact: contact,
+                            prefilledText: conversationStarter
+                        )
+                    }
+                }
+                .padding()
+            }
+        }
+    }
     
     var modalContactSheetView: some View {
         VStack(spacing: verticalSpacing) {
 
             
-            HStack {
+                HStack {
+                    Spacer()
+                    CloseButton(onClose: onClose)
+                        .padding([.top, .trailing])
+                }
                 Spacer()
-                CloseButton(onClose: onClose)
-                    .padding([.top, .trailing])
+
+            VStack {
+
+                contactBadgeAndNameView
+                
+                if let note = contact.note, !note.isEmpty {
+                    Text(note)
+                        .italic()
+                }
+                relativeTimeSinceMeetingView
+
+                contactDetailsView
+                    .padding(.top)
             }
+            
             Spacer()
-            
-            contactBadgeAndNameView
-            
-            if let note = contact.note, !note.isEmpty {
-                Text(note)
-                    .italic()
-            }
-            
-            relativeTimeSinceMeetingView
-            
-            contactDetailsView
-                .padding(.top)
+            startAConversationRowView
             Spacer()
             followUpDetailsView
             Spacer()

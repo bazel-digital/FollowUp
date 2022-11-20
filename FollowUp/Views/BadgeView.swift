@@ -12,7 +12,7 @@ struct BadgeView: View {
     // MARK: - Stored Properties
     var name: String
     var image: UIImage?
-    var size: ContactBadge.Size = .small
+    var size: Constant.ContactBadge.Size = .small
 
     // MARK:  - Computed Properties
     private var firstName: String { name.split(separator: " ").first?.capitalized ?? name }

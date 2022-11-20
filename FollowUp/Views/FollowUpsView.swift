@@ -105,14 +105,19 @@ struct FollowUpsView: View {
 
     var body: some View {
         ScrollView {
+            
+            DailyGoalView(
+                followUps: followUpManager.store.followedUpToday,
+                dailyGoal: followUpManager.store.dailyFollowUpGoal
+            ).padding()
 
-                if highlightedContacts.isEmpty {
-                    noHighlightsView
-                } else {
-                    highlightsSectionView
-                }
+            if highlightedContacts.isEmpty {
+                noHighlightsView
+            } else {
+                highlightsSectionView
+            }
 
-                followUpsSectionView
+            followUpsSectionView
 
         }
         .background(Color(.systemGroupedBackground))

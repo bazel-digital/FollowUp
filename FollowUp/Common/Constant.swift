@@ -9,6 +9,14 @@ import Foundation
 import CoreGraphics
 
 enum Constant {
+    
+    // MARK: - Conversation Starters
+    static var conversationStarters: [String] = [
+        "Hey <NAME>! How's it going man?",
+        "Hey <NAME>, hope you're well! Random, but I'm wondering if you'd like to come to church this Sunday?",
+        "hey <NAME>, you up to much this weekend?",
+        "hey, how's your week going?"
+    ]
 
     // MARK: - Padding
     static let verticalPadding: CGFloat = 10.0
@@ -21,10 +29,26 @@ enum Constant {
 
     // MARK: - Round Badge
     enum ContactBadge {
-        static let smallSizePadding: CGFloat = 10.0
-        static let largeSizePadding: CGFloat = 20.0
-        static let smallSize: CGSize = .init(width: 40, height: 40)
-        static let largeSize: CGSize = .init(width: 80, height: 80)
+        
+        enum Size {
+            case small
+            case large
+            
+            var width: CGFloat {
+                switch self {
+                case .small: return 23
+                case .large: return 50
+                }
+            }
+            
+            var padding: CGFloat {
+                switch self {
+                case .small: return 10.0
+                case .large: return 20.0
+                }
+            }
+        }
+
     }
 
     // MARK: - Icons
@@ -42,6 +66,8 @@ enum Constant {
         case slashedStar = "star.slash.fill"
         case thumbsUp = "hand.thumbsup.fill"
         case whatsApp = "whatsAppIcon"
+        case personWithCheckmark = "person.crop.circle.fill.badge.checkmark"
+        case partyPopper = "party.popper.fill"
 
         enum Kind {
             case asset
@@ -50,7 +76,7 @@ enum Constant {
 
         var kind: Kind {
             switch self {
-            case .checkmark, .clock, .close, .email, .minus, .phone, .plus, .sms, .star, .starWithText, .slashedStar, .thumbsUp, .thumbsUp: return .sfSymbol
+            case .checkmark, .clock, .close, .email, .minus, .phone, .plus, .sms, .star, .starWithText, .slashedStar, .thumbsUp, .thumbsUp, .personWithCheckmark, .partyPopper: return .sfSymbol
             case .whatsApp: return .asset
             }
         }
@@ -66,6 +92,11 @@ enum Constant {
         static let verticalSpacing: CGFloat = 10.0
         static let maxHeight: CGFloat = 400.0
         static let noHighlightsViewMaxContentWidth: CGFloat = 250.0
+    }
+
+    // MARK: - Conversation Action Button
+    enum ConversationActionButton {
+        static let maxWidth: CGFloat = 200.0
     }
 
     // MARK: - Keys

@@ -13,34 +13,15 @@ struct ContactBadge: View {
     var initials: String
     var backgroundGradientStartColour: Color = Color(.sRGB, white: 0.7, opacity: 1)
     var backgroundGradientEndColour: Color = .gray
-    var size: Size = .small
-
-    // MARK: - Enums
-    enum Size {
-        case small
-        case large
-        var fontSize: Font.TextStyle {
-            switch self {
-                case .small: return .body
-                case .large: return .largeTitle
-            }
-        }
-    }
-
-    // MARK: - Computed Properties
-
-    var padding: CGFloat {
-        switch size {
-        case .small: return Constant.ContactBadge.smallSizePadding
-        case .large: return Constant.ContactBadge.largeSizePadding
-        }
-    }
+    var size: Constant.ContactBadge.Size = .small
 
     var body: some View {
         Text(initials)
+            .frame(minWidth: size.width, minHeight: size.width)
             .font(.system(size.fontSize, design: .rounded))
             .foregroundColor(.white)
-            .padding(padding)
+            .padding(size.padding)
+        
             .background(
                 Circle()
                     .fill(
@@ -68,5 +49,15 @@ struct ContactBadge_Previews: PreviewProvider {
                 .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
             ContactBadge(initials: "LD", size: .large)
         }.previewLayout(.sizeThatFits)
+    }
+}
+
+// MARK: -
+extension Constant.ContactBadge.Size {
+    var fontSize: Font.TextStyle {
+        switch self {
+            case .small: return .body
+            case .large: return .largeTitle
+        }
     }
 }

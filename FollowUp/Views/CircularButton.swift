@@ -12,30 +12,6 @@ struct CircularButton: View {
     // MARK: - Environment Properties
     @Environment(\.openURL) var openURL
 
-    // MARK: - Enums
-    enum ButtonAction {
-        case sms(number: PhoneNumber)
-        case call(number: PhoneNumber)
-        case whatsApp(number: PhoneNumber)
-        case other(action: () -> Void)
-
-        var closure: () -> Void {
-            switch self {
-            case let .call(number):
-                guard let callURL = number.callURL else { return {  } }
-                return { UIApplication.shared.open(callURL) }
-            case let .sms(number):
-                guard let smsURL = number.smsURL else { return {} }
-                return { UIApplication.shared.open(smsURL) }
-            case let .whatsApp(number):
-                guard let whatsAppURL = number.whatsAppURL else { return {} }
-                return { UIApplication.shared.open(whatsAppURL) }
-            case let .other(action):
-                return action
-            }
-        }
-    }
-
     // MARK: - Stored Properties
     var icon: Constant.Icon
     var action: ButtonAction
@@ -44,7 +20,7 @@ struct CircularButton: View {
     var backgroundOpacity: CGFloat = 0.3
 
     var body: some View {
-        Button(action: action.closure, label: {
+        Button(action: { action.closure() }, label: {
             Image(icon: icon)
                 .resizable()
                 .renderingMode(.template)

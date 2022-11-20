@@ -188,9 +188,9 @@ extension Contact {
 
 // MARK: - Computed Properties
 extension Contactable {
-    private var firstName: String { name.split(separator: " ").first?.capitalized ?? name }
+    var firstName: String { name.split(separator: " ").first?.capitalized ?? name }
 
-    private var lastName: String { name.split(separator: " ").last?.capitalized ?? "" }
+    var lastName: String { name.split(separator: " ").last?.capitalized ?? "" }
 
     var initials: String {
         (firstName.first?.uppercased() ?? "") + (lastName.first?.uppercased() ?? "")

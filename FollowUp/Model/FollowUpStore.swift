@@ -14,6 +14,8 @@ protocol FollowUpStoring: Codable {
     var contacts: [Contactable] { get }
     var highlightedContacts: [Contactable] { get }
     var followUpContacts: [Contactable] { get }
+    var followedUpToday: Int { get }
+    var dailyFollowUpGoal: Int? { get }
 
     mutating func updateWithFetchedContacts(_ contacts: [Contactable])
     func contact(forID contactID: ContactID) -> Contactable?
@@ -23,6 +25,7 @@ protocol FollowUpStoring: Codable {
 extension FollowUpStoring {
     var highlightedContacts: [Contactable] { contacts.filter(\.highlighted) }
     var followUpContacts: [Contactable] { contacts.filter(\.containedInFollowUps) }
+    var followedUpToday: Int { contacts.filter(\.hasBeenFollowedUpToday).count }
 }
 
 struct FollowUpStore: FollowUpStoring, RawRepresentable {
@@ -35,6 +38,7 @@ struct FollowUpStore: FollowUpStoring, RawRepresentable {
         }
     }
     var contacts: [Contactable] = []
+    var dailyFollowUpGoal: Int? = 10
     private var lastFetchedContacts: Date?
 
     // MARK: - Static Properties

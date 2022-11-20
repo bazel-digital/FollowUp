@@ -31,7 +31,7 @@ struct MockedContact: Contactable {
             self.id = id
         }
         self.name = faker.name.name()
-        self.phoneNumber = PhoneNumber(from: faker.phoneNumber.phoneNumber())
+        self.phoneNumber = .mocked
         self.email = faker.internet.email()
         self.note = faker.hobbit.quote()
         self.followUps = faker.number.randomInt(min: 0, max: 10)
@@ -57,5 +57,11 @@ extension Contactable where Self == Contact {
         var contact = MockedContact()
         contact.lastFollowedUp = .now
         return contact
+    }
+}
+
+extension PhoneNumber {
+    static var mocked: PhoneNumber {
+        PhoneNumber(from: "+44759768477")!
     }
 }
