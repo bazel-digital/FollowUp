@@ -17,6 +17,7 @@
 		210A6215295014040064EB8A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 210A6214295014040064EB8A /* RealmSwift */; };
 		2115FCC328E8E732001A6E4E /* ConversationActionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115FCC228E8E732001A6E4E /* ConversationActionButtonView.swift */; };
 		2115FCC528E8E83D001A6E4E /* ButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115FCC428E8E83D001A6E4E /* ButtonAction.swift */; };
+		21194CC52A4B896F005DC77E /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21194CC42A4B896F005DC77E /* Networking.swift */; };
 		21312191297ED14D00C9E1EE /* HeroMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21312190297ED14D00C9E1EE /* HeroMessageView.swift */; };
 		21312193297ED17B00C9E1EE /* LocalisedTextKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21312192297ED17B00C9E1EE /* LocalisedTextKey.swift */; };
 		21312195297ED1CF00C9E1EE /* Text+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21312194297ED1CF00C9E1EE /* Text+Additions.swift */; };
@@ -63,15 +64,18 @@
 		219675A02A3A2160003C9A20 /* Color+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196759F2A3A2160003C9A20 /* Color+Additions.swift */; };
 		219675A22A3A2482003C9A20 /* TagsCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219675A12A3A2482003C9A20 /* TagsCarouselView.swift */; };
 		219F940128830408008980CB /* HighlightsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F940028830408008980CB /* HighlightsTabView.swift */; };
-<<<<<<< HEAD
-		21A102D729C3589B00EDAE78 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D629C3589B00EDAE78 /* String+Additions.swift */; };
-=======
 		21A102D129C33CCA00EDAE78 /* ChatCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D029C33CCA00EDAE78 /* ChatCompletion.swift */; };
 		21A102D329C33D1D00EDAE78 /* LegacyCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D229C33D1D00EDAE78 /* LegacyCompletion.swift */; };
 		21A102D529C3429E00EDAE78 /* Result+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D429C3429E00EDAE78 /* Result+Additions.swift */; };
->>>>>>> 8e09112 (Update from text completion to chat completions for intelligent conversation starters.)
+		21A102D729C3589B00EDAE78 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D629C3589B00EDAE78 /* String+Additions.swift */; };
 		21A74CCD28F85C9400B9EAC1 /* DailyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */; };
+		21B7CAE7292ACCB000E0FDFD /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7CAE6292ACCB000E0FDFD /* NotificationManager.swift */; };
+		21B7CAE9292ACE9100E0FDFD /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7CAE8292ACE9100E0FDFD /* Localizer.swift */; };
 		21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7FEFE278091BA00138819 /* ContactListView.swift */; };
+		21B97E7C2A5863C700EE46EF /* ChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E7B2A5863C700EE46EF /* ChipView.swift */; };
+		21B97E812A586DB900EE46EF /* RegularConversationStarterEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E802A586DB900EE46EF /* RegularConversationStarterEditorView.swift */; };
+		21B97E832A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E822A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift */; };
+		21B97E852A5875DE00EE46EF /* DateMetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E842A5875DE00EE46EF /* DateMetView.swift */; };
 		21BD01BB29A1158F00C53F71 /* GradientButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD01BA29A1158F00C53F71 /* GradientButtonStyle.swift */; };
 		21C8BA0228E8D83F005298CE /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C8BA0128E8D83F005298CE /* Log.swift */; };
 		21C8BA0428E8D97D005298CE /* Int+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C8BA0328E8D97D005298CE /* Int+Additions.swift */; };
@@ -83,9 +87,9 @@
 		21D7CF292982B7C7003E1277 /* EditConversationStarterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */; };
 		21D7CF2B2982C62D003E1277 /* Operators+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */; };
 		21DA66BD29B0E3F100B5CAFD /* ContactNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DA66BC29B0E3F100B5CAFD /* ContactNoteView.swift */; };
+		21DE77C12A4DF053007EA909 /* ActionButtonGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DE77C02A4DF053007EA909 /* ActionButtonGridView.swift */; };
 		21E69F85298EE8130043F9FF /* Assertion+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E69F84298EE8130043F9FF /* Assertion+Additions.swift */; };
 		21E69F87298EF01B0043F9FF /* FollowUp.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 21E69F86298EEEA10043F9FF /* FollowUp.entitlements */; };
-		21E69F8929924D240043F9FF /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E69F8829924D240043F9FF /* Networking.swift */; };
 		21E69F8C299660000043F9FF /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E69F8B299660000043F9FF /* AsyncButton.swift */; };
 		21FB24242774D2400078BABC /* UserDefaultsPersisted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB24232774D2400078BABC /* UserDefaultsPersisted.swift */; };
 /* End PBXBuildFile section */
@@ -116,6 +120,7 @@
 		2106407B277E5E270065AD50 /* FollowUpsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpsView.swift; sourceTree = "<group>"; };
 		2115FCC228E8E732001A6E4E /* ConversationActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationActionButtonView.swift; sourceTree = "<group>"; };
 		2115FCC428E8E83D001A6E4E /* ButtonAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonAction.swift; sourceTree = "<group>"; };
+		21194CC42A4B896F005DC77E /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		21312190297ED14D00C9E1EE /* HeroMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroMessageView.swift; sourceTree = "<group>"; };
 		21312192297ED17B00C9E1EE /* LocalisedTextKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalisedTextKey.swift; sourceTree = "<group>"; };
 		21312194297ED1CF00C9E1EE /* Text+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Additions.swift"; sourceTree = "<group>"; };
@@ -164,17 +169,19 @@
 		2196759F2A3A2160003C9A20 /* Color+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Additions.swift"; sourceTree = "<group>"; };
 		219675A12A3A2482003C9A20 /* TagsCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCarouselView.swift; sourceTree = "<group>"; };
 		219F940028830408008980CB /* HighlightsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightsTabView.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		21A102D629C3589B00EDAE78 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
-=======
 		21A102D029C33CCA00EDAE78 /* ChatCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCompletion.swift; sourceTree = "<group>"; };
 		21A102D229C33D1D00EDAE78 /* LegacyCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyCompletion.swift; sourceTree = "<group>"; };
 		21A102D429C3429E00EDAE78 /* Result+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Additions.swift"; sourceTree = "<group>"; };
->>>>>>> 8e09112 (Update from text completion to chat completions for intelligent conversation starters.)
+		21A102D629C3589B00EDAE78 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalView.swift; sourceTree = "<group>"; };
+		21B7CAE6292ACCB000E0FDFD /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		21B7CAE8292ACE9100E0FDFD /* Localizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizer.swift; sourceTree = "<group>"; };
 		21B7FEFE278091BA00138819 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
+		21B97E7B2A5863C700EE46EF /* ChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipView.swift; sourceTree = "<group>"; };
+		21B97E802A586DB900EE46EF /* RegularConversationStarterEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularConversationStarterEditorView.swift; sourceTree = "<group>"; };
+		21B97E822A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentConversationStarterEditorView.swift; sourceTree = "<group>"; };
+		21B97E842A5875DE00EE46EF /* DateMetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMetView.swift; sourceTree = "<group>"; };
 		21BD01BA29A1158F00C53F71 /* GradientButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButtonStyle.swift; sourceTree = "<group>"; };
-		21BF36CB29799F29009879D3 /* FollowUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FollowUp.entitlements; sourceTree = "<group>"; };
 		21C8BA0128E8D83F005298CE /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		21C8BA0328E8D97D005298CE /* Int+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Additions.swift"; sourceTree = "<group>"; };
 		21CB9C9E273D311500471C34 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
@@ -185,9 +192,9 @@
 		21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditConversationStarterView.swift; sourceTree = "<group>"; };
 		21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Operators+Additions.swift"; sourceTree = "<group>"; };
 		21DA66BC29B0E3F100B5CAFD /* ContactNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactNoteView.swift; sourceTree = "<group>"; };
+		21DE77C02A4DF053007EA909 /* ActionButtonGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonGridView.swift; sourceTree = "<group>"; };
 		21E69F84298EE8130043F9FF /* Assertion+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assertion+Additions.swift"; sourceTree = "<group>"; };
 		21E69F86298EEEA10043F9FF /* FollowUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FollowUp.entitlements; sourceTree = "<group>"; };
-		21E69F8829924D240043F9FF /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		21E69F8B299660000043F9FF /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		21FB24232774D2400078BABC /* UserDefaultsPersisted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersisted.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -223,6 +230,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		210378EB29A3CFBC001599EE /* Feature Showcase */ = {
+			isa = PBXGroup;
+			children = (
+				210378E929A3CE5C001599EE /* WelcomeView.swift */,
+				210378EC29A3CFD3001599EE /* IndividualFeatureView.swift */,
+			);
+			path = "Feature Showcase";
+			sourceTree = "<group>";
+		};
 		2147644329AE640D0098A789 /* Conversation Starters */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,15 +256,6 @@
 				2147644B29B0D2D90098A789 /* CircularLoadingSpinner.swift */,
 			);
 			path = Animation;
-			sourceTree = "<group>";
-		};
-		210378EB29A3CFBC001599EE /* Feature Showcase */ = {
-			isa = PBXGroup;
-			children = (
-				210378E929A3CE5C001599EE /* WelcomeView.swift */,
-				210378EC29A3CFD3001599EE /* IndividualFeatureView.swift */,
-			);
-			path = "Feature Showcase";
 			sourceTree = "<group>";
 		};
 		2159CFC82711F49C005A2387 = {
@@ -275,7 +282,6 @@
 		2159CFD32711F49C005A2387 /* FollowUp */ = {
 			isa = PBXGroup;
 			children = (
-				21BF36CB29799F29009879D3 /* FollowUp.entitlements */,
 				21FB24222774D2370078BABC /* Utility */,
 				218B3915271C96AF002720BC /* Mock */,
 				218B390727137FD5002720BC /* Interactors */,
@@ -322,17 +328,15 @@
 		2159CFFF2711F4AE005A2387 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				21B97E7F2A586D9A00EE46EF /* ConversationStarter */,
+				21DE77BF2A4DF01D007EA909 /* ContactSheet */,
 				2147644A29B0D2C90098A789 /* Animation */,
 				21E69F8A29965FEF0043F9FF /* Button */,
 				2196759C2A3A208E003C9A20 /* Tags */,
 				2159CFD62711F49C005A2387 /* ContentView.swift */,
 				2159D0002711F4C5005A2387 /* NewContactsView.swift */,
 				2159D0052711F887005A2387 /* ContactRowView.swift */,
-				2159D0072711FABC005A2387 /* ContactBadge.swift */,
 				218B3913271C73F9002720BC /* ContactListSectionView.swift */,
-				218B3918271C9A0C002720BC /* ContactSheetView.swift */,
-				218B391A271C9A3B002720BC /* BadgeView.swift */,
-				218CAC57272F1B130048F54C /* ContactCardView.swift */,
 				2106407B277E5E270065AD50 /* FollowUpsView.swift */,
 				21B7FEFE278091BA00138819 /* ContactListView.swift */,
 				219F940028830408008980CB /* HighlightsTabView.swift */,
@@ -340,10 +344,10 @@
 				21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */,
 				21312190297ED14D00C9E1EE /* HeroMessageView.swift */,
 				21312198297EDEF200C9E1EE /* SettingsSheetView.swift */,
-				21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */,
 				21DA66BC29B0E3F100B5CAFD /* ContactNoteView.swift */,
 				210378EB29A3CFBC001599EE /* Feature Showcase */,
 				215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */,
+				21B97E7B2A5863C700EE46EF /* ChipView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -360,12 +364,10 @@
 				21064075277D04950065AD50 /* ContactSheet.swift */,
 				21064079277DDCE90065AD50 /* FollowUpManager.swift */,
 				2115FCC428E8E83D001A6E4E /* ButtonAction.swift */,
+				21B7CAE6292ACCB000E0FDFD /* NotificationManager.swift */,
+				21B7CAE8292ACE9100E0FDFD /* Localizer.swift */,
 				2131219C297F007500C9E1EE /* FollowUpSettings.swift */,
-<<<<<<< HEAD
-				21E69F8829924D240043F9FF /* Networking.swift */,
 				2196759A2A3A2025003C9A20 /* Tag.swift */,
-=======
->>>>>>> 8e09112 (Update from text completion to chat completions for intelligent conversation starters.)
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -402,12 +404,9 @@
 				21312194297ED1CF00C9E1EE /* Text+Additions.swift */,
 				21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */,
 				21E69F84298EE8130043F9FF /* Assertion+Additions.swift */,
-<<<<<<< HEAD
+				21A102D429C3429E00EDAE78 /* Result+Additions.swift */,
 				21A102D629C3589B00EDAE78 /* String+Additions.swift */,
 				2196759F2A3A2160003C9A20 /* Color+Additions.swift */,
-=======
-				21A102D429C3429E00EDAE78 /* Result+Additions.swift */,
->>>>>>> 8e09112 (Update from text completion to chat completions for intelligent conversation starters.)
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -437,14 +436,46 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
+		2196759C2A3A208E003C9A20 /* Tags */ = {
+			isa = PBXGroup;
+			children = (
+				2196759D2A3A20A5003C9A20 /* TagChipView.swift */,
+				219675A12A3A2482003C9A20 /* TagsCarouselView.swift */,
+			);
+			path = Tags;
+			sourceTree = "<group>";
+		};
 		21A102CF29C33CAE00EDAE78 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				21E69F8829924D240043F9FF /* Networking.swift */,
+				21194CC42A4B896F005DC77E /* Networking.swift */,
 				21A102D029C33CCA00EDAE78 /* ChatCompletion.swift */,
 				21A102D229C33D1D00EDAE78 /* LegacyCompletion.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		21B97E7F2A586D9A00EE46EF /* ConversationStarter */ = {
+			isa = PBXGroup;
+			children = (
+				21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */,
+				21B97E802A586DB900EE46EF /* RegularConversationStarterEditorView.swift */,
+				21B97E822A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift */,
+			);
+			path = ConversationStarter;
+			sourceTree = "<group>";
+		};
+		21DE77BF2A4DF01D007EA909 /* ContactSheet */ = {
+			isa = PBXGroup;
+			children = (
+				2159D0072711FABC005A2387 /* ContactBadge.swift */,
+				218B3918271C9A0C002720BC /* ContactSheetView.swift */,
+				218B391A271C9A3B002720BC /* BadgeView.swift */,
+				218CAC57272F1B130048F54C /* ContactCardView.swift */,
+				21DE77C02A4DF053007EA909 /* ActionButtonGridView.swift */,
+				21B97E842A5875DE00EE46EF /* DateMetView.swift */,
+			);
+			path = ContactSheet;
 			sourceTree = "<group>";
 		};
 		21E69F8A29965FEF0043F9FF /* Button */ = {
@@ -455,15 +486,6 @@
 				21E69F8B299660000043F9FF /* AsyncButton.swift */,
 			);
 			path = Button;
-			sourceTree = "<group>";
-		};
-		2196759C2A3A208E003C9A20 /* Tags */ = {
-			isa = PBXGroup;
-			children = (
-				2196759D2A3A20A5003C9A20 /* TagChipView.swift */,
-				219675A12A3A2482003C9A20 /* TagsCarouselView.swift */,
-			);
-			path = Tags;
 			sourceTree = "<group>";
 		};
 		21FB24222774D2370078BABC /* Utility */ = {
@@ -624,6 +646,7 @@
 				21A102D329C33D1D00EDAE78 /* LegacyCompletion.swift in Sources */,
 				218B390D271C695F002720BC /* Grouping.swift in Sources */,
 				21064076277D04950065AD50 /* ContactSheet.swift in Sources */,
+				21B97E812A586DB900EE46EF /* RegularConversationStarterEditorView.swift in Sources */,
 				218B390F271C6D5A002720BC /* Sequence+Additions.swift in Sources */,
 				21D7CF272982AD4F003E1277 /* ConversationStarterTemplate.swift in Sources */,
 				2115FCC328E8E732001A6E4E /* ConversationActionButtonView.swift in Sources */,
@@ -637,6 +660,7 @@
 				21CB9C9F273D311500471C34 /* CloseButton.swift in Sources */,
 				219675A22A3A2482003C9A20 /* TagsCarouselView.swift in Sources */,
 				218B3919271C9A0D002720BC /* ContactSheetView.swift in Sources */,
+				21B7CAE9292ACE9100E0FDFD /* Localizer.swift in Sources */,
 				2159D00B2711FC2A005A2387 /* Constant.swift in Sources */,
 				21FB24242774D2400078BABC /* UserDefaultsPersisted.swift in Sources */,
 				210378ED29A3CFD3001599EE /* IndividualFeatureView.swift in Sources */,
@@ -649,37 +673,42 @@
 				2147644C29B0D2D90098A789 /* CircularLoadingSpinner.swift in Sources */,
 				21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */,
 				2159D0042711F4DF005A2387 /* Contactable.swift in Sources */,
+				21194CC52A4B896F005DC77E /* Networking.swift in Sources */,
 				219F940128830408008980CB /* HighlightsTabView.swift in Sources */,
 				2131219D297F007500C9E1EE /* FollowUpSettings.swift in Sources */,
 				218B3917271C972B002720BC /* MockContactInteractor.swift in Sources */,
-				2147644729AE64320098A789 /* StandardConversationStarter.swift in Sources */,
-				2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */,
 <<<<<<< HEAD
+				2147644729AE64320098A789 /* StandardConversationStarter.swift in Sources */,
+=======
+				21B7CAE7292ACCB000E0FDFD /* NotificationManager.swift in Sources */,
+>>>>>>> 87a8705 (Schedule local notification reminder for 6pm on app launch)
+				2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */,
+				21A102D129C33CCA00EDAE78 /* ChatCompletion.swift in Sources */,
 				215654B42A3F4A3B00233DE4 /* ConditionalLazyVStack.swift in Sources */,
 				210378EA29A3CE5C001599EE /* WelcomeView.swift in Sources */,
-=======
-				21A102D129C33CCA00EDAE78 /* ChatCompletion.swift in Sources */,
->>>>>>> 8e09112 (Update from text completion to chat completions for intelligent conversation starters.)
 				2159CFD72711F49C005A2387 /* ContentView.swift in Sources */,
 				2147644929AE64490098A789 /* IntelligentConversationStarter.swift in Sources */,
 				2115FCC528E8E83D001A6E4E /* ButtonAction.swift in Sources */,
 				2159D0082711FABC005A2387 /* ContactBadge.swift in Sources */,
+				21B97E832A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift in Sources */,
 				21BD01BB29A1158F00C53F71 /* GradientButtonStyle.swift in Sources */,
 				21D7CF292982B7C7003E1277 /* EditConversationStarterView.swift in Sources */,
 				21C8BA0228E8D83F005298CE /* Log.swift in Sources */,
 				2106407C277E5E270065AD50 /* FollowUpsView.swift in Sources */,
 				218CAC58272F1B130048F54C /* ContactCardView.swift in Sources */,
 				21CB9CA1273F1A1600471C34 /* PhoneNumber.swift in Sources */,
+				21B97E852A5875DE00EE46EF /* DateMetView.swift in Sources */,
 				218B390927137FE2002720BC /* ContactsInteractor.swift in Sources */,
+				21B97E7C2A5863C700EE46EF /* ChipView.swift in Sources */,
 				21E69F8C299660000043F9FF /* AsyncButton.swift in Sources */,
 				21312191297ED14D00C9E1EE /* HeroMessageView.swift in Sources */,
 				21A102D529C3429E00EDAE78 /* Result+Additions.swift in Sources */,
 				21931B0D2960AD2C00A2CD8D /* Results+Additions.swift in Sources */,
 				21E69F85298EE8130043F9FF /* Assertion+Additions.swift in Sources */,
 				2106407A277DDCE90065AD50 /* FollowUpManager.swift in Sources */,
+				21DE77C12A4DF053007EA909 /* ActionButtonGridView.swift in Sources */,
 				219675A02A3A2160003C9A20 /* Color+Additions.swift in Sources */,
 				2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */,
-				21E69F8929924D240043F9FF /* Networking.swift in Sources */,
 				21312193297ED17B00C9E1EE /* LocalisedTextKey.swift in Sources */,
 				218B39062712240F002720BC /* Data+Additions.swift in Sources */,
 				2159D0162712081C005A2387 /* View+Additions.swift in Sources */,

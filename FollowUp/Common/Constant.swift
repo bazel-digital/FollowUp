@@ -180,4 +180,9 @@ enum Constant {
         
         static let defaultMaxTokenGenerationLength: Int = 1000
     }
+    
+    // MARK: - Notifications
+    enum Notification {
+        static let defaultNotificationTriggerHour: Int = 18
+    }
 }

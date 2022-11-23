@@ -22,10 +22,15 @@ final class FollowUpManager: ObservableObject {
 
     var contactsInteractor: ContactsInteracting
     private var subscriptions: Set<AnyCancellable> = .init()
+    private var notificationManager: NotificationManaging
+    
+    // MARK: - Public Properties
+    public var contactsInteractor: ContactsInteracting = ContactsInteractor()
 
     // MARK: - Initialization
     init(
         contactsInteractor: ContactsInteracting? = nil,
+        notificationManager: NotificationManaging = NotificationManager(),
         store: FollowUpStore? = nil,
         realmName: String = "followUpStore"
     ) {
@@ -38,6 +43,7 @@ final class FollowUpManager: ObservableObject {
         // If a follow up store has been passed as an argument, than this supercedes any store that we find in the realm.
         self.store = store ?? FollowUpStore(realm: realm)
 
+        self.notificationManager = notificationManager
         self.subscribeForNewContacts()
         self.objectWillChange.send()
     }
@@ -108,5 +114,21 @@ final class FollowUpManager: ObservableObject {
 //            return followUpStore
 //        }
 //    }
+    
+    // Notification Configuration
+    func configureNotifications() {
+        self.notificationManager.requestNotificationAuthorization()
+        self.scheduleFollowUpReminderNotification()
+    }
+    
+    func scheduleFollowUpReminderNotification() {
+        self.notificationManager.scheduleNotification(
+            forNumberOfAddedContacts: self.store.contacts(
+                metWithinTimeframe: .today
+                
+            ).count,
+            withConfiguration: .default
+        )
+    }
 
 }

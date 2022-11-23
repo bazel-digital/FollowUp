@@ -129,6 +129,8 @@ enum RelativeDateGrouping: CaseIterable, Hashable, Comparable {
     var dateInterval: DateInterval? {
         
         guard
+            let startOfToday = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: .now),
+            let endOfToday = Calendar.current.date(byAdding: .day, value: 1, to: startOfToday),
             let startOfPreviousWeek = Calendar.current.date(byAdding: .weekOfYear, value: -1, to: .now),
             let startOfLastMonthExcludingPreviousWeek = Calendar.current.date(byAdding: .month, value: -1, to: startOfPreviousWeek)
         else { return nil }

@@ -21,10 +21,13 @@ protocol FollowUpStoring: ObservableObject {
 
     func updateWithFetchedContacts(_ contacts: [any Contactable])
     func contact(forID contactID: ContactID) -> (any Contactable)?
-    func contacts(metWithinTimeframe timeFrame: DateGrouping) -> [Contactable]
+<<<<<<< HEAD
     func set(contactSearchQuery searchQuery: String)
     func set(tagSearchQuery searchQuery: String)
     func set(selectedTagSearchTokens tagSearchTokens: [Tag])
+=======
+    func contacts(metWithinTimeframe timeFrame: DateGrouping) -> [Contactable]
+>>>>>>> 87a8705 (Schedule local notification reminder for 6pm on app launch)
 }
 
 // MARK: - Default Implementations
@@ -124,22 +127,18 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     }
 
     // MARK: - Methods
-    func updateWithFetchedContacts(_ contacts: [any Contactable]) {
-        guard let realm = realm else { return }
-        
-        self.mergeWithContactsDictionary(contacts: contacts)
-        
-        let contactIDsToBeUpdated: [ContactID] = contacts.map(\.id)
-        let updatedContacts = self.contactsDictionary.values.filter { contactIDsToBeUpdated.contains($0.id) }
-        
-        do {
-            try realm.write {
-                realm.add(updatedContacts, update: .modified)
-                self.lastFetchedContacts = .now
-            }
-        } catch {
-            assertionFailurePreviewSafe("Unable to update Realm DB with \(contacts.count) newly fetched contacts: \(error.localizedDescription)")
-        }
+    mutating func updateWithFetchedContacts(_ contacts: [Contactable]) {
+        let mapped = contacts
+            .map(\.concrete)
+            .mappedToDictionary(by: \.id)
+        self.contactDictionary.merge(mapped, uniquingKeysWith: { first, second in
+            first.lastInteractedWith ?? .distantPast
+                >
+            second.lastInteractedWith ?? .distantPast
+            ? first
+            : second
+        })
+        self.lastFetchedContacts = .now
     }
     
     func contacts(metWithinTimeframe timeFrame: DateGrouping) -> [Contactable] {
@@ -147,15 +146,8 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             $0.dateGrouping == timeFrame
         })
     }
-    
-    func mergeWithContactsDictionary(contacts: [any Contactable]) {
-        self.contactsDictionary.merge(contacts.mappedToDictionary(by: \.id)) { first, second in
-            // Check to see when we last interacted with a contact. We use the most recently interacted with version.
-            // TODO: We should always start with the last interacted with contact, and then update all the other values (e.g. name, email, phone number, etc).
-            (first.lastInteractedWith ?? .distantPast) > (second.lastInteractedWith ?? .distantPast) ? first : second
-        }
-    }
 
+<<<<<<< HEAD
     func contact(forID contactID: ContactID) -> (any Contactable)? {
         guard
             let realm = realm,
@@ -282,6 +274,9 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         if let followUpSettings = self.realm?.objects(FollowUpSettings.self).first {
             self.settings = followUpSettings
             print("Loaded FollowUpSettings from realm.")
+//            try? self.realm?.write {
+//                self.settings.conversationStarters.append(.init(prompt: "Write a personalised WhatsApp invite to church.", context: "My name is Roberto.", platform: .whatsApp))
+//            }
         } else {
             print("FollowUpSettings not found in realm. Creating a new instance.")
             let followUpSettings = FollowUpSettings()
@@ -295,6 +290,19 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
                 assertionFailurePreviewSafe("Could not write new instance of FollowUpSettings to realm. \(error.localizedDescription)")
             }
         }
+=======
+//    private mutating func updateHighlightedAndFollowUps() {
+//        self.highlightedContacts = contacts.filter(\.highlighted)
+//        self.followUpContacts = contacts.filter(\.containedInFollowUps)
+//    }
+
+    func contact(forID contactID: ContactID) -> Contactable? {
+        self.contactDictionary[contactID]
+    }
+
+    init() {
+        
+>>>>>>> 87a8705 (Schedule local notification reminder for 6pm on app launch)
     }
     
 }

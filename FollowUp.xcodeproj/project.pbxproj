@@ -69,6 +69,8 @@
 		21A102D529C3429E00EDAE78 /* Result+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D429C3429E00EDAE78 /* Result+Additions.swift */; };
 		21A102D729C3589B00EDAE78 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D629C3589B00EDAE78 /* String+Additions.swift */; };
 		21A74CCD28F85C9400B9EAC1 /* DailyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */; };
+		21B7CAE7292ACCB000E0FDFD /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7CAE6292ACCB000E0FDFD /* NotificationManager.swift */; };
+		21B7CAE9292ACE9100E0FDFD /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7CAE8292ACE9100E0FDFD /* Localizer.swift */; };
 		21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7FEFE278091BA00138819 /* ContactListView.swift */; };
 		21B97E7C2A5863C700EE46EF /* ChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E7B2A5863C700EE46EF /* ChipView.swift */; };
 		21B97E812A586DB900EE46EF /* RegularConversationStarterEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E802A586DB900EE46EF /* RegularConversationStarterEditorView.swift */; };
@@ -172,6 +174,8 @@
 		21A102D429C3429E00EDAE78 /* Result+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Additions.swift"; sourceTree = "<group>"; };
 		21A102D629C3589B00EDAE78 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalView.swift; sourceTree = "<group>"; };
+		21B7CAE6292ACCB000E0FDFD /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		21B7CAE8292ACE9100E0FDFD /* Localizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizer.swift; sourceTree = "<group>"; };
 		21B7FEFE278091BA00138819 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
 		21B97E7B2A5863C700EE46EF /* ChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipView.swift; sourceTree = "<group>"; };
 		21B97E802A586DB900EE46EF /* RegularConversationStarterEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularConversationStarterEditorView.swift; sourceTree = "<group>"; };
@@ -360,6 +364,8 @@
 				21064075277D04950065AD50 /* ContactSheet.swift */,
 				21064079277DDCE90065AD50 /* FollowUpManager.swift */,
 				2115FCC428E8E83D001A6E4E /* ButtonAction.swift */,
+				21B7CAE6292ACCB000E0FDFD /* NotificationManager.swift */,
+				21B7CAE8292ACE9100E0FDFD /* Localizer.swift */,
 				2131219C297F007500C9E1EE /* FollowUpSettings.swift */,
 				2196759A2A3A2025003C9A20 /* Tag.swift */,
 			);
@@ -654,6 +660,7 @@
 				21CB9C9F273D311500471C34 /* CloseButton.swift in Sources */,
 				219675A22A3A2482003C9A20 /* TagsCarouselView.swift in Sources */,
 				218B3919271C9A0D002720BC /* ContactSheetView.swift in Sources */,
+				21B7CAE9292ACE9100E0FDFD /* Localizer.swift in Sources */,
 				2159D00B2711FC2A005A2387 /* Constant.swift in Sources */,
 				21FB24242774D2400078BABC /* UserDefaultsPersisted.swift in Sources */,
 				210378ED29A3CFD3001599EE /* IndividualFeatureView.swift in Sources */,
@@ -670,6 +677,7 @@
 				219F940128830408008980CB /* HighlightsTabView.swift in Sources */,
 				2131219D297F007500C9E1EE /* FollowUpSettings.swift in Sources */,
 				218B3917271C972B002720BC /* MockContactInteractor.swift in Sources */,
+				21B7CAE7292ACCB000E0FDFD /* NotificationManager.swift in Sources */,
 				2147644729AE64320098A789 /* StandardConversationStarter.swift in Sources */,
 				2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */,
 				21A102D129C33CCA00EDAE78 /* ChatCompletion.swift in Sources */,

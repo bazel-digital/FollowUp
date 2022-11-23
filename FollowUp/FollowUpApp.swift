@@ -7,6 +7,7 @@
 
 import Contacts
 import SwiftUI
+import UserNotifications
 
 @main
 struct FollowUpApp: App {
@@ -26,6 +27,7 @@ struct FollowUpApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(followUpManager)
+                .onAppear(perform: self.followUpManager.configureNotifications)
                 .environmentObject(followUpManager.store)
                 .environmentObject(followUpManager.store.settings)
             #if DEBUG

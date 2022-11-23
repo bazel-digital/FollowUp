@@ -9,6 +9,11 @@ import Foundation
 
 class MockFollowUpStore: FollowUpStoring {
     var contacts: [any Contactable] = []
+    
+    func contacts(metWithinTimeframe timeFrame: DateGrouping) -> [Contactable] {
+        return self.contacts.filter { $0.dateGrouping == timeFrame }
+    }
+    
     var dailyFollowUpGoal: Int? = nil
     var tagSearchQuery: String = ""
     var selectedTagSearchTokens: [Tag] = []
