@@ -69,6 +69,7 @@
 		21A102D529C3429E00EDAE78 /* Result+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D429C3429E00EDAE78 /* Result+Additions.swift */; };
 		21A102D729C3589B00EDAE78 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D629C3589B00EDAE78 /* String+Additions.swift */; };
 		21A74CCD28F85C9400B9EAC1 /* DailyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */; };
+		21B79DCF2941425A00DBB32A /* Date+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B79DCE2941425A00DBB32A /* Date+Additions.swift */; };
 		21B7CAE7292ACCB000E0FDFD /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7CAE6292ACCB000E0FDFD /* NotificationManager.swift */; };
 		21B7CAE9292ACE9100E0FDFD /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7CAE8292ACE9100E0FDFD /* Localizer.swift */; };
 		21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7FEFE278091BA00138819 /* ContactListView.swift */; };
@@ -174,6 +175,7 @@
 		21A102D429C3429E00EDAE78 /* Result+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Additions.swift"; sourceTree = "<group>"; };
 		21A102D629C3589B00EDAE78 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalView.swift; sourceTree = "<group>"; };
+		21B79DCE2941425A00DBB32A /* Date+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Additions.swift"; sourceTree = "<group>"; };
 		21B7CAE6292ACCB000E0FDFD /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		21B7CAE8292ACE9100E0FDFD /* Localizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizer.swift; sourceTree = "<group>"; };
 		21B7FEFE278091BA00138819 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 				218B390E271C6D5A002720BC /* Sequence+Additions.swift */,
 				21CB9CA4273F221C00471C34 /* Image+Additions.swift */,
 				21C8BA0328E8D97D005298CE /* Int+Additions.swift */,
+				21B79DCE2941425A00DBB32A /* Date+Additions.swift */,
 				21931B0C2960AD2C00A2CD8D /* Results+Additions.swift */,
 				21312194297ED1CF00C9E1EE /* Text+Additions.swift */,
 				21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */,
@@ -696,6 +699,7 @@
 				21CB9CA1273F1A1600471C34 /* PhoneNumber.swift in Sources */,
 				21B97E852A5875DE00EE46EF /* DateMetView.swift in Sources */,
 				218B390927137FE2002720BC /* ContactsInteractor.swift in Sources */,
+				21B79DCF2941425A00DBB32A /* Date+Additions.swift in Sources */,
 				21B97E7C2A5863C700EE46EF /* ChipView.swift in Sources */,
 				21E69F8C299660000043F9FF /* AsyncButton.swift in Sources */,
 				21312191297ED14D00C9E1EE /* HeroMessageView.swift in Sources */,

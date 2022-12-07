@@ -14,6 +14,7 @@ protocol NotificationManaging {
         withConfiguration configuration: NotificationConfiguration
     )
     func requestNotificationAuthorization(completion: @escaping () -> Void)
+    func clearScheduledNotifications()
 }
 
 extension NotificationManaging {
@@ -58,6 +59,10 @@ class NotificationManager: NotificationManaging {
             }
             completion()
         })
+    }
+
+    func clearScheduledNotifications() {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
 }
 

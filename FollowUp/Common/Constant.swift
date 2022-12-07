@@ -11,6 +11,9 @@ import SwiftUI
 import RealmSwift
 
 enum Constant {
+    
+    // MARK: - App Identifier
+    static let appIdentifier: String = "com.bazel.schedulenotifications"
 
     // MARK: - Padding
     static let verticalPadding: CGFloat = 10.0

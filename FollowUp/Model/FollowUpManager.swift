@@ -5,6 +5,7 @@
 //  Created by Aaron Baw on 30/12/2021.
 //
 
+import BackgroundTasks
 import Combine
 import Foundation
 import RealmSwift
@@ -118,7 +119,42 @@ final class FollowUpManager: ObservableObject {
     // Notification Configuration
     func configureNotifications() {
         self.notificationManager.requestNotificationAuthorization()
+        
+        BGTaskScheduler.shared.register(
+            forTaskWithIdentifier: Constant.appIdentifier,
+            using: nil,
+            launchHandler: { task in
+                guard let appRefreshTask = task as? BGAppRefreshTask else { return }
+                self.handleScheduledNotificationsBackgroundTask(appRefreshTask)
+            }
+        )
+        
+        self.scheduleBackgroundTaskForConfiguringNotifications(onDay: .now)
+        
         self.scheduleFollowUpReminderNotification()
+    }
+    
+    private func scheduleBackgroundTaskForConfiguringNotifications(onDay date: Date?) {
+        let date = date ?? .now
+
+        let backgroundTaskRequest = BGAppRefreshTaskRequest(identifier: Constant.appIdentifier)
+        
+        // Schedule the background task 30 minutes before the notification should be sheduled to the user.
+        let backgroundTaskDate = date
+            .setting(.hour, to: Constant.Notification.defaultNotificationTriggerHour - 1)?
+            .setting(.minute, to: 30)
+        
+        backgroundTaskRequest.earliestBeginDate = backgroundTaskDate
+        
+        // Schedule the task on a background queue as submission is a blocking procedure.
+        DispatchQueue.global(qos: .background).async {
+            do {
+                try BGTaskScheduler.shared.submit(backgroundTaskRequest)
+                print("Scheduled notification configuration background task for \(backgroundTaskDate?.description ?? "unknown date")")
+            } catch {
+                print("Could not submit background task to schedule notifications. \(error.localizedDescription)")
+            }
+        }
     }
     
     func scheduleFollowUpReminderNotification() {
@@ -129,6 +165,24 @@ final class FollowUpManager: ObservableObject {
             ).count,
             withConfiguration: .default
         )
+    }
+    
+    /// Contains the logic associated with a request to sechedule notifications while the app is running in the background.
+    private func handleScheduledNotificationsBackgroundTask(_ task: BGAppRefreshTask) {
+        task.expirationHandler = {
+            print("Could not register notifications.")
+        }
+        
+        // Clear current notifications.
+        self.notificationManager.clearScheduledNotifications()
+        
+        // Re-register notifications.
+        self.scheduleFollowUpReminderNotification()
+        
+        // Schedule a background task for tomorrow, at the same time.
+        self.scheduleBackgroundTaskForConfiguringNotifications(onDay: Date().adding(1, to: .day))
+        
+        task.setTaskCompleted(success: true)
     }
 
 }
