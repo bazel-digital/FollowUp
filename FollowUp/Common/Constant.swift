@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreGraphics
+import RealmSwift
 
 enum Constant {
 
@@ -44,7 +45,7 @@ enum Constant {
     }
 
     // MARK: - Icons
-    enum Icon: String {
+    enum Icon: String, PersistableEnum {
         case bolt = "bolt.fill"
         case chatBubbles = "bubble.left.and.bubble.right.fill"
         case checkmark = "checkmark"
@@ -63,6 +64,7 @@ enum Constant {
         case slashedStar = "star.slash.fill"
         case target = "target"
         case thumbsUp = "hand.thumbsup.fill"
+        case trash = "trash.fill"
         case whatsApp = "whatsAppIcon"
         case personWithCheckmark = "person.crop.circle.fill.badge.checkmark"
         case partyPopper = "party.popper.fill"
@@ -77,7 +79,7 @@ enum Constant {
 
         var kind: Kind {
             switch self {
-            case .bolt, .chatBubbles, .checkmark, .chevronRight, .clock, .closeOutline, .close, .email, .minus, .phone, .plus, .settings, .sms, .star, .starWithText, .slashedStar, .target, .thumbsUp, .personWithCheckmark, .partyPopper, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
+            case .bolt, .chatBubbles, .checkmark, .chevronRight, .clock, .closeOutline, .close, .email, .minus, .phone, .plus, .settings, .sms, .star, .starWithText, .slashedStar, .target, .thumbsUp, .trash, .personWithCheckmark, .partyPopper, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
             case .whatsApp: return .asset
             }
         }
@@ -104,6 +106,13 @@ enum Constant {
     // MARK: - Conversation Action Button
     enum ConversationActionButton {
         static let maxWidth: CGFloat = 200.0
+    }
+    
+    // MARK: - Tags
+    enum Tag {
+        static let horiztontalPadding: CGFloat = 10.0
+        static let verticalPadding: CGFloat = 5.0
+        static let cornerRadius: CGFloat = 5.0
     }
 
     // MARK: - Keys

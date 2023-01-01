@@ -18,6 +18,7 @@ protocol Contactable: Object, Identifiable {
     var email: String? { get }
     var thumbnailImage: UIImage? { get }
     var note: String? { get set }
+    var tags: RealmSwift.List<Tag> { get set }
     var followUps: Int { get set }
     var createDate: Date { get }
     var highlighted: Bool { get }
@@ -55,6 +56,7 @@ class Contact: Object, ObjectKeyIdentifiable, Contactable, Identifiable {
     @Persisted var phoneNumber: PhoneNumber?
     @Persisted var _thumbnailImageData: Data?
     @Persisted var email: String?
+    @Persisted var tags: RealmSwift.List<Tag>
     @Persisted var createDate: Date
     
     // MARK: - Protocol Conformance

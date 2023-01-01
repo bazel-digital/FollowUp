@@ -20,6 +20,7 @@ final class MockedContact: Object, Contactable {
     @Persisted var name: String = faker.name.name()
     @Persisted var phoneNumber: PhoneNumber? = .mocked
     @Persisted var email: String? = faker.internet.email()
+    @Persisted var tags: RealmSwift.List<Tag>
     var thumbnailImage: UIImage? = nil
     @Persisted var note: String? = faker.hobbit.quote()
     @Persisted var followUps: Int = faker.number.randomInt(min: 0, max: 10)
@@ -47,6 +48,7 @@ extension Contactable where Self == Contact {
     static var mockedFollowedUpToday: any Contactable {
         var contact = MockedContact()
         contact.lastFollowedUp = .now
+        contact.tags.append(objectsIn: [Tag(title: "Gym"), Tag(title: "AMS")])
         return contact
     }
 }

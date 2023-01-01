@@ -76,7 +76,7 @@ struct SettingsSheetView: View {
                         
                     })
                 })
-                .onDelete(perform: self.settings.removeConversationStareters(atOffsets:))
+                .onDelete(perform: self.settings.removeConversationStarters(atOffsets:))
                 .onMove(perform: self.settings.moveConversationStarters(fromOffsets:toOffset:))
                 
             }

@@ -62,8 +62,8 @@
             filePath = "FollowUp/Interactors/ContactsInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "displayContactSheet(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -238,8 +238,8 @@
             filePath = "FollowUp/Interactors/ContactsInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "addToFollowUps(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "FollowUp/Interactors/ContactsInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
             landmarkName = "processABContacts()"
             landmarkType = "7">
          </BreakpointContent>
@@ -290,6 +290,38 @@
             endingLineNumber = "107"
             landmarkName = "groupingSelectionSectionView"
             landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "1DADEF12-CB65-4210-AD92-901FC8F0B1C4 - ca8b90b1fe36b002"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; SwiftUI.ForEach&lt;Swift.Array&lt;FollowUp.FollowUpSettings.ContactListGrouping&gt;, FollowUp.FollowUpSettings.ContactListGrouping, SwiftUI.Text&gt; in closure #1 () -&gt; SwiftUI.Picker&lt;SwiftUI.Text, FollowUp.FollowUpSettings.ContactListGrouping, SwiftUI.ForEach&lt;Swift.Array&lt;FollowUp.FollowUpSettings.ContactListGrouping&gt;, FollowUp.FollowUpSettings.ContactListGrouping, SwiftUI.Text&gt;&gt; in FollowUp.SettingsSheetView.groupingSelectionSectionView.getter : some"
+                  moduleName = "FollowUp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aaronbaw/Code/FollowUp/FollowUp/Views/SettingsSheetView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "107"
+                  endingLineNumber = "107"
+                  offsetFromSymbolStart = "148">
+               </Location>
+               <Location
+                  uuid = "1DADEF12-CB65-4210-AD92-901FC8F0B1C4 - 5235d471248c38d7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (FollowUp.FollowUpSettings.ContactListGrouping) -&gt; SwiftUI.Text in closure #1 () -&gt; SwiftUI.ForEach&lt;Swift.Array&lt;FollowUp.FollowUpSettings.ContactListGrouping&gt;, FollowUp.FollowUpSettings.ContactListGrouping, SwiftUI.Text&gt; in closure #1 () -&gt; SwiftUI.Picker&lt;SwiftUI.Text, FollowUp.FollowUpSettings.ContactListGrouping, SwiftUI.ForEach&lt;Swift.Array&lt;FollowUp.FollowUpSettings.ContactListGrouping&gt;, FollowUp.FollowUpSettings.ContactListGrouping, SwiftUI.Text&gt;&gt; in FollowUp.SettingsSheetView.groupingSelectionSectionView.getter : some"
+                  moduleName = "FollowUp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aaronbaw/Code/FollowUp/FollowUp/Views/SettingsSheetView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "108"
+                  endingLineNumber = "108"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -322,22 +354,6 @@
             endingLineNumber = "146"
             landmarkName = "remove(tag:from:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D88E52ED-F279-4EF9-A939-1AD7C67D8A35"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FollowUp/Model/FollowUpStore.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "sortedContacts"
-            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

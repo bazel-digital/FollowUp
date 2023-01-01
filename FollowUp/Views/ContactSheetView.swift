@@ -184,6 +184,10 @@ struct ContactSheetView: View {
         }
     }
     
+    private var tagsView: some View {
+        TagsCarouselView(contact: contact)
+    }
+    
     var modalContactSheetView: some View {
         VStack(spacing: verticalSpacing) {
 
@@ -209,6 +213,8 @@ struct ContactSheetView: View {
                     .padding(.top)
             }
             
+            
+            tagsView
             Spacer()
             startAConversationRowView
             Spacer()
@@ -257,6 +263,7 @@ struct ContactModalView_Previews: PreviewProvider {
             ContactSheetView(kind: .modal, sheet: MockedContact(id: "0").sheet, onClose: { })
                 .preferredColorScheme(.dark)
         }
-//        .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
+        .environmentObject(FollowUpManager())
+        .environmentObject(FollowUpStore())
     }
 }

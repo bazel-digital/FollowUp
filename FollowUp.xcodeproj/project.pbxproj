@@ -53,6 +53,10 @@
 		218B391B271C9A3B002720BC /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B391A271C9A3B002720BC /* BadgeView.swift */; };
 		218CAC58272F1B130048F54C /* ContactCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218CAC57272F1B130048F54C /* ContactCardView.swift */; };
 		21931B0D2960AD2C00A2CD8D /* Results+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21931B0C2960AD2C00A2CD8D /* Results+Additions.swift */; };
+		2196759B2A3A2025003C9A20 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196759A2A3A2025003C9A20 /* Tag.swift */; };
+		2196759E2A3A20A5003C9A20 /* TagChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196759D2A3A20A5003C9A20 /* TagChipView.swift */; };
+		219675A02A3A2160003C9A20 /* Color+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196759F2A3A2160003C9A20 /* Color+Additions.swift */; };
+		219675A22A3A2482003C9A20 /* TagsCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219675A12A3A2482003C9A20 /* TagsCarouselView.swift */; };
 		219F940128830408008980CB /* HighlightsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F940028830408008980CB /* HighlightsTabView.swift */; };
 		21A102D729C3589B00EDAE78 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D629C3589B00EDAE78 /* String+Additions.swift */; };
 		21A74CCD28F85C9400B9EAC1 /* DailyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */; };
@@ -135,6 +139,10 @@
 		218B391A271C9A3B002720BC /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		218CAC57272F1B130048F54C /* ContactCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCardView.swift; sourceTree = "<group>"; };
 		21931B0C2960AD2C00A2CD8D /* Results+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Results+Additions.swift"; sourceTree = "<group>"; };
+		2196759A2A3A2025003C9A20 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		2196759D2A3A20A5003C9A20 /* TagChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagChipView.swift; sourceTree = "<group>"; };
+		2196759F2A3A2160003C9A20 /* Color+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Additions.swift"; sourceTree = "<group>"; };
+		219675A12A3A2482003C9A20 /* TagsCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCarouselView.swift; sourceTree = "<group>"; };
 		219F940028830408008980CB /* HighlightsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightsTabView.swift; sourceTree = "<group>"; };
 		21A102D629C3589B00EDAE78 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalView.swift; sourceTree = "<group>"; };
@@ -260,6 +268,7 @@
 		2159CFFF2711F4AE005A2387 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2196759C2A3A208E003C9A20 /* Tags */,
 				2159CFD62711F49C005A2387 /* ContentView.swift */,
 				2159D0002711F4C5005A2387 /* NewContactsView.swift */,
 				2159D0052711F887005A2387 /* ContactRowView.swift */,
@@ -296,6 +305,7 @@
 				2115FCC428E8E83D001A6E4E /* ButtonAction.swift */,
 				2131219C297F007500C9E1EE /* FollowUpSettings.swift */,
 				21D7CF262982AD4F003E1277 /* ConversationStarter.swift */,
+				2196759A2A3A2025003C9A20 /* Tag.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -332,6 +342,7 @@
 				21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */,
 				21E69F84298EE8130043F9FF /* Assertion+Additions.swift */,
 				21A102D629C3589B00EDAE78 /* String+Additions.swift */,
+				2196759F2A3A2160003C9A20 /* Color+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -359,6 +370,15 @@
 				21064077277DDCA90065AD50 /* MockFollowUpStore.swift */,
 			);
 			path = Mock;
+			sourceTree = "<group>";
+		};
+		2196759C2A3A208E003C9A20 /* Tags */ = {
+			isa = PBXGroup;
+			children = (
+				2196759D2A3A20A5003C9A20 /* TagChipView.swift */,
+				219675A12A3A2482003C9A20 /* TagsCarouselView.swift */,
+			);
+			path = Tags;
 			sourceTree = "<group>";
 		};
 		21FB24222774D2370078BABC /* Utility */ = {
@@ -523,7 +543,9 @@
 				21CB9CA5273F221C00471C34 /* Image+Additions.swift in Sources */,
 				21312195297ED1CF00C9E1EE /* Text+Additions.swift in Sources */,
 				21312199297EDEF200C9E1EE /* SettingsSheetView.swift in Sources */,
+				2196759B2A3A2025003C9A20 /* Tag.swift in Sources */,
 				21CB9C9F273D311500471C34 /* CloseButton.swift in Sources */,
+				219675A22A3A2482003C9A20 /* TagsCarouselView.swift in Sources */,
 				218B3919271C9A0D002720BC /* ContactSheetView.swift in Sources */,
 				2159D00B2711FC2A005A2387 /* Constant.swift in Sources */,
 				21FB24242774D2400078BABC /* UserDefaultsPersisted.swift in Sources */,
@@ -554,12 +576,14 @@
 				21931B0D2960AD2C00A2CD8D /* Results+Additions.swift in Sources */,
 				21E69F85298EE8130043F9FF /* Assertion+Additions.swift in Sources */,
 				2106407A277DDCE90065AD50 /* FollowUpManager.swift in Sources */,
+				219675A02A3A2160003C9A20 /* Color+Additions.swift in Sources */,
 				2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */,
 				21312193297ED17B00C9E1EE /* LocalisedTextKey.swift in Sources */,
 				218B39062712240F002720BC /* Data+Additions.swift in Sources */,
 				2159D0162712081C005A2387 /* View+Additions.swift in Sources */,
 				218B391B271C9A3B002720BC /* BadgeView.swift in Sources */,
 				21A102D729C3589B00EDAE78 /* String+Additions.swift in Sources */,
+				2196759E2A3A20A5003C9A20 /* TagChipView.swift in Sources */,
 				2159D0012711F4C5005A2387 /* NewContactsView.swift in Sources */,
 				2159D0062711F887005A2387 /* ContactRowView.swift in Sources */,
 				2159D00D27120230005A2387 /* Mock.swift in Sources */,
