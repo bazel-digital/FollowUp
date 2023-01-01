@@ -11,12 +11,13 @@
 		21064078277DDCA90065AD50 /* MockFollowUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21064077277DDCA90065AD50 /* MockFollowUpStore.swift */; };
 		2106407A277DDCE90065AD50 /* FollowUpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21064079277DDCE90065AD50 /* FollowUpManager.swift */; };
 		2106407C277E5E270065AD50 /* FollowUpsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2106407B277E5E270065AD50 /* FollowUpsView.swift */; };
+		210A6213295014040064EB8A /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 210A6212295014040064EB8A /* Realm */; };
+		210A6215295014040064EB8A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 210A6214295014040064EB8A /* RealmSwift */; };
 		2115FCC328E8E732001A6E4E /* ConversationActionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115FCC228E8E732001A6E4E /* ConversationActionButtonView.swift */; };
 		2115FCC528E8E83D001A6E4E /* ButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115FCC428E8E83D001A6E4E /* ButtonAction.swift */; };
 		21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21379043275AE6EE004059F4 /* FollowUpStore.swift */; };
 		21379047275AE82B004059F4 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379046275AE82B004059F4 /* Collections */; };
 		21379049275AE82B004059F4 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379048275AE82B004059F4 /* OrderedCollections */; };
-		2137904B275D2665004059F4 /* UIImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2137904A275D2665004059F4 /* UIImage+Additions.swift */; };
 		2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD42711F49C005A2387 /* FollowUpApp.swift */; };
 		2159CFD72711F49C005A2387 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD62711F49C005A2387 /* ContentView.swift */; };
 		2159CFD92711F49D005A2387 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2159CFD82711F49D005A2387 /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		218B3919271C9A0D002720BC /* ContactSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B3918271C9A0C002720BC /* ContactSheetView.swift */; };
 		218B391B271C9A3B002720BC /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B391A271C9A3B002720BC /* BadgeView.swift */; };
 		218CAC58272F1B130048F54C /* ContactCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218CAC57272F1B130048F54C /* ContactCardView.swift */; };
+		21931B0D2960AD2C00A2CD8D /* Results+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21931B0C2960AD2C00A2CD8D /* Results+Additions.swift */; };
 		219F940128830408008980CB /* HighlightsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F940028830408008980CB /* HighlightsTabView.swift */; };
 		21A74CCD28F85C9400B9EAC1 /* DailyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */; };
 		21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7FEFE278091BA00138819 /* ContactListView.swift */; };
@@ -80,7 +82,6 @@
 		2115FCC228E8E732001A6E4E /* ConversationActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationActionButtonView.swift; sourceTree = "<group>"; };
 		2115FCC428E8E83D001A6E4E /* ButtonAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonAction.swift; sourceTree = "<group>"; };
 		21379043275AE6EE004059F4 /* FollowUpStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpStore.swift; sourceTree = "<group>"; };
-		2137904A275D2665004059F4 /* UIImage+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Additions.swift"; sourceTree = "<group>"; };
 		2159CFD12711F49C005A2387 /* FollowUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FollowUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2159CFD42711F49C005A2387 /* FollowUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpApp.swift; sourceTree = "<group>"; };
 		2159CFD62711F49C005A2387 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -112,6 +113,7 @@
 		218B3918271C9A0C002720BC /* ContactSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSheetView.swift; sourceTree = "<group>"; };
 		218B391A271C9A3B002720BC /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		218CAC57272F1B130048F54C /* ContactCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCardView.swift; sourceTree = "<group>"; };
+		21931B0C2960AD2C00A2CD8D /* Results+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Results+Additions.swift"; sourceTree = "<group>"; };
 		219F940028830408008980CB /* HighlightsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightsTabView.swift; sourceTree = "<group>"; };
 		21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalView.swift; sourceTree = "<group>"; };
 		21B7FEFE278091BA00138819 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
@@ -131,6 +133,8 @@
 			files = (
 				21379047275AE82B004059F4 /* Collections in Frameworks */,
 				2159D01027120349005A2387 /* Fakery in Frameworks */,
+				210A6213295014040064EB8A /* Realm in Frameworks */,
+				210A6215295014040064EB8A /* RealmSwift in Frameworks */,
 				21379049275AE82B004059F4 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,8 +283,8 @@
 				218B390A2718CB50002720BC /* EnvironmentValues+Additions.swift */,
 				218B390E271C6D5A002720BC /* Sequence+Additions.swift */,
 				21CB9CA4273F221C00471C34 /* Image+Additions.swift */,
-				2137904A275D2665004059F4 /* UIImage+Additions.swift */,
 				21C8BA0328E8D97D005298CE /* Int+Additions.swift */,
+				21931B0C2960AD2C00A2CD8D /* Results+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -339,6 +343,8 @@
 				2159D00F27120349005A2387 /* Fakery */,
 				21379046275AE82B004059F4 /* Collections */,
 				21379048275AE82B004059F4 /* OrderedCollections */,
+				210A6212295014040064EB8A /* Realm */,
+				210A6214295014040064EB8A /* RealmSwift */,
 			);
 			productName = FollowUp;
 			productReference = 2159CFD12711F49C005A2387 /* FollowUp.app */;
@@ -414,6 +420,7 @@
 			packageReferences = (
 				2159D00E27120349005A2387 /* XCRemoteSwiftPackageReference "Fakery" */,
 				21379045275AE82B004059F4 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				210A6211295014040064EB8A /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 2159CFD22711F49C005A2387 /* Products */;
 			projectDirPath = "";
@@ -468,7 +475,6 @@
 				21CB9C9F273D311500471C34 /* CloseButton.swift in Sources */,
 				218B3919271C9A0D002720BC /* ContactSheetView.swift in Sources */,
 				2159D00B2711FC2A005A2387 /* Constant.swift in Sources */,
-				2137904B275D2665004059F4 /* UIImage+Additions.swift in Sources */,
 				21FB24242774D2400078BABC /* Persisted.swift in Sources */,
 				21064078277DDCA90065AD50 /* MockFollowUpStore.swift in Sources */,
 				21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */,
@@ -488,6 +494,7 @@
 				218CAC58272F1B130048F54C /* ContactCardView.swift in Sources */,
 				21CB9CA1273F1A1600471C34 /* PhoneNumber.swift in Sources */,
 				218B390927137FE2002720BC /* ContactsInteractor.swift in Sources */,
+				21931B0D2960AD2C00A2CD8D /* Results+Additions.swift in Sources */,
 				2106407A277DDCE90065AD50 /* FollowUpManager.swift in Sources */,
 				2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */,
 				218B39062712240F002720BC /* Data+Additions.swift in Sources */,
@@ -817,6 +824,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		210A6211295014040064EB8A /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.33.0;
+			};
+		};
 		21379045275AE82B004059F4 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
@@ -836,6 +851,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		210A6212295014040064EB8A /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 210A6211295014040064EB8A /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		210A6214295014040064EB8A /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 210A6211295014040064EB8A /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
 		21379046275AE82B004059F4 /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 21379045275AE82B004059F4 /* XCRemoteSwiftPackageReference "swift-collections" */;

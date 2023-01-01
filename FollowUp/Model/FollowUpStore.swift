@@ -8,69 +8,105 @@
 import Collections
 import Combine
 import Foundation
+import Realm
+import RealmSwift
 import SwiftUI
 
-protocol FollowUpStoring: Codable {
-    var contacts: [Contactable] { get }
-    var highlightedContacts: [Contactable] { get }
-    var followUpContacts: [Contactable] { get }
+protocol FollowUpStoring {
+    var contacts: [any Contactable] { get }
+    var highlightedContacts: [any Contactable] { get }
+    var followUpContacts: [any Contactable] { get }
     var followedUpToday: Int { get }
     var dailyFollowUpGoal: Int? { get }
 
-    mutating func updateWithFetchedContacts(_ contacts: [Contactable])
-    func contact(forID contactID: ContactID) -> Contactable?
+    mutating func updateWithFetchedContacts(_ contacts: [any Contactable])
+    func contact(forID contactID: ContactID) -> (any Contactable)?
 }
 
 // MARK: - Default Implementations
 extension FollowUpStoring {
-    var highlightedContacts: [Contactable] { contacts.filter(\.highlighted) }
-    var followUpContacts: [Contactable] { contacts.filter(\.containedInFollowUps) }
+    var highlightedContacts: [any Contactable] { contacts.filter(\.highlighted) }
+    var followUpContacts: [any Contactable] { contacts.filter(\.containedInFollowUps) }
     var followedUpToday: Int { contacts.filter(\.hasBeenFollowedUpToday).count }
 }
 
-struct FollowUpStore: FollowUpStoring, RawRepresentable {
+extension ObjectId: _MapKey { }
+
+class FollowUpStore: Object, ObjectKeyIdentifiable, FollowUpStoring {
     
     // MARK: - Stored Properties
-    private var contactDictionary: [String: Contact] = [:] {
-        didSet {
-//            self.updateHighlightedAndFollowUps()
-            self.contacts = contactDictionary.values.map { $0 }
-        }
+//    var contactDictionary: RealmSwift.Map<String, Contact?> = .init() {
+//        didSet {
+//            self.contacts = contactDictionary.values.compactMap { $0 }
+//        }
+//    }
+    @Persisted var dailyFollowUpGoal: Int? = 10
+    @Persisted var lastFetchedContacts: Date
+    
+    @Published var _contacts: Results<Contact>?
+    var contacts: [any Contactable] {
+        self._contacts?.array ?? []
     }
-    var contacts: [Contactable] = []
-    var dailyFollowUpGoal: Int? = 10
-    private var lastFetchedContacts: Date?
+    
+    var contactsNotificationToken: NotificationToken?
 
     // MARK: - Static Properties
     private static var encoder = JSONEncoder()
     private static var decoder = JSONDecoder()
 
     // MARK: - Methods
-    mutating func updateWithFetchedContacts(_ contacts: [Contactable]) {
-        let mapped = contacts
-            .map(\.concrete)
-            .mappedToDictionary(by: \.id)
-        self.contactDictionary.merge(mapped, uniquingKeysWith: { first, second in
-            first.lastInteractedWith ?? .distantPast
-                >
-            second.lastInteractedWith ?? .distantPast
-            ? first
-            : second
-        })
-        self.lastFetchedContacts = .now
-    }
-
-//    private mutating func updateHighlightedAndFollowUps() {
-//        self.highlightedContacts = contacts.filter(\.highlighted)
-//        self.followUpContacts = contacts.filter(\.containedInFollowUps)
+//    func updateWithFetchedContacts(_ contacts: [Contactable]) {
+//        let mapped = contacts
+//            .map(\.concrete)
+//            .mappedToDictionary(by: \.contactID)
+//
+//        try? self.realm?.write {
+//            self.contactDictionary.merge(mapped, uniquingKeysWith: { first, second in
+//                first?.lastInteractedWith ?? .distantPast
+//                >
+//                second?.lastInteractedWith ?? .distantPast
+//                ? first
+//                : second
+//            })
+//            self.lastFetchedContacts = .now
+//
+//        }
 //    }
-
-    func contact(forID contactID: ContactID) -> Contactable? {
-        self.contactDictionary[contactID]
+    
+    func updateWithFetchedContacts(_ contacts: [any Contactable]) {
+        guard let realm = realm else { return }
+        do {
+            try realm.write {
+                realm.add(contacts, update: .modified)
+            }
+        } catch {
+            print("Unable to update Realm DB with \(contacts.count) newly fetched contacts: \(error.localizedDescription)")
+        }
     }
 
-    init() {
-        
+
+    func contact(forID contactID: ContactID) -> (any Contactable)? {
+//        self.contactDictionary[contactID] ?? nil
+        guard
+            let realm = realm,
+            let contact = realm.object(ofType: Contact.self, forPrimaryKey: contactID)
+        else {
+            print("Unable to find contact for ID \(contactID)")
+            return nil
+        }
+
+        return contact
+    }
+    
+    func configureObserver() {
+        guard let realm = realm else {
+            print("Could not find realm in order to configure contacts observer.")
+            return
+        }
+        let observedContacts = realm.objects(Contact.self)
+        self.contactsNotificationToken = observedContacts.observe { [weak self] _ in
+            self?._contacts = observedContacts
+        }
     }
 
     // MARK: - CodingKeys
@@ -80,36 +116,27 @@ struct FollowUpStore: FollowUpStoring, RawRepresentable {
     }
 
     // MARK: - Codable Conformance
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(contactDictionary, forKey: .contactDictionary)
-        try container.encode(lastFetchedContacts, forKey: .lastFetchedContacts)
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.contactDictionary = try container.decode([String:Contact].self, forKey: .contactDictionary)
-        self.lastFetchedContacts = try container.decodeIfPresent(Date.self, forKey: .lastFetchedContacts)
-        self.contacts = self.contactDictionary.values.map { $0 }
-    }
+//    func encode(to encoder: Encoder) throws {
+//        var container = encoder.container(keyedBy: CodingKeys.self)
+//        try container.encode(contactDictionary, forKey: .contactDictionary)
+//        try container.encode(lastFetchedContacts, forKey: .lastFetchedContacts)
+//    }
+//
+//    required init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        self.contactDictionary = try container.decode([ContactID:Contact].self, forKey: .contactDictionary)
+//        self.lastFetchedContacts = try container.decodeIfPresent(Date.self, forKey: .lastFetchedContacts)
+//        self.contacts = self.contactDictionary.values.map { $0 }
+//    }
 
     // MARK: - RawRepresentable Conformance
-    var rawValue: String {
-        guard
-            let data = try? Self.encoder.encode(self),
-            let string = String(data: data, encoding: .utf8)
-        else { return .defaultFollowUpStoreString }
-        return string
-    }
-
-    init?(rawValue: String) {
-        guard
-            let data = rawValue.data(using: .utf8),
-            let followUpStore = try? Self.decoder.decode(FollowUpStore.self, from: data)
-        else { return nil }
-        self.contactDictionary = followUpStore.contactDictionary
-        self.lastFetchedContacts = followUpStore.lastFetchedContacts
-    }
+//    var rawValue: String {
+//        guard
+//            let data = try? Self.encoder.encode(self),
+//            let string = String(data: data, encoding: .utf8)
+//        else { return .defaultFollowUpStoreString }
+//        return string
+//    }
 }
 
 fileprivate extension String {

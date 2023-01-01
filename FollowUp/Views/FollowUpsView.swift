@@ -24,7 +24,7 @@ struct FollowUpsView: View {
         followUpManager.store.highlightedContacts.map(\.concrete)
     }
 
-    private var sortedContacts: [Contactable] {
+    private var sortedContacts: [any Contactable] {
         followUpManager
                     .store
                     .followUpContacts

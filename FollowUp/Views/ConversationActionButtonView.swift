@@ -21,7 +21,7 @@ struct ConversationActionButtonView: View {
     }
 
     var type: ActionType
-    var contact: Contactable
+    var contact: any Contactable
     var prefilledText: String
 
     var maxWidth: CGFloat = Constant.ConversationActionButton.maxWidth
@@ -53,7 +53,7 @@ struct ConversationActionButtonView: View {
     func buttonAction(
         forType type: ActionType,
         prefilledText: String,
-        contact: Contactable
+        contact: any Contactable
     ) -> ButtonAction? {
         switch type {
         case .whatsApp:
@@ -65,7 +65,7 @@ struct ConversationActionButtonView: View {
 
     private func formattedText(
         forPrefilledText prefilledText: String,
-        withContact contact: Contactable
+        withContact contact: any Contactable
     ) -> String {
         prefilledText.replacingOccurrences(of: "<NAME>", with: contact.firstName)
     }

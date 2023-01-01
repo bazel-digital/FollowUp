@@ -23,6 +23,11 @@ struct FollowUpApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(followUpManager)
+            #if DEBUG
+                .onAppear {
+                    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
+                }
+            #endif
         }
     }
 }

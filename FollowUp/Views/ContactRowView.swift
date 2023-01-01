@@ -13,7 +13,7 @@ struct ContactRowView: View {
     @EnvironmentObject var followUpManager: FollowUpManager
 
     // MARK: - Stored Properties
-    var contact: Contactable
+    var contact: any Contactable
     var verticalPadding: CGFloat = Constant.verticalPadding
     var cornerRadius: CGFloat = Constant.cornerRadius
     var size: Constant.ContactBadge.Size = .small
@@ -113,7 +113,7 @@ struct ContactRowView: View {
     }
 
     init(
-        contact: Contactable,
+        contact: any Contactable,
         verticalPadding: CGFloat = Constant.verticalPadding,
         cornerRadius: CGFloat = Constant.cornerRadius
     ) {

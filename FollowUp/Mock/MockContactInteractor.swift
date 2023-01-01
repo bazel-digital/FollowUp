@@ -11,9 +11,9 @@ import Foundation
 class MockContactsInteractor: ContactsInteracting, ObservableObject {
     @Published var contactSheet: ContactSheet?
 
-    @Published var contacts: [Contactable] = []
+    @Published var contacts: [any Contactable] = []
     
-    var contactsPublisher: AnyPublisher<[Contactable], Never> {
+    var contactsPublisher: AnyPublisher<[any Contactable], Never> {
         $contacts.eraseToAnyPublisher()
     }
 
@@ -34,33 +34,33 @@ class MockContactsInteractor: ContactsInteracting, ObservableObject {
         self.contacts.append(contentsOf: generateContacts(withCount: 10))
     }
 
-    private func generateContacts(withCount count: Int) -> [Contactable] {
+    private func generateContacts(withCount count: Int) -> [any Contactable] {
         (0...count).map { _ in MockedContact() }
     }
 
     // MARK: - Public Methods
 
-    func highlight(_ contact: Contactable) {
+    func highlight(_ contact: any Contactable) {
         
     }
     
-    func unhighlight(_ contact: Contactable) {
+    func unhighlight(_ contact: any Contactable) {
         
     }
     
-    func addToFollowUps(_ contact: Contactable) {
+    func addToFollowUps(_ contact: any Contactable) {
         
     }
     
-    func removeFromFollowUps(_ contact: Contactable) {
+    func removeFromFollowUps(_ contact: any Contactable) {
         
     }
     
-    func markAsFollowedUp(_ contact: Contactable) {
+    func markAsFollowedUp(_ contact: any Contactable) {
         
     }
 
-    func displayContactSheet(_ contact: Contactable) {
+    func displayContactSheet(_ contact: any Contactable) {
         self.contactSheet = contact.sheet
     }
 
@@ -68,7 +68,7 @@ class MockContactsInteractor: ContactsInteracting, ObservableObject {
         self.contactSheet = nil
     }
 
-    func dismiss(_ contact: Contactable) {
+    func dismiss(_ contact: any Contactable) {
         
     }
 }

@@ -5,24 +5,26 @@
 //  Created by Aaron Baw on 09/10/2021.
 //
 
+import RealmSwift
 import SwiftUI
 
 struct NewContactsView: View {
 
-    @State var contacts: [Contactable] = []
+    @State var contacts: [any Contactable] = []
     @State private var contactSheet: ContactSheet?
 
     @EnvironmentObject var followUpManager: FollowUpManager
+    @ObservedResults(Contact.self, sortDescriptor: .init(keyPath: "createDate", ascending: true)) var sortedContacts
 
     // MARK: - Computed Properties
 
-    private var sortedContacts: [Contactable] {
-        followUpManager
-                    .store
-                    .contacts
-                    .sorted(by: \.createDate)
-                    .reversed()
-    }
+//    private var sortedContacts: [Contactable] {
+//        followUpManager
+//                    .store
+//                    .contacts
+//                    .sorted(by: \.createDate)
+//                    .reversed()
+//    }
 
     private var contactSections: [ContactSection] {
         sortedContacts
