@@ -74,7 +74,7 @@ struct DailyGoalView: View {
         }
         .frame(maxWidth: .greatestFiniteMagnitude)
         .padding()
-        .background(Color(.systemBackground))
+        .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(cornerRadius)
     }
 }
