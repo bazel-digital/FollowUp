@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MockFollowUpStore: FollowUpStoring {
+class MockFollowUpStore: FollowUpStoring {
     var contacts: [any Contactable] = []
     var dailyFollowUpGoal: Int? = nil
     

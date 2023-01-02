@@ -11,20 +11,18 @@ import SwiftUI
 struct NewContactsView: View {
 
     @State var contacts: [any Contactable] = []
-    @State private var contactSheet: ContactSheet?
-
-    @EnvironmentObject var followUpManager: FollowUpManager
-    @ObservedResults(Contact.self, sortDescriptor: .init(keyPath: "createDate", ascending: true)) var sortedContacts
+    @ObservedObject var store: FollowUpStore
+    
+    var contactsInteractor: ContactsInteracting
 
     // MARK: - Computed Properties
 
-//    private var sortedContacts: [Contactable] {
-//        followUpManager
-//                    .store
-//                    .contacts
-//                    .sorted(by: \.createDate)
-//                    .reversed()
-//    }
+    private var sortedContacts: [any Contactable] {
+        store
+            .contacts
+            .sorted(by: \.createDate)
+            .reversed()
+    }
 
     private var contactSections: [ContactSection] {
         sortedContacts
@@ -50,22 +48,12 @@ struct NewContactsView: View {
         ContactListView(contactSetions: contactSections)
             .task {
                 await self
-                    .followUpManager
+                    .contactsInteractor
                     .fetchContacts()
             }
-            .sheet(item: $contactSheet, onDismiss: {
-                followUpManager.contactsInteractor.hideContactSheet()
-            }, content: {
-                ContactSheetView(
-                    kind: .modal,
-                    sheet: $0,
-                    onClose: {
-                        followUpManager.contactsInteractor.hideContactSheet()
-                    })
-            })
-            .onReceive(followUpManager.contactsInteractor.contactSheetPublisher, perform: {
-                self.contactSheet = $0
-            })
+//            .onReceive(contactsInteractor.contactSheetPublisher, perform: {
+//                self.contactSheet = $0
+//            })
             .animation(.easeInOut, value: contacts.count)
             .animation(.easeInOut, value: newContactsCount)
     }
@@ -74,7 +62,7 @@ struct NewContactsView: View {
 
 struct NewContactsView_Previews: PreviewProvider {
     static var previews: some View {
-        NewContactsView()
-            .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 4)))
+        NewContactsView(store: FollowUpStore(), contactsInteractor: ContactsInteractor(realm: nil))
+//            .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 4)))
     }
 }

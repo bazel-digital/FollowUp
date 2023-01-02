@@ -12,14 +12,14 @@ import Realm
 import RealmSwift
 import SwiftUI
 
-protocol FollowUpStoring {
+protocol FollowUpStoring: ObservableObject {
     var contacts: [any Contactable] { get }
     var highlightedContacts: [any Contactable] { get }
     var followUpContacts: [any Contactable] { get }
     var followedUpToday: Int { get }
     var dailyFollowUpGoal: Int? { get }
 
-    mutating func updateWithFetchedContacts(_ contacts: [any Contactable])
+    func updateWithFetchedContacts(_ contacts: [any Contactable])
     func contact(forID contactID: ContactID) -> (any Contactable)?
 }
 
@@ -32,61 +32,68 @@ extension FollowUpStoring {
 
 extension ObjectId: _MapKey { }
 
-class FollowUpStore: Object, ObjectKeyIdentifiable, FollowUpStoring {
+class FollowUpStore: FollowUpStoring, ObservableObject {
     
     // MARK: - Stored Properties
-//    var contactDictionary: RealmSwift.Map<String, Contact?> = .init() {
-//        didSet {
-//            self.contacts = contactDictionary.values.compactMap { $0 }
-//        }
-//    }
-    @Persisted var dailyFollowUpGoal: Int? = 10
-    @Persisted var lastFetchedContacts: Date
-    
-    @Published var _contacts: Results<Contact>?
-    var contacts: [any Contactable] {
-        self._contacts?.array ?? []
+    var dailyFollowUpGoal: Int? = 10
+    var lastFetchedContacts: Date = .distantPast
+
+    // This exposes variables which take the Realm Contacts, merge them with those from the device, and broadcast them to the rest of the app.
+    @Published var contacts: [any Contactable] = []
+    private var contactsDictionary: [ContactID: any Contactable] = [:] {
+        didSet {
+            self.contacts = self.contactsDictionary.values.map { $0 }
+        }
     }
     
+    // MARK: - Realm Properties
+    // We subscribe to this to observe changes to the contacts within the Realm DB.
+    var contactsResults: Results<Contact>? {
+        didSet {
+            self.mergeWithContactsDictionary(contacts: contactsResults?.array ?? [])
+        }
+    }
     var contactsNotificationToken: NotificationToken?
+    private var realm: Realm?
 
     // MARK: - Static Properties
     private static var encoder = JSONEncoder()
     private static var decoder = JSONDecoder()
+    
+    init(realm: Realm? = nil) {
+        self.realm = realm
+        self.configureObserver()
+    }
 
     // MARK: - Methods
-//    func updateWithFetchedContacts(_ contacts: [Contactable]) {
-//        let mapped = contacts
-//            .map(\.concrete)
-//            .mappedToDictionary(by: \.contactID)
-//
-//        try? self.realm?.write {
-//            self.contactDictionary.merge(mapped, uniquingKeysWith: { first, second in
-//                first?.lastInteractedWith ?? .distantPast
-//                >
-//                second?.lastInteractedWith ?? .distantPast
-//                ? first
-//                : second
-//            })
-//            self.lastFetchedContacts = .now
-//
-//        }
-//    }
-    
     func updateWithFetchedContacts(_ contacts: [any Contactable]) {
         guard let realm = realm else { return }
+        
+        self.mergeWithContactsDictionary(contacts: contacts)
+        
+        let contactIDsToBeUpdated: [ContactID] = contacts.map(\.id)
+        let updatedContacts = self.contactsDictionary.values.filter { contactIDsToBeUpdated.contains($0.id) }
+        
         do {
             try realm.write {
-                realm.add(contacts, update: .modified)
+                realm.add(updatedContacts, update: .modified)
+                self.lastFetchedContacts = .now
             }
         } catch {
             print("Unable to update Realm DB with \(contacts.count) newly fetched contacts: \(error.localizedDescription)")
         }
     }
+    
+    func mergeWithContactsDictionary(contacts: [any Contactable]) {
+        self.contactsDictionary.merge(contacts.mappedToDictionary(by: \.id)) { first, second in
+            // Check to see when we last interacted with a contact. We use the most recently interacted with version.
+            // TODO: We should always start with the last interacted with contact, and then update all the other values (e.g. name, email, phone number, etc).
+            (first.lastInteractedWith ?? .distantPast) > (second.lastInteractedWith ?? .distantPast) ? first : second
+        }
+    }
 
 
     func contact(forID contactID: ContactID) -> (any Contactable)? {
-//        self.contactDictionary[contactID] ?? nil
         guard
             let realm = realm,
             let contact = realm.object(ofType: Contact.self, forPrimaryKey: contactID)
@@ -105,7 +112,7 @@ class FollowUpStore: Object, ObjectKeyIdentifiable, FollowUpStoring {
         }
         let observedContacts = realm.objects(Contact.self)
         self.contactsNotificationToken = observedContacts.observe { [weak self] _ in
-            self?._contacts = observedContacts
+            self?.contactsResults = observedContacts
         }
     }
 

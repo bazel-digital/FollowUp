@@ -10,7 +10,9 @@ import SwiftUI
 struct ContactSheetView: View {
     
     // MARK: - Environment
+    @EnvironmentObject var store: FollowUpStore
     @EnvironmentObject var followUpManager: FollowUpManager
+    var contactsInteractor: ContactsInteracting { followUpManager.contactsInteractor }
 
     // MARK: - Enums
     enum Kind {
@@ -46,7 +48,7 @@ struct ContactSheetView: View {
     }
 
     private var contact: Contact {
-        followUpManager.store.contact(forID: sheet.contactID)?.concrete ?? .unknown
+        store.contact(forID: sheet.contactID)?.concrete ?? .unknown
     }
     
     // MARK: - Views
@@ -92,8 +94,7 @@ struct ContactSheetView: View {
     // MARK: - Buttons
     private var highlightButton: some View {
         Button(action: {
-            followUpManager
-                .contactsInteractor
+            contactsInteractor
                 .highlight(contact)
         }, label: {
             VStack {
@@ -106,8 +107,7 @@ struct ContactSheetView: View {
 
     private var unhighlightButton: some View {
         Button(action: {
-            followUpManager
-                .contactsInteractor
+            contactsInteractor
                 .unhighlight(contact)
         }, label: {
             VStack {
@@ -120,8 +120,7 @@ struct ContactSheetView: View {
 
     private var followedUpButton: some View {
         Button(action: {
-            followUpManager
-                .contactsInteractor
+            contactsInteractor
                 .markAsFollowedUp(contact)
         }, label: {
             VStack {
@@ -135,8 +134,7 @@ struct ContactSheetView: View {
 
     private var addToFollowUpsButton: some View {
         Button(action: {
-            followUpManager
-                .contactsInteractor
+            contactsInteractor
                 .addToFollowUps(contact)
         }, label: {
             VStack {
@@ -148,8 +146,7 @@ struct ContactSheetView: View {
 
     private var removeFromFollowUpsButton: some View {
         Button(action: {
-            followUpManager
-                .contactsInteractor
+            contactsInteractor
                 .removeFromFollowUps(contact)
         }, label: {
             VStack {
@@ -264,6 +261,6 @@ struct ContactModalView_Previews: PreviewProvider {
             ContactSheetView(kind: .modal, sheet: MockedContact(id: "0").sheet, onClose: { })
                 .preferredColorScheme(.dark)
         }
-        .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
+//        .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
     }
 }

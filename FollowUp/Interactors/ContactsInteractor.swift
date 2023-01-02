@@ -52,6 +52,24 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
     }
 
     // MARK: - Public Methods
+//    func highlight(_ contact: any Contactable) {
+//        guard let realm = realm else {
+//            print("Unable to highlight user, as no realm instance was found in the ContactsInteractor.")
+//            return
+//        }
+//        
+//        let contact = realm.object(ofType: Contact.self, forPrimaryKey: contact.id)
+//        
+//        do {
+//            try realm.write {
+//                contact?.highlighted = true
+//            }
+//        } catch {
+//            print("Could not perform action: \(error.localizedDescription)")
+//        }
+//        
+//    }
+
     func highlight(_ contact: any Contactable) {
         var contact = contact.concrete
         contact.highlighted = true
@@ -77,6 +95,9 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
     }
 
     func markAsFollowedUp(_ contact: any Contactable) {
+//        self.modify(contact: contact) { contact in
+//            contact?.followUps += 1
+//        }
         var contact = contact.concrete
         contact.followUps += 1
         self._contactsPublisher.send([contact])
@@ -94,6 +115,24 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
         var contact = contact.concrete
         contact.lastInteractedWith = .now
         self._contactsPublisher.send([contact])
+    }
+    
+    // MARK: - Private methods
+    func modify(contact: any Contactable, closure: (Contact?) -> Void) {
+        guard let realm = realm else {
+            print("Unable to modify contact, as no realm instance was found in the ContactsInteractor.")
+            return
+        }
+        
+        let contact = realm.object(ofType: Contact.self, forPrimaryKey: contact.id)
+        
+        do {
+            try realm.write {
+                closure(contact)
+            }
+        } catch {
+            print("Could not perform action: \(error.localizedDescription)")
+        }
     }
 }
 

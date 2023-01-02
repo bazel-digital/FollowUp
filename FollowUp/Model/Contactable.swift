@@ -52,7 +52,7 @@ class Contact: Object, ObjectKeyIdentifiable, Contactable, Identifiable {
 //    @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted(primaryKey: true) var id: ContactID
     @Persisted var name: String
-    var phoneNumber: PhoneNumber?
+    @Persisted var phoneNumber: PhoneNumber?
     @Persisted var _thumbnailImageData: Data?
     @Persisted var email: String?
     @Persisted var createDate: Date
@@ -73,14 +73,14 @@ class Contact: Object, ObjectKeyIdentifiable, Contactable, Identifiable {
     
     
     // MARK: - Interactive Properties
-    var followUps: Int = 0 { didSet { lastFollowedUp = .now } }
-    var lastFollowedUp: Date? { didSet { lastInteractedWith = .now } }
-    var highlighted: Bool = false { didSet { lastInteractedWith = .now } }
-    var containedInFollowUps: Bool = false { didSet { lastInteractedWith = .now } }
-    var note: String? { didSet { lastInteractedWith = .now } }
+    @Persisted var followUps: Int = 0 { didSet { lastFollowedUp = .now } }
+    @Persisted var lastFollowedUp: Date? { didSet { lastInteractedWith = .now } }
+    @Persisted var highlighted: Bool = false { didSet { lastInteractedWith = .now } }
+    @Persisted var containedInFollowUps: Bool = false { didSet { lastInteractedWith = .now } }
+    @Persisted var note: String? { didSet { lastInteractedWith = .now } }
 
     // MARK: - Interaction Indicators
-    var lastInteractedWith: Date?
+    @Persisted var lastInteractedWith: Date?
     
     convenience init(
         contactID: ContactID = UUID().uuidString,
