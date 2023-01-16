@@ -21,7 +21,7 @@ protocol ContactsInteracting {
     var contactsPublisher: AnyPublisher<[any Contactable], Never> { get }
     var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> { get }
     var contactSheet: ContactSheet? { get }
-    func fetchContacts() async
+    func fetchContacts()
     func highlight(_ contact: any Contactable)
     func unhighlight(_ contact: any Contactable)
     func addToFollowUps(_ contact: any Contactable)
@@ -38,6 +38,7 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
     // MARK: - Private Properties
     private var _contactsPublisher: PassthroughSubject<[any Contactable], Never> = .init()
     private var realm: Realm?
+    private let backgroundQueue: DispatchQueue = .init(label: "com.bazel.followup.background", qos: .background)
 
     // MARK: - Public Properties
     var contactsPublisher: AnyPublisher<[any Contactable], Never> { _contactsPublisher.eraseToAnyPublisher() }
@@ -69,38 +70,35 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
 //        }
 //        
 //    }
-
+    
     func highlight(_ contact: any Contactable) {
-        var contact = contact.concrete
-        contact.highlighted = true
-        self._contactsPublisher.send([contact])
+        self.modify(contact: contact, closure: {
+            $0?.highlighted = true
+        })
     }
 
     func unhighlight(_ contact: any Contactable) {
-        var contact = contact.concrete
-        contact.highlighted = false
-        self._contactsPublisher.send([contact])
+        self.modify(contact: contact, closure: {
+            $0?.highlighted = false
+        })
     }
-
+    
     func addToFollowUps(_ contact: any Contactable) {
-        var contact = contact.concrete
-        contact.containedInFollowUps = true
-        self._contactsPublisher.send([contact])
+        self.modify(contact: contact, closure: {
+            $0?.containedInFollowUps = true
+        })
     }
 
     func removeFromFollowUps(_ contact: any Contactable) {
-        var contact = contact.concrete
-        contact.containedInFollowUps = false
-        self._contactsPublisher.send([contact])
+        self.modify(contact: contact, closure: {
+            $0?.containedInFollowUps = false
+        })
     }
 
     func markAsFollowedUp(_ contact: any Contactable) {
-//        self.modify(contact: contact) { contact in
-//            contact?.followUps += 1
-//        }
-        var contact = contact.concrete
-        contact.followUps += 1
-        self._contactsPublisher.send([contact])
+        self.modify(contact: contact) { contact in
+            contact?.followUps += 1
+        }
     }
 
     func displayContactSheet(_ contact: any Contactable) {
@@ -112,27 +110,27 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
     }
 
     func dismiss(_ contact: any Contactable) {
-        var contact = contact.concrete
-        contact.lastInteractedWith = .now
-        self._contactsPublisher.send([contact])
+        self.modify(contact: contact, closure: {
+            $0?.lastInteractedWith = .now
+        })
     }
     
     // MARK: - Private methods
-    func modify(contact: any Contactable, closure: (Contact?) -> Void) {
-        guard let realm = realm else {
-            print("Unable to modify contact, as no realm instance was found in the ContactsInteractor.")
-            return
-        }
-        
-        let contact = realm.object(ofType: Contact.self, forPrimaryKey: contact.id)
-        
-        do {
-            try realm.write {
-                closure(contact)
+    private func modify(contact: any Contactable, closure: @escaping (Contact?) -> Void) {
+            guard let realm = self.realm else {
+                print("Unable to modify contact, as no realm instance was found in the ContactsInteractor.")
+                return
             }
-        } catch {
-            print("Could not perform action: \(error.localizedDescription)")
-        }
+            
+            let contact = realm.object(ofType: Contact.self, forPrimaryKey: contact.id)
+            
+            do {
+                try realm.writeAsync {
+                    closure(contact)
+                }
+            } catch {
+                print("Could not perform action: \(error.localizedDescription)")
+            }
     }
 }
 
@@ -140,9 +138,11 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
 extension ContactsInteractor {
     
     // MARK: - Public Methods
-    public func fetchContacts() async {
+    public func fetchContacts() {
         // await self.fetchCNContacts()
-        self.fetchABContacts()
+        self.backgroundQueue.async {
+            self.fetchABContacts()
+        }
     }
     
     // MARK: - Private Methods
@@ -160,6 +160,26 @@ extension ContactsInteractor {
         else { return }
         print("Received contacts:", fetchedContacts)
         self._contactsPublisher.send(fetchedContacts.map(Contact.init(from:)))
+    }
+    
+    private func fetchCNContacts(completion: @escaping () -> Void? = {()}) {
+        print("Fetching contacts.")
+        let contactStore = CNContactStore()
+        contactStore.requestAccess(for: .contacts) { authorizationResult, error in
+            if let error = error {
+                print("Error fetching contacts: \(error.localizedDescription)")
+            }
+            
+            guard let fetchedContacts = try? contactStore.unifiedContacts(
+                matching: .init(value: true),
+                keysToFetch: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactImageDataKey, CNContactThumbnailImageDataKey,
+                    CNContactDatesKey] as [CNKeyDescriptor]
+            ) else {
+                return
+            }
+            print("Received contacts:", fetchedContacts)
+            self._contactsPublisher.send(fetchedContacts.map(Contact.init(from:)))
+        }
     }
 
     private func fetchABContacts() {

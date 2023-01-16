@@ -47,8 +47,8 @@ struct ContactSheetView: View {
             .fontWeight(.medium)
     }
 
-    private var contact: Contact {
-        store.contact(forID: sheet.contactID)?.concrete ?? .unknown
+    private var contact: any Contactable {
+        store.contact(forID: sheet.contactID) ?? Contact.unknown
     }
     
     // MARK: - Views

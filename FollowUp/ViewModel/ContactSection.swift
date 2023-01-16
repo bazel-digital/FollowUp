@@ -15,3 +15,12 @@ struct ContactSection: Identifiable {
 
     var title: String { "\(grouping.title)  (\(contacts.count))" }
 }
+
+// MARK: -
+//extension ContactSection: Equatable {
+//    static func == (lhs: ContactSection, rhs: ContactSection) -> Bool {
+//        return lhs.contacts == rhs.contacts &&
+//               lhs.grouping == rhs.grouping &&
+//               lhs.expanded == rhs.expanded
+//    }
+//}

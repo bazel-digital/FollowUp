@@ -13,6 +13,9 @@ struct FollowUpApp: App {
 
     // MARK: - State Objects
     @StateObject var followUpManager: FollowUpManager = .init()
+    
+    // MARK: - Environment Objects
+    @Environment(\.scenePhase) var scenePhase
 
     // MARK: - Static Properties
     static var decoder: JSONDecoder = .init()

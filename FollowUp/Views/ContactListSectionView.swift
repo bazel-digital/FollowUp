@@ -41,7 +41,7 @@ struct ContactListSectionView: View {
     }
 
     @ViewBuilder
-    private func createHighlightToggleButton(for contact: Contact) -> some View {
+    private func createHighlightToggleButton(for contact: any Contactable) -> some View {
         if !contact.highlighted {
             highlightButton(for: contact)
         }
@@ -50,7 +50,7 @@ struct ContactListSectionView: View {
         }
     }
 
-    private func highlightButton(for contact: Contact) -> some View {
+    private func highlightButton(for contact: any Contactable) -> some View {
         Button(action: {
             followUpManager.contactsInteractor.highlight(contact)
         }, label: {
@@ -59,7 +59,7 @@ struct ContactListSectionView: View {
         .tint(.yellow)
     }
 
-    private func unhighlightButton(for contact: Contact) -> some View {
+    private func unhighlightButton(for contact: any Contactable) -> some View {
         Button(action: {
             followUpManager.contactsInteractor.unhighlight(contact)
         }, label: {
@@ -69,7 +69,7 @@ struct ContactListSectionView: View {
     }
 
     @ViewBuilder
-    private func createAddToFollowUpsToggleButton(for contact: Contact) -> some View {
+    private func createAddToFollowUpsToggleButton(for contact: any Contactable) -> some View {
         if !contact.containedInFollowUps {
             addToFollowUpsButton(for: contact)
         } else {
@@ -77,7 +77,7 @@ struct ContactListSectionView: View {
         }
     }
 
-    private func addToFollowUpsButton(for contact: Contact) -> some View {
+    private func addToFollowUpsButton(for contact: any Contactable) -> some View {
         Button(action: {
             followUpManager.contactsInteractor.addToFollowUps(contact)
         }, label: {
@@ -86,9 +86,9 @@ struct ContactListSectionView: View {
         .tint(.blue)
     }
 
-    private func removeFromFollowUpsButton(for contact: Contact) -> some View {
+    private func removeFromFollowUpsButton(for contact: any Contactable) -> some View {
         Button(action: {
-            followUpManager.contactsInteractor.addToFollowUps(contact)
+            followUpManager.contactsInteractor.removeFromFollowUps(contact)
         }, label: {
             Label("Remove from Follow Ups", systemImage: "minus")
         })
@@ -102,10 +102,10 @@ struct ContactListSectionView: View {
             ForEach(section.contacts, id: \.id) { contact in
                 ContactRowView(contact: contact)
                     .swipeActions(edge: .leading, allowsFullSwipe: true, content: {
-                        createAddToFollowUpsToggleButton(for: contact.concrete)
+                        createAddToFollowUpsToggleButton(for: contact)
                     })
                     .swipeActions(edge: .trailing, allowsFullSwipe: false, content: {
-                        createHighlightToggleButton(for: contact.concrete)
+                        createHighlightToggleButton(for: contact)
                     })
             }
             .listRowInsets(.init(verticalListRowItemEdgeInsets))

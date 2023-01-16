@@ -45,15 +45,10 @@ struct NewContactsView: View {
     // MARK: - Views
 
     var body: some View {
+        #if DEBUG
+        let _ = Self._printChanges()
+        #endif
         ContactListView(contactSetions: contactSections)
-            .task {
-                await self
-                    .contactsInteractor
-                    .fetchContacts()
-            }
-//            .onReceive(contactsInteractor.contactSheetPublisher, perform: {
-//                self.contactSheet = $0
-//            })
             .animation(.easeInOut, value: contacts.count)
             .animation(.easeInOut, value: newContactsCount)
     }

@@ -25,6 +25,7 @@ protocol FollowUpStoring: ObservableObject {
 
 // MARK: - Default Implementations
 extension FollowUpStoring {
+    // This is being performed on the main thread, which would make sense why there is lag as it has to recalculate all the follow ups 
     var highlightedContacts: [any Contactable] { contacts.filter(\.highlighted) }
     var followUpContacts: [any Contactable] { contacts.filter(\.containedInFollowUps) }
     var followedUpToday: Int { contacts.filter(\.hasBeenFollowedUpToday).count }

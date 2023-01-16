@@ -11,7 +11,7 @@ import Foundation
 import RealmSwift
 import UIKit
 
-protocol Contactable: Object, _Persistable {
+protocol Contactable: Object, Identifiable {
     var id: ContactID { get }
     var name: String { get }
     var phoneNumber: PhoneNumber? { get }

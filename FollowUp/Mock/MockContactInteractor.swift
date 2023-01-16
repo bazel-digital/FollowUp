@@ -9,6 +9,7 @@ import Combine
 import Foundation
 
 class MockContactsInteractor: ContactsInteracting, ObservableObject {
+    
     @Published var contactSheet: ContactSheet?
 
     @Published var contacts: [any Contactable] = []
@@ -30,7 +31,7 @@ class MockContactsInteractor: ContactsInteracting, ObservableObject {
         self.contacts = (0...addToContactAmount).map { _ in MockedContact() }
     }
 
-    func fetchContacts() async {
+    func fetchContacts() {
         self.contacts.append(contentsOf: generateContacts(withCount: 10))
     }
 
