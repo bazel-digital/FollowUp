@@ -44,6 +44,10 @@ struct HeroMessageView: View {
 
 struct HeroMessageView_Previews: PreviewProvider {
     static var previews: some View {
-        HeroMessageView(header: .noHighlightsHeader, icon: .star)
+        HeroMessageView(
+            header: .noHighlightsHeader,
+            subheader: .noHighlightsSubheader,
+            icon: .star
+        )
     }
 }
