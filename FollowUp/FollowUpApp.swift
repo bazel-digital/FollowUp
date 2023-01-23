@@ -13,6 +13,9 @@ struct FollowUpApp: App {
 
     // MARK: - State Objects
     @StateObject var followUpManager: FollowUpManager = .init()
+    
+    // MARK: - Environment Objects
+    @Environment(\.scenePhase) var scenePhase
 
     // MARK: - Static Properties
     static var decoder: JSONDecoder = .init()
@@ -23,6 +26,12 @@ struct FollowUpApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(followUpManager)
+                .environmentObject(followUpManager.store)
+            #if DEBUG
+                .onAppear {
+                    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
+                }
+            #endif
         }
     }
 }

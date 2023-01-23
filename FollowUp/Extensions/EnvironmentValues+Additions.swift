@@ -10,7 +10,7 @@ import SwiftUI
 
 // MARK: - Custom Environment Keys
 struct ContactsInteractorKey: EnvironmentKey {
-    static let defaultValue: ContactsInteractor = ContactsInteractor()
+    static let defaultValue: ContactsInteractor = ContactsInteractor(realm: nil)
 }
 
 struct FollowUpStoreKey: EnvironmentKey {

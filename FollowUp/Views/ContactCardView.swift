@@ -13,7 +13,7 @@ struct ContactCardView: View {
     @EnvironmentObject var followUpManager: FollowUpManager
     
     // MARK: - Stored Properties
-    var contact: Contactable
+    var contact: any Contactable
     var cornerRadius: CGFloat = Constant.cornerRadius
 
     @State private var contactModalDisplayed: Bool = false

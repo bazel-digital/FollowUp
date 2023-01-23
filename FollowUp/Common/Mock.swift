@@ -7,40 +7,31 @@
 
 import Fakery
 import Foundation
+import RealmSwift
 import UIKit
 
-struct MockedContact: Contactable {
-
+final class MockedContact: Object, Contactable {
+    
+    static let faker: Faker = .init()
+    
     // MARK: - Stored Properties
-    var id: String = UUID().uuidString
-    var name: String
-    var phoneNumber: PhoneNumber?
-    var email: String?
-    var thumbnailImage: UIImage?
-    var note: String?
-    var followUps: Int
-    var createDate: Date
-    var lastFollowedUp: Date?
-    var highlighted: Bool
-    var containedInFollowUps: Bool
-    var lastInteractedWith: Date?
+//    @Persisted var _id: ObjectId = ObjectId()
+    @Persisted var id: ContactID = UUID().uuidString
+    @Persisted var name: String = faker.name.name()
+    @Persisted var phoneNumber: PhoneNumber? = .mocked
+    @Persisted var email: String? = faker.internet.email()
+    var thumbnailImage: UIImage? = nil
+    @Persisted var note: String? = faker.hobbit.quote()
+    @Persisted var followUps: Int = faker.number.randomInt(min: 0, max: 10)
+    @Persisted var createDate: Date = faker.date.backward(days: 30)
+    @Persisted var lastFollowedUp: Date? = faker.date.backward(days: faker.number.randomInt(min: 0, max: 1))
+    @Persisted var highlighted: Bool = faker.number.randomBool()
+    @Persisted var containedInFollowUps: Bool = faker.number.randomBool()
+    @Persisted var lastInteractedWith: Date? = faker.date.backward(days: 10)
 
-    init(id: String? = nil){
-        let faker = Faker()
-        if let id = id {
-            self.id = id
-        }
-        self.name = faker.name.name()
-        self.phoneNumber = .mocked
-        self.email = faker.internet.email()
-        self.note = faker.hobbit.quote()
-        self.followUps = faker.number.randomInt(min: 0, max: 10)
-        self.createDate = faker.date.backward(days: 30)
-        self.lastFollowedUp = faker.date.backward(days: faker.number.randomInt(min: 0, max: 1))
-        self.highlighted = faker.number.randomBool()
-        self.containedInFollowUps = faker.number.randomBool()
-        self.lastFollowedUp = faker.date.backward(days: 30)
-        self.lastInteractedWith = faker.date.backward(days: 10)
+    convenience init(id: String? = nil){
+        self.init()
+        self.id = id ?? self.id
     }
 
 }
@@ -52,8 +43,8 @@ extension ContactSection {
 }
 
 extension Contactable where Self == Contact {
-    static var mocked: Contactable { MockedContact() }
-    static var mockedFollowedUpToday: Contactable {
+    static var mocked: any Contactable { MockedContact() }
+    static var mockedFollowedUpToday: any Contactable {
         var contact = MockedContact()
         contact.lastFollowedUp = .now
         return contact

@@ -17,19 +17,21 @@ struct FollowUpsView: View {
     var noHighlightsViewMaxContentWidth: CGFloat { Constant.ContactSheet.noHighlightsViewMaxContentWidth }
 
     // MARK: - Environment Objects
-    @EnvironmentObject var followUpManager: FollowUpManager
+//    @EnvironmentObject var followUpManager: FollowUpManager
 
+    @ObservedObject var store: FollowUpStore
+    var contactsInteractor: ContactsInteracting
+    
     // MARK: - Computed Properties
     var highlightedContacts: [Contact] {
-        followUpManager.store.highlightedContacts.map(\.concrete)
+        store.highlightedContacts.map(\.concrete)
     }
 
-    private var sortedContacts: [Contactable] {
-        followUpManager
-                    .store
-                    .followUpContacts
-                    .sorted(by: \.createDate)
-                    .reversed()
+    private var sortedContacts: [any Contactable] {
+        store
+            .followUpContacts
+            .sorted(by: \.createDate)
+            .reversed()
     }
 
     private var contactSections: [ContactSection] {
@@ -107,8 +109,8 @@ struct FollowUpsView: View {
         ScrollView {
             
             DailyGoalView(
-                followUps: followUpManager.store.followedUpToday,
-                dailyGoal: followUpManager.store.dailyFollowUpGoal
+                followUps: store.followedUpToday,
+                dailyGoal: store.dailyFollowUpGoal
             ).padding()
 
             if highlightedContacts.isEmpty {
@@ -128,8 +130,8 @@ struct FollowUpsView: View {
 struct FollowUpsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            FollowUpsView()
-                .environmentObject(FollowUpManager(store: .mocked()))
+            FollowUpsView(store: .init(realm: nil), contactsInteractor: ContactsInteractor(realm: nil))
+//                .environmentObject(FollowUpManager(store: .mocked()))
 //            FollowUpsView()
 //                .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 0)))
         }

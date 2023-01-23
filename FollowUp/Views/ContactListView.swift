@@ -28,6 +28,9 @@ struct ContactListView: View {
 
     // MARK: - Views
     var body: some View {
+        #if DEBUG
+        let _ = Self._printChanges()
+        #endif
         List(contactSetions) { section in
             Section(content: {
                     ContactListSectionView(

@@ -5,23 +5,23 @@
 //  Created by Aaron Baw on 09/10/2021.
 //
 
+import RealmSwift
 import SwiftUI
 
 struct NewContactsView: View {
 
-    @State var contacts: [Contactable] = []
-    @State private var contactSheet: ContactSheet?
-
-    @EnvironmentObject var followUpManager: FollowUpManager
+    @State var contacts: [any Contactable] = []
+    @ObservedObject var store: FollowUpStore
+    
+    var contactsInteractor: ContactsInteracting
 
     // MARK: - Computed Properties
 
-    private var sortedContacts: [Contactable] {
-        followUpManager
-                    .store
-                    .contacts
-                    .sorted(by: \.createDate)
-                    .reversed()
+    private var sortedContacts: [any Contactable] {
+        store
+            .contacts
+            .sorted(by: \.createDate)
+            .reversed()
     }
 
     private var contactSections: [ContactSection] {
@@ -45,25 +45,10 @@ struct NewContactsView: View {
     // MARK: - Views
 
     var body: some View {
+        #if DEBUG
+        let _ = Self._printChanges()
+        #endif
         ContactListView(contactSetions: contactSections)
-            .task {
-                await self
-                    .followUpManager
-                    .fetchContacts()
-            }
-            .sheet(item: $contactSheet, onDismiss: {
-                followUpManager.contactsInteractor.hideContactSheet()
-            }, content: {
-                ContactSheetView(
-                    kind: .modal,
-                    sheet: $0,
-                    onClose: {
-                        followUpManager.contactsInteractor.hideContactSheet()
-                    })
-            })
-            .onReceive(followUpManager.contactsInteractor.contactSheetPublisher, perform: {
-                self.contactSheet = $0
-            })
             .animation(.easeInOut, value: contacts.count)
             .animation(.easeInOut, value: newContactsCount)
     }
@@ -72,7 +57,7 @@ struct NewContactsView: View {
 
 struct NewContactsView_Previews: PreviewProvider {
     static var previews: some View {
-        NewContactsView()
-            .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 4)))
+        NewContactsView(store: FollowUpStore(), contactsInteractor: ContactsInteractor(realm: nil))
+//            .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 4)))
     }
 }

@@ -6,17 +6,18 @@
 //
 
 import Foundation
+import RealmSwift
 import UIKit
 
-struct PhoneNumber: Hashable, Codable {
+class PhoneNumber: Object, Codable {
 
     // MARK: - Static Properties
     static let numberFormatter = NumberFormatter()
     static let phoneNumberDetector: NSDataDetector? = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
 
     // MARK: - Stored Properties
-    var label: String? = nil
-    var value: String
+    @Persisted var label: String? = nil
+    @Persisted var value: String
 
     // MARK: - Computed Properties
     private var urlFriendlyValue: String {
@@ -43,10 +44,11 @@ struct PhoneNumber: Hashable, Codable {
     }
 
     // MARK: - Initializer
-    init?(
+    convenience init?(
         from phoneNumberString: String,
         withLabel label: String? = nil
     ) {
+        self.init()
         guard Self
                 .phoneNumberDetector?
                 .matches(

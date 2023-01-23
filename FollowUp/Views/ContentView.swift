@@ -11,25 +11,57 @@ import SwiftUI
 struct ContentView: View {
 
     @State var selectedTab: Int = 0
+    @State var contactSheet: ContactSheet?
+    @EnvironmentObject var followUpManager: FollowUpManager
+    @Environment(\.scenePhase) var scenePhase
 
     var body: some View {
+        #if DEBUG
+        let _ = Self._printChanges()
+        #endif
             TabView(selection: $selectedTab, content:  {
                 NavigationView {
-                    NewContactsView()
+                    NewContactsView(store: followUpManager.store, contactsInteractor: followUpManager.contactsInteractor)
                         .navigationBarTitle("Contacts")
                 }
                 .tabItem {
                     Label("Contacts", systemImage: "person.crop.circle")
                 }
+                .tag(1)
                     
                 NavigationView {
-                    FollowUpsView()
-                    .navigationBarTitle("FollowUps")
+                    FollowUpsView(store: followUpManager.store, contactsInteractor: followUpManager.contactsInteractor)
+                        .navigationBarTitle("FollowUps")
                 }
                 .tabItem {
                     Label("FollowUp", systemImage: "repeat")
                 }
                 .background(Color(.systemGroupedBackground))
+                .tag(2)
+            })
+            .sheet(item: $contactSheet, onDismiss: {
+                followUpManager.contactsInteractor.hideContactSheet()
+            }, content: {
+                ContactSheetView(
+                    kind: .modal,
+                    sheet: $0,
+                    onClose: {
+                        followUpManager.contactsInteractor.hideContactSheet()
+                    })
+            })
+            .onReceive(followUpManager.contactsInteractor.contactSheetPublisher, perform: { contactSheet in
+                self.contactSheet = contactSheet
+            })
+//            .task(priority: .background, {
+//                await followUpManager.contactsInteractor.fetchContacts()
+//            })
+            .onChange(of: selectedTab, perform: { print("Tab changed to \($0)") })
+            .onChange(of: scenePhase, perform: { phase in
+                switch phase {
+                case .active:
+                    followUpManager.contactsInteractor.fetchContacts()
+                default: break
+                }
             })
     }
 

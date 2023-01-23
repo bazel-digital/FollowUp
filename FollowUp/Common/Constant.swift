@@ -76,7 +76,7 @@ enum Constant {
 
         var kind: Kind {
             switch self {
-            case .checkmark, .clock, .close, .email, .minus, .phone, .plus, .sms, .star, .starWithText, .slashedStar, .thumbsUp, .thumbsUp, .personWithCheckmark, .partyPopper: return .sfSymbol
+            case .checkmark, .clock, .close, .email, .minus, .phone, .plus, .sms, .star, .starWithText, .slashedStar, .thumbsUp, .personWithCheckmark, .partyPopper: return .sfSymbol
             case .whatsApp: return .asset
             }
         }

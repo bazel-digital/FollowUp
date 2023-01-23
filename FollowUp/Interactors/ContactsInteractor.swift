@@ -9,6 +9,7 @@ import AddressBook
 import Combine
 import Contacts
 import Foundation
+import RealmSwift
 import SwiftUI
 import Fakery
 
@@ -17,68 +18,90 @@ typealias ContactID = String
 
 // MARK: -
 protocol ContactsInteracting {
-    var contactsPublisher: AnyPublisher<[Contactable], Never> { get }
+    var contactsPublisher: AnyPublisher<[any Contactable], Never> { get }
     var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> { get }
     var contactSheet: ContactSheet? { get }
-    func fetchContacts() async
-    func highlight(_ contact: Contactable)
-    func unhighlight(_ contact: Contactable)
-    func addToFollowUps(_ contact: Contactable)
-    func removeFromFollowUps(_ contact: Contactable)
-    func markAsFollowedUp(_ contact: Contactable)
-    func displayContactSheet(_ contact: Contactable)
+    func fetchContacts()
+    func highlight(_ contact: any Contactable)
+    func unhighlight(_ contact: any Contactable)
+    func addToFollowUps(_ contact: any Contactable)
+    func removeFromFollowUps(_ contact: any Contactable)
+    func markAsFollowedUp(_ contact: any Contactable)
+    func displayContactSheet(_ contact: any Contactable)
     func hideContactSheet()
-    func dismiss(_ contact: Contactable)
+    func dismiss(_ contact: any Contactable)
 }
 
 // MARK: -
 class ContactsInteractor: ContactsInteracting, ObservableObject {
 
-    // MARK: - Static Properties
-    public static var shared: ContactsInteracting = ContactsInteractor()
-
     // MARK: - Private Properties
-    private var _contactsPublisher: PassthroughSubject<[Contactable], Never> = .init()
+    private var _contactsPublisher: PassthroughSubject<[any Contactable], Never> = .init()
+    private var realm: Realm?
+    private let backgroundQueue: DispatchQueue = .init(label: "com.bazel.followup.background", qos: .background)
 
     // MARK: - Public Properties
-    var contactsPublisher: AnyPublisher<[Contactable], Never> { _contactsPublisher.eraseToAnyPublisher() }
+    var contactsPublisher: AnyPublisher<[any Contactable], Never> { _contactsPublisher.eraseToAnyPublisher() }
 
     var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> { self.$contactSheet.eraseToAnyPublisher() }
 
     @Published var contactSheet: ContactSheet?
+    
+    // MARK: - Initialiser
+    init(realm: Realm?) {
+        self.realm = realm
+    }
 
     // MARK: - Public Methods
-    func highlight(_ contact: Contactable) {
-        var contact = contact.concrete
-        contact.highlighted = true
-        self._contactsPublisher.send([contact])
+//    func highlight(_ contact: any Contactable) {
+//        guard let realm = realm else {
+//            print("Unable to highlight user, as no realm instance was found in the ContactsInteractor.")
+//            return
+//        }
+//        
+//        let contact = realm.object(ofType: Contact.self, forPrimaryKey: contact.id)
+//        
+//        do {
+//            try realm.write {
+//                contact?.highlighted = true
+//            }
+//        } catch {
+//            print("Could not perform action: \(error.localizedDescription)")
+//        }
+//        
+//    }
+    
+    func highlight(_ contact: any Contactable) {
+        self.modify(contact: contact, closure: {
+            $0?.highlighted = true
+        })
     }
 
-    func unhighlight(_ contact: Contactable) {
-        var contact = contact.concrete
-        contact.highlighted = false
-        self._contactsPublisher.send([contact])
+    func unhighlight(_ contact: any Contactable) {
+        self.modify(contact: contact, closure: {
+            $0?.highlighted = false
+        })
+    }
+    
+    func addToFollowUps(_ contact: any Contactable) {
+        self.modify(contact: contact, closure: {
+            $0?.containedInFollowUps = true
+        })
     }
 
-    func addToFollowUps(_ contact: Contactable) {
-        var contact = contact.concrete
-        contact.containedInFollowUps = true
-        self._contactsPublisher.send([contact])
+    func removeFromFollowUps(_ contact: any Contactable) {
+        self.modify(contact: contact, closure: {
+            $0?.containedInFollowUps = false
+        })
     }
 
-    func removeFromFollowUps(_ contact: Contactable) {
-        var contact = contact.concrete
-        contact.containedInFollowUps = false
-        self._contactsPublisher.send([contact])
+    func markAsFollowedUp(_ contact: any Contactable) {
+        self.modify(contact: contact) { contact in
+            contact?.followUps += 1
+        }
     }
 
-    func markAsFollowedUp(_ contact: Contactable) {
-        var contact = contact.concrete
-        contact.followUps += 1
-        self._contactsPublisher.send([contact])
-    }
-
-    func displayContactSheet(_ contact: Contactable) {
+    func displayContactSheet(_ contact: any Contactable) {
         self.contactSheet = contact.sheet
     }
 
@@ -86,10 +109,28 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
         self.contactSheet = nil
     }
 
-    func dismiss(_ contact: Contactable) {
-        var contact = contact.concrete
-        contact.lastInteractedWith = .now
-        self._contactsPublisher.send([contact])
+    func dismiss(_ contact: any Contactable) {
+        self.modify(contact: contact, closure: {
+            $0?.lastInteractedWith = .now
+        })
+    }
+    
+    // MARK: - Private methods
+    private func modify(contact: any Contactable, closure: @escaping (Contact?) -> Void) {
+            guard let realm = self.realm else {
+                print("Unable to modify contact, as no realm instance was found in the ContactsInteractor.")
+                return
+            }
+            
+            let contact = realm.object(ofType: Contact.self, forPrimaryKey: contact.id)
+            
+            do {
+                try realm.writeAsync {
+                    closure(contact)
+                }
+            } catch {
+                print("Could not perform action: \(error.localizedDescription)")
+            }
     }
 }
 
@@ -97,9 +138,11 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
 extension ContactsInteractor {
     
     // MARK: - Public Methods
-    public func fetchContacts() async {
+    public func fetchContacts() {
         // await self.fetchCNContacts()
-        self.fetchABContacts()
+        self.backgroundQueue.async {
+            self.fetchABContacts()
+        }
     }
     
     // MARK: - Private Methods
@@ -117,6 +160,26 @@ extension ContactsInteractor {
         else { return }
         print("Received contacts:", fetchedContacts)
         self._contactsPublisher.send(fetchedContacts.map(Contact.init(from:)))
+    }
+    
+    private func fetchCNContacts(completion: @escaping () -> Void? = {()}) {
+        print("Fetching contacts.")
+        let contactStore = CNContactStore()
+        contactStore.requestAccess(for: .contacts) { authorizationResult, error in
+            if let error = error {
+                print("Error fetching contacts: \(error.localizedDescription)")
+            }
+            
+            guard let fetchedContacts = try? contactStore.unifiedContacts(
+                matching: .init(value: true),
+                keysToFetch: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactImageDataKey, CNContactThumbnailImageDataKey,
+                    CNContactDatesKey] as [CNKeyDescriptor]
+            ) else {
+                return
+            }
+            print("Received contacts:", fetchedContacts)
+            self._contactsPublisher.send(fetchedContacts.map(Contact.init(from:)))
+        }
     }
 
     private func fetchABContacts() {
@@ -146,7 +209,7 @@ extension ContactsInteractor {
 
         var abContacts: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
 
-        let contacts: [Contactable] = abContacts.compactMap { record in
+        let contacts: [any Contactable] = abContacts.compactMap { record in
             
             let abRecord = record as ABRecord
             let recordID = Int(getID(for: abRecord))
@@ -156,14 +219,15 @@ extension ContactsInteractor {
                 let middleName = get(property: kABPersonMiddleNameProperty, fromRecord: abRecord, castedAs: NSString.self, returnedAs: String.self),
                 let lastName = get(property: kABPersonLastNameProperty, fromRecord: abRecord, castedAs: NSString.self, returnedAs: String.self),
                 let creationDate = get(property: kABPersonCreationDateProperty, fromRecord: abRecord, castedAs: NSDate.self, returnedAs: Date.self)
-            else { return nil }
+                    // TODO: CHANGE!
+            else { return Contact.mocked }
 
             let email =  get(property: kABPersonEmailProperty, fromRecord: abRecord, castedAs: NSString.self, returnedAs: String.self)
             let phoneNumbers = getPhoneNumbers(fromRecord: abRecord)
             let thumbnailImage = get(imageOfSize: .thumbnail, from: abRecord)?.uiImage
             let fullImage = get(imageOfSize: .full, from: abRecord)?.uiImage
             return Contact(
-                id: recordID.description,
+                contactID: recordID.description,
                 name: [firstName, middleName, lastName].compactMap { $0 }.joined(separator: " "),
                 phoneNumber: phoneNumbers.first,
                 email: email,
