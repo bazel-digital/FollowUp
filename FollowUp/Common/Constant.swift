@@ -68,6 +68,9 @@ enum Constant {
         case whatsApp = "whatsAppIcon"
         case personWithCheckmark = "person.crop.circle.fill.badge.checkmark"
         case partyPopper = "party.popper.fill"
+        case arrowCirclePath = "arrow.triangle.2.circlepath"
+        case lock = "lock.fill"
+        case lockWithExclamationMark = "lock.trianglebadge.exclamationmark"
 
         enum Kind {
             case asset
@@ -76,7 +79,7 @@ enum Constant {
 
         var kind: Kind {
             switch self {
-            case .checkmark, .clock, .close, .email, .minus, .phone, .plus, .sms, .star, .starWithText, .slashedStar, .thumbsUp, .personWithCheckmark, .partyPopper: return .sfSymbol
+            case .checkmark, .clock, .close, .email, .minus, .phone, .plus, .sms, .star, .starWithText, .slashedStar, .thumbsUp, .personWithCheckmark, .partyPopper, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
             case .whatsApp: return .asset
             }
         }
@@ -92,6 +95,12 @@ enum Constant {
         static let verticalSpacing: CGFloat = 10.0
         static let maxHeight: CGFloat = 400.0
         static let noHighlightsViewMaxContentWidth: CGFloat = 250.0
+    }
+    
+    // MARK: - Hero Message
+    enum HeroMessage {
+        static let verticalSpacing: CGFloat = 10.0
+        static let maxContentWidth: CGFloat = 250.0
     }
 
     // MARK: - Conversation Action Button
