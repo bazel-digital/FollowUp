@@ -17,8 +17,7 @@ struct FollowUpsView: View {
     var noHighlightsViewMaxContentWidth: CGFloat { Constant.ContactSheet.noHighlightsViewMaxContentWidth }
 
     // MARK: - Environment Objects
-//    @EnvironmentObject var followUpManager: FollowUpManager
-
+    @EnvironmentObject var followUpManager: FollowUpManager
     @ObservedObject var store: FollowUpStore
     var contactsInteractor: ContactsInteracting
     
@@ -101,7 +100,7 @@ struct FollowUpsView: View {
             
             DailyGoalView(
                 followUps: store.followedUpToday,
-                dailyGoal: store.dailyFollowUpGoal
+                dailyGoal: store.settings.dailyFollowUpGoal
             ).padding()
 
             if highlightedContacts.isEmpty {
