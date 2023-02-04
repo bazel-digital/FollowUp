@@ -172,15 +172,11 @@ struct ContactSheetView: View {
     // TODO: Refactor this out into a separate view.
     @ViewBuilder
     private var startAConversationRowView: some View {
-        if let phoneNumber = contact.phoneNumber {
+        if (contact.phoneNumber) != nil {
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(Constant.conversationStarters, id: \.self) { conversationStarter in
-                        ConversationActionButtonView(
-                            type: .whatsApp,
-                            contact: contact,
-                            prefilledText: conversationStarter
-                        )
+                    ForEach(store.settings.conversationStarters) { conversationStarter in
+                        ConversationActionButtonView(template: conversationStarter, contact: contact)
                     }
                 }
                 .padding()

@@ -10,6 +10,7 @@ import Foundation
 class MockFollowUpStore: FollowUpStoring {
     var contacts: [any Contactable] = []
     var dailyFollowUpGoal: Int? = nil
+    var settings: FollowUpSettings = .init()
     
     func updateWithFetchedContacts(_ contacts: [any Contactable]) {
         //

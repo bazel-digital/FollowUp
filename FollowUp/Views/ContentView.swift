@@ -12,6 +12,7 @@ struct ContentView: View {
 
     @State var selectedTab: Int = 0
     @State var contactSheet: ContactSheet?
+    @State var settingsSheetShown: Bool = false
     @EnvironmentObject var followUpManager: FollowUpManager
     @Environment(\.scenePhase) var scenePhase
 
@@ -21,13 +22,24 @@ struct ContentView: View {
         #endif
             TabView(selection: $selectedTab, content:  {
                 NavigationView {
-                    NewContactsView(store: followUpManager.store, contactsInteractor: followUpManager.contactsInteractor)
-                        .navigationBarTitle("Contacts")
+                    NewContactsView(
+                        store: followUpManager.store,
+                        contactsInteractor: followUpManager.contactsInteractor
+                    )
+                    .navigationBarTitle("Contacts")
+                    .toolbar(content: {
+                        Button(action: {
+                            self.settingsSheetShown = true
+                        }, label: {
+                            Image(icon: .settings)
+                        })
+                    })
                 }
                 .tabItem {
                     Label("Contacts", systemImage: "person.crop.circle")
                 }
                 .tag(1)
+                
                     
                 NavigationView {
                     FollowUpsView(store: followUpManager.store, contactsInteractor: followUpManager.contactsInteractor)
@@ -38,6 +50,9 @@ struct ContentView: View {
                 }
                 .background(Color(.systemGroupedBackground))
                 .tag(2)
+            })
+            .sheet(isPresented: $settingsSheetShown, content: {
+                SettingsSheetView()
             })
             .sheet(item: $contactSheet, onDismiss: {
                 followUpManager.contactsInteractor.hideContactSheet()
@@ -52,9 +67,6 @@ struct ContentView: View {
             .onReceive(followUpManager.contactsInteractor.contactSheetPublisher, perform: { contactSheet in
                 self.contactSheet = contactSheet
             })
-//            .task(priority: .background, {
-//                await followUpManager.contactsInteractor.fetchContacts()
-//            })
             .onChange(of: selectedTab, perform: { print("Tab changed to \($0)") })
             .onChange(of: scenePhase, perform: { phase in
                 switch phase {

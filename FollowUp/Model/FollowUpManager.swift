@@ -18,7 +18,6 @@ final class FollowUpManager: ObservableObject {
     // First, we check to see if a follow up store exists in our realm.
     // If one doesn't exist, then we create one and add it to the realm.
     // If a follow up store has been passed as an argument, than this supercedes any store that we find in the realm.
-//    lazy var store: FollowUpStore = self.fetchFollowUpStoreFromRealm()
     var store: FollowUpStore
 
     var contactsInteractor: ContactsInteracting
@@ -74,7 +73,7 @@ final class FollowUpManager: ObservableObject {
 //    func fetchFollowUpStoreFromRealm() -> FollowUpStore {
 //
 //        guard let realm = self.realm else {
-//            assertionFailure("Could not initialise FollowUpStore as Realm is nil.")
+//            assertionFailurePreviewSafe("Could not initialise FollowUpStore as Realm is nil.")
 //            return .init()
 //        }
 //

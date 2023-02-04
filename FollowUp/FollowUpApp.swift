@@ -27,6 +27,7 @@ struct FollowUpApp: App {
             ContentView()
                 .environmentObject(followUpManager)
                 .environmentObject(followUpManager.store)
+                .environmentObject(followUpManager.store.settings)
             #if DEBUG
                 .onAppear {
                     print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)

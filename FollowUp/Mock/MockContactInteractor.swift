@@ -14,12 +14,18 @@ class MockContactsInteractor: ContactsInteracting, ObservableObject {
 
     @Published var contacts: [any Contactable] = []
     
+    @Published var state: ContactInteractorState = .fetchingContacts
+    
     var contactsPublisher: AnyPublisher<[any Contactable], Never> {
         $contacts.eraseToAnyPublisher()
     }
 
     var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> {
         self.$contactSheet.eraseToAnyPublisher()
+    }
+    
+    var statePublisher: AnyPublisher<ContactInteractorState, Never> {
+        self.$state.eraseToAnyPublisher()
     }
 
     private var addToContactAmount: Int

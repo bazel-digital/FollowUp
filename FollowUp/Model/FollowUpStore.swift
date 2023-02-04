@@ -17,7 +17,7 @@ protocol FollowUpStoring: ObservableObject {
     var highlightedContacts: [any Contactable] { get }
     var followUpContacts: [any Contactable] { get }
     var followedUpToday: Int { get }
-    var dailyFollowUpGoal: Int? { get }
+    var settings: FollowUpSettings { get }
 
     func updateWithFetchedContacts(_ contacts: [any Contactable])
     func contact(forID contactID: ContactID) -> (any Contactable)?
@@ -36,8 +36,9 @@ extension ObjectId: _MapKey { }
 class FollowUpStore: FollowUpStoring, ObservableObject {
     
     // MARK: - Stored Properties
-    var dailyFollowUpGoal: Int? = 10
     var lastFetchedContacts: Date = .distantPast
+
+    var settings: FollowUpSettings = .init()
 
     // This exposes variables which take the Realm Contacts, merge them with those from the device, and broadcast them to the rest of the app.
     @Published var contacts: [any Contactable] = []
@@ -63,6 +64,7 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     
     init(realm: Realm? = nil) {
         self.realm = realm
+        self.loadSettingsFromRealm()
         self.configureObserver()
     }
 
@@ -81,7 +83,7 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
                 self.lastFetchedContacts = .now
             }
         } catch {
-            print("Unable to update Realm DB with \(contacts.count) newly fetched contacts: \(error.localizedDescription)")
+            assertionFailurePreviewSafe("Unable to update Realm DB with \(contacts.count) newly fetched contacts: \(error.localizedDescription)")
         }
     }
     
@@ -99,7 +101,7 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             let realm = realm,
             let contact = realm.object(ofType: Contact.self, forPrimaryKey: contactID)
         else {
-            print("Unable to find contact for ID \(contactID)")
+            assertionFailurePreviewSafe("Unable to find contact for ID \(contactID)")
             return nil
         }
 
@@ -108,12 +110,31 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     
     func configureObserver() {
         guard let realm = realm else {
-            print("Could not find realm in order to configure contacts observer.")
+            assertionFailurePreviewSafe("Could not find realm in order to configure contacts observer.")
             return
         }
         let observedContacts = realm.objects(Contact.self)
         self.contactsNotificationToken = observedContacts.observe { [weak self] _ in
             self?.contactsResults = observedContacts
+        }
+    }
+    
+    func loadSettingsFromRealm() {
+        if let followUpSettings = self.realm?.objects(FollowUpSettings.self).first {
+            self.settings = followUpSettings
+            print("Loaded FollowUpSettings from realm.")
+        } else {
+            print("FollowUpSettings not found in realm. Creating a new instance.")
+            let followUpSettings = FollowUpSettings()
+            do {
+                try self.realm?.write {
+                    self.realm?.add(followUpSettings)
+                    print("Added instance of FollowUpSettings to realm.")
+                    self.settings = followUpSettings
+                }
+            } catch {
+                assertionFailurePreviewSafe("Could not write new instance of FollowUpSettings to realm. \(error.localizedDescription)")
+            }
         }
     }
 

@@ -17,8 +17,7 @@ struct FollowUpsView: View {
     var noHighlightsViewMaxContentWidth: CGFloat { Constant.ContactSheet.noHighlightsViewMaxContentWidth }
 
     // MARK: - Environment Objects
-//    @EnvironmentObject var followUpManager: FollowUpManager
-
+    @EnvironmentObject var followUpManager: FollowUpManager
     @ObservedObject var store: FollowUpStore
     var contactsInteractor: ContactsInteracting
     
@@ -51,20 +50,11 @@ struct FollowUpsView: View {
     // MARK: - Views
 
     private var noHighlightsView: some View {
-        VStack(alignment: .center, spacing: noHighlightsViewVerticalSpacing) {
-            Group {
-                Label(
-                    "No Highlights",
-                    systemImage: Constant.Icon.starWithText.rawValue
-                )
-                    .font(.headline)
-                Text("Tap the 'Highlight' button on a Contact sheet to add them to this list.")
-                    .foregroundColor(.secondary)
-            }
-            .frame(
-                maxWidth: noHighlightsViewMaxContentWidth
-            )
-        }
+        HeroMessageView(
+            header: .noHighlightsHeader,
+            subheader: .noHighlightsSubheader,
+            icon: .starWithText
+        )
         .frame(
             maxWidth: .infinity,
             idealHeight: contactSheetMaxHeight
@@ -110,7 +100,7 @@ struct FollowUpsView: View {
             
             DailyGoalView(
                 followUps: store.followedUpToday,
-                dailyGoal: store.dailyFollowUpGoal
+                dailyGoal: store.settings.dailyFollowUpGoal
             ).padding()
 
             if highlightedContacts.isEmpty {

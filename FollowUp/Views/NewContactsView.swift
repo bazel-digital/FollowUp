@@ -10,9 +10,8 @@ import SwiftUI
 
 struct NewContactsView: View {
 
-    @State var contacts: [any Contactable] = []
     @ObservedObject var store: FollowUpStore
-    
+    @State var contactInteractorState: ContactInteractorState = .fetchingContacts
     var contactsInteractor: ContactsInteracting
 
     // MARK: - Computed Properties
@@ -41,16 +40,43 @@ struct NewContactsView: View {
     private var newContactsCount: Int {
         contactSections.filter { $0.grouping == .new }.count
     }
-
+    
     // MARK: - Views
+    
+    
+    private var contactsListView: some View {
+        ContactListView(contactSetions: contactSections)
+            .animation(.easeInOut, value: store.contacts.count)
+            .animation(.easeInOut, value: newContactsCount)
+    }
+    
+    @ViewBuilder
+    var content: some View {
+        switch (contactInteractorState, store.contacts.isEmpty) {
+        case (.fetchingContacts, true): HeroMessageView(
+            header: .fetchingContactsHeader,
+            icon: .arrowCirclePath
+        )
+        case (.authorizationDenied, _): HeroMessageView(
+            header: .authorisationDeniedHeader,
+            subheader: .authorisationDeniedSubheader,
+            icon: .lockWithExclamationMark
+        )
+        case (.requestingAuthorization, _): HeroMessageView(
+            header: .awaitingAuthorisationHeader,
+            subheader: .awaitingAuthorisationSubheader,
+            icon: .lock
+        )
+        default: contactsListView
+        }
+    }
 
     var body: some View {
         #if DEBUG
         let _ = Self._printChanges()
         #endif
-        ContactListView(contactSetions: contactSections)
-            .animation(.easeInOut, value: contacts.count)
-            .animation(.easeInOut, value: newContactsCount)
+        content
+            .onReceive(contactsInteractor.statePublisher, perform: { self.contactInteractorState = $0 })
     }
 
 }

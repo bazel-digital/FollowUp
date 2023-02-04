@@ -20,6 +20,7 @@ typealias ContactID = String
 protocol ContactsInteracting {
     var contactsPublisher: AnyPublisher<[any Contactable], Never> { get }
     var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> { get }
+    var statePublisher: AnyPublisher<ContactInteractorState, Never> { get }
     var contactSheet: ContactSheet? { get }
     func fetchContacts()
     func highlight(_ contact: any Contactable)
@@ -30,6 +31,18 @@ protocol ContactsInteracting {
     func displayContactSheet(_ contact: any Contactable)
     func hideContactSheet()
     func dismiss(_ contact: any Contactable)
+}
+
+/// Describes the current state of the contacts interactor.
+enum ContactInteractorState {
+    /// Currently awaiting authorization from the user to fetch contacts.
+    case requestingAuthorization
+    /// Authorization for reading contacts denied.
+    case authorizationDenied
+    /// Fetching contacts.
+    case fetchingContacts
+    /// Contacts have been loaded and are up to date.
+    case loaded
 }
 
 // MARK: -
@@ -44,8 +57,12 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
     var contactsPublisher: AnyPublisher<[any Contactable], Never> { _contactsPublisher.eraseToAnyPublisher() }
 
     var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> { self.$contactSheet.eraseToAnyPublisher() }
+    
+    var statePublisher: AnyPublisher<ContactInteractorState, Never> { self.$state.eraseToAnyPublisher() }
 
     @Published var contactSheet: ContactSheet?
+    @Published var contactsAuthorized: Bool = false
+    @Published var state: ContactInteractorState = .fetchingContacts
     
     // MARK: - Initialiser
     init(realm: Realm?) {
@@ -53,23 +70,6 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
     }
 
     // MARK: - Public Methods
-//    func highlight(_ contact: any Contactable) {
-//        guard let realm = realm else {
-//            print("Unable to highlight user, as no realm instance was found in the ContactsInteractor.")
-//            return
-//        }
-//        
-//        let contact = realm.object(ofType: Contact.self, forPrimaryKey: contact.id)
-//        
-//        do {
-//            try realm.write {
-//                contact?.highlighted = true
-//            }
-//        } catch {
-//            print("Could not perform action: \(error.localizedDescription)")
-//        }
-//        
-//    }
     
     func highlight(_ contact: any Contactable) {
         self.modify(contact: contact, closure: {
@@ -139,13 +139,22 @@ extension ContactsInteractor {
     
     // MARK: - Public Methods
     public func fetchContacts() {
-        // await self.fetchCNContacts()
         self.backgroundQueue.async {
             self.fetchABContacts()
         }
     }
     
     // MARK: - Private Methods
+    private func setState(_ state: ContactInteractorState) {
+        if Thread.isMainThread {
+            self.state = state
+        } else {
+            DispatchQueue.main.async {
+                self.state = state
+            }
+        }
+    }
+
     private func fetchCNContacts() async {
         print("Fetching contacts.")
         let contactStore = CNContactStore()
@@ -170,6 +179,8 @@ extension ContactsInteractor {
                 print("Error fetching contacts: \(error.localizedDescription)")
             }
             
+            self.contactsAuthorized = authorizationResult
+            
             guard let fetchedContacts = try? contactStore.unifiedContacts(
                 matching: .init(value: true),
                 keysToFetch: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactImageDataKey, CNContactThumbnailImageDataKey,
@@ -185,16 +196,20 @@ extension ContactsInteractor {
     private func fetchABContacts() {
         switch ABAddressBookGetAuthorizationStatus() {
         case .authorized: self.processABContacts()
-        case .denied, .restricted: print("Access to AddressBook is denied/restricted. Unable to load ABRecords.")
+        case .denied, .restricted:
+            self.contactsAuthorized = false
+            self.setState(.authorizationDenied)
         case .notDetermined: self.requestAuthorization()
         default: break
         }
     }
 
     private func requestAuthorization() {
+        self.setState(.requestingAuthorization)
         let addressBook = ABAddressBookCreate().takeRetainedValue()
         ABAddressBookRequestAccessWithCompletion(addressBook, { success, error in
             if success {
+                self.contactsAuthorized = success
                 self.processABContacts();
             }
             else {
@@ -204,6 +219,7 @@ extension ContactsInteractor {
     }
 
     private func processABContacts() {
+        self.setState(.fetchingContacts)
         var errorRef: Unmanaged<CFError>?
         var addressBook: ABAddressBook? = extractABAddressBookRef(abRef: ABAddressBookCreateWithOptions(nil, &errorRef))
 
@@ -239,6 +255,7 @@ extension ContactsInteractor {
 
         DispatchQueue.main.async {
             self.objectWillChange.send()
+            self.setState(.loaded)
             self._contactsPublisher.send(contacts)
         }
 
