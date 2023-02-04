@@ -212,7 +212,9 @@ extension ContactsInteractor {
     // MARK: - Public Methods
     public func fetchContacts() {
         self.backgroundQueue.async {
-            self.fetchABContacts()
+            self.fetchCNContacts { fetchedCNContacts in
+                self.fetchABContacts()
+            }
         }
     }
     
@@ -226,24 +228,8 @@ extension ContactsInteractor {
             }
         }
     }
-
-    private func fetchCNContacts() async {
-        print("Fetching contacts.")
-        let contactStore = CNContactStore()
-        guard
-            let authorizationResult = try? await contactStore.requestAccess(for: .contacts),
-            authorizationResult,
-            let fetchedContacts = try? contactStore.unifiedContacts(
-                matching: .init(value: true),
-                keysToFetch: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactImageDataKey, CNContactThumbnailImageDataKey,
-                    CNContactDatesKey] as [CNKeyDescriptor]
-                )
-        else { return }
-        print("Received contacts:", fetchedContacts)
-        self._contactsPublisher.send(fetchedContacts.map(Contact.init(from:)))
-    }
     
-    private func fetchCNContacts(completion: @escaping () -> Void? = {()}) {
+    private func fetchCNContacts(completion: @escaping ([CNContact]) -> Void = {_ in }) {
         print("Fetching contacts.")
         let contactStore = CNContactStore()
         contactStore.requestAccess(for: .contacts) { authorizationResult, error in
@@ -253,15 +239,24 @@ extension ContactsInteractor {
             
             self.contactsAuthorized = authorizationResult
             
-            guard let fetchedContacts = try? contactStore.unifiedContacts(
-                matching: .init(value: true),
-                keysToFetch: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactImageDataKey, CNContactThumbnailImageDataKey,
-                    CNContactDatesKey] as [CNKeyDescriptor]
-            ) else {
-                return
+            do {
+                let fetchedContacts = try contactStore.unifiedContacts(
+                    matching: .init(value: true),
+                    keysToFetch: [
+                        CNContactGivenNameKey,
+                        CNContactFamilyNameKey,
+                        CNContactImageDataKey,
+                        CNContactThumbnailImageDataKey,
+                        CNContactNoteKey,
+                        CNContactDatesKey
+                    ] as [CNKeyDescriptor]
+                )
+                print("Received contacts:", fetchedContacts)
+                completion(fetchedContacts)
+            } catch {
+                print("Unable to fetch CNContacts: \(error.localizedDescription)")
             }
-            print("Received contacts:", fetchedContacts)
-            self._contactsPublisher.send(fetchedContacts.map(Contact.init(from:)))
+
         }
     }
 

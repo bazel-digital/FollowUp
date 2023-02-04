@@ -72,6 +72,7 @@
 		21D7CF292982B7C7003E1277 /* EditConversationStarterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */; };
 		21D7CF2B2982C62D003E1277 /* Operators+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */; };
 		21E69F85298EE8130043F9FF /* Assertion+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E69F84298EE8130043F9FF /* Assertion+Additions.swift */; };
+		21E69F87298EF01B0043F9FF /* FollowUp.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 21E69F86298EEEA10043F9FF /* FollowUp.entitlements */; };
 		21FB24242774D2400078BABC /* UserDefaultsPersisted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB24232774D2400078BABC /* UserDefaultsPersisted.swift */; };
 /* End PBXBuildFile section */
 
@@ -158,6 +159,7 @@
 		21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditConversationStarterView.swift; sourceTree = "<group>"; };
 		21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Operators+Additions.swift"; sourceTree = "<group>"; };
 		21E69F84298EE8130043F9FF /* Assertion+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assertion+Additions.swift"; sourceTree = "<group>"; };
+		21E69F86298EEEA10043F9FF /* FollowUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FollowUp.entitlements; sourceTree = "<group>"; };
 		21FB24232774D2400078BABC /* UserDefaultsPersisted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersisted.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -204,6 +206,7 @@
 		2159CFC82711F49C005A2387 = {
 			isa = PBXGroup;
 			children = (
+				21E69F86298EEEA10043F9FF /* FollowUp.entitlements */,
 				2159CFD32711F49C005A2387 /* FollowUp */,
 				2159CFE52711F49E005A2387 /* FollowUpTests */,
 				2159CFF02711F49E005A2387 /* FollowUpUITests */,
@@ -511,6 +514,7 @@
 			files = (
 				2159CFDC2711F49D005A2387 /* Preview Assets.xcassets in Resources */,
 				2159CFD92711F49D005A2387 /* Assets.xcassets in Resources */,
+				21E69F87298EF01B0043F9FF /* FollowUp.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -748,6 +752,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = "$(PROJECT_DIR)/FollowUp.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FollowUp/Preview Content\"";
@@ -778,6 +783,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = "$(PROJECT_DIR)/FollowUp.entitlements";
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FollowUp/Preview Content\"";
