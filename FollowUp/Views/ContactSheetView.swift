@@ -259,9 +259,15 @@ struct ContactModalView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ContactSheetView(kind: .modal, sheet: MockedContact(id: "1").sheet, onClose: { })
+                .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
+
             ContactSheetView(kind: .inline, sheet: MockedContact(id: "0").sheet, onClose: { })
+                .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
+
             ContactSheetView(kind: .modal, sheet: MockedContact(id: "0").sheet, onClose: { })
                 .preferredColorScheme(.dark)
+                .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
+
         }
         .environmentObject(FollowUpManager())
         .environmentObject(FollowUpStore())

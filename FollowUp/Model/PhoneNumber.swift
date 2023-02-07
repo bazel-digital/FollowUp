@@ -5,6 +5,7 @@
 //  Created by Aaron Baw on 12/11/2021.
 //
 
+import Contacts
 import Foundation
 import RealmSwift
 import UIKit
@@ -62,5 +63,19 @@ class PhoneNumber: Object, Codable {
         else { return nil }
         self.value = phoneNumberString
         self.label = label
+    }
+    
+    convenience init?(_ phoneNumber: CNLabeledValue<CNPhoneNumber>?) {
+        guard let phoneNumber = phoneNumber else { return nil }
+        var label = phoneNumber.label
+
+        if let labelValue = label, labelValue.hasPrefix("_$!<") == true {
+            label = String(labelValue.dropFirst(4))
+        }
+
+        if let labelValue = label, labelValue.hasSuffix(">!$_") == true {
+            label = String(labelValue.dropLast(4))
+        }
+        self.init(from: phoneNumber.value.stringValue, withLabel: label)
     }
 }

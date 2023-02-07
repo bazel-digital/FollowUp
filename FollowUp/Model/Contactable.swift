@@ -20,7 +20,7 @@ protocol Contactable: Object, Identifiable {
     var note: String? { get set }
     var tags: RealmSwift.List<Tag> { get set }
     var followUps: Int { get set }
-    var createDate: Date { get }
+    var createDate: Date { get set }
     var highlighted: Bool { get }
     var containedInFollowUps: Bool { get }
 
@@ -38,6 +38,15 @@ protocol Contactable: Object, Identifiable {
 extension Contactable {
     var isNew: Bool {
         self.dateGrouping == .week && lastInteractedWith == nil
+    }
+    
+    /// Creates a hash value of the contact which does _not_ contain the 'note', 'id', or 'createDate' properties. This is used for merging.
+    func mergeableHashValue() -> Int {
+        var hasher = Hasher()
+        hasher.combine(name)
+        hasher.combine(phoneNumber?.description)
+        hasher.combine(email)
+        return hasher.finalize()
     }
 }
 
@@ -157,14 +166,18 @@ extension Contact {
     convenience init(from contact: CNContact){
         self.init(
             contactID: contact.identifier,
-            name: [contact.givenName, contact.familyName].joined(separator: " "),
-            phoneNumber: nil,
+            name: [
+                contact.givenName,
+                contact.middleName.isEmpty ? nil : contact.middleName,
+                contact.familyName
+            ].compactMap( { $0 }).joined(separator: " "),
+            phoneNumber: .init(contact.phoneNumbers.first),
             email: nil,
             thumbnailImage: (contact.thumbnailImageData ?? contact.thumbnailImageData)?.uiImage,
-            note: nil,
+            note: contact.note,
             followUps: 0,
             // ⚠️ TODO: Update this to use the provided dates from CNContact.
-            createDate: Date(),
+            createDate: contact.value(forKey: "creationDate") as! Date ?? Date(),
             lastFollowedUp: nil,
             highlighted: false,
             containedInFollowUps: false,
