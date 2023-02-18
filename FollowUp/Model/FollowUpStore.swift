@@ -275,6 +275,9 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         if let followUpSettings = self.realm?.objects(FollowUpSettings.self).first {
             self.settings = followUpSettings
             print("Loaded FollowUpSettings from realm.")
+//            try? self.realm?.write {
+//                self.settings.conversationStarters.append(.init(prompt: "Write a personalised WhatsApp invite to church.", context: "My name is Roberto.", platform: .whatsApp))
+//            }
         } else {
             print("FollowUpSettings not found in realm. Creating a new instance.")
             let followUpSettings = FollowUpSettings()

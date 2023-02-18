@@ -18,15 +18,22 @@ struct ConversationActionButtonView: View {
     // MARK: - Computed Properties
     var labelText: String {
         guard let label = template.label, !label.isEmpty else {
-            return template.formattedText(withContact: contact)
+            return template.title
         }
         return label
     }
     
     var body: some View {
         Button(action: {
-            let action = template.buttonAction(contact: contact)
-            action?.closure()
+            Task {
+                // TODO: Ensure proper error handling, and wrap this in an 'AsyncButton' component. (See: https://www.swiftbysundell.com/articles/building-an-async-swiftui-button/)
+                do {
+                    let action = try template.buttonAction(contact: contact)
+                    await action?.closure()
+                } catch {
+                    Log.error("Could not perform button action: \(error.localizedDescription)")
+                }
+            }
         }, label: {
             Label(
                 title: {

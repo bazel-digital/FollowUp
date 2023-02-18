@@ -16,6 +16,8 @@ enum Constant {
 
     // MARK: - Misc
     static let cornerRadius: CGFloat = 15.0
+    static let buttonCornerRadius: CGFloat = 8.0
+    static let borderedButtonPadding: CGFloat = 15.0
 
     // MARK: - Date Formatting
     static let relativeDateTimeFormatter: RelativeDateTimeFormatter = .init()
@@ -48,6 +50,8 @@ enum Constant {
     enum Icon: String, PersistableEnum {
         case bolt = "bolt.fill"
         case chatBubbles = "bubble.left.and.bubble.right.fill"
+        case chatWithElipses = "ellipsis.message.fill"
+        case chatWithWaveform = "message.and.waveform.fill"
         case checkmark = "checkmark"
         case chevronRight = "chevron.right"
         case clock = "clock.arrow.circlepath"
@@ -71,6 +75,8 @@ enum Constant {
         case arrowCirclePath = "arrow.triangle.2.circlepath"
         case lock = "lock.fill"
         case lockWithExclamationMark = "lock.trianglebadge.exclamationmark"
+        
+        static let mediumSize: CGFloat = 30.0
 
         enum Kind {
             case asset
@@ -79,7 +85,7 @@ enum Constant {
 
         var kind: Kind {
             switch self {
-            case .bolt, .chatBubbles, .checkmark, .chevronRight, .clock, .closeOutline, .close, .email, .minus, .phone, .plus, .settings, .sms, .star, .starWithText, .slashedStar, .target, .thumbsUp, .trash, .personWithCheckmark, .partyPopper, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
+            case .bolt, chatBubbles, .chatWithElipses, .chatWithWaveform, .checkmark, .chevronRight, .clock, .closeOutline, .close, .email, .minus, .phone, .plus, .settings, .sms, .star, .starWithText, .slashedStar, .target, .thumbsUp, .trash, .personWithCheckmark, .partyPopper, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
             case .whatsApp: return .asset
             }
         }
@@ -137,5 +143,16 @@ enum Constant {
         static let tagSearchDebounce: RunLoop.SchedulerTimeType.Stride = 0.1
         static let maxNumberOfDisplayedSearchTagSuggestions: Int = 9
         static let suggestedTagViewTopPadding: CGFloat = 7.0
+    }
+    
+    
+    // MARK: - Secrets
+    enum Secrets {
+        static let chatGPTApiKey: String = "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"
+    }
+    
+    // MARK: - Conversation Starter
+    enum ConversationStarter {
+        static let defaultMaxTokenGenerationLength: Int = 1000
     }
 }

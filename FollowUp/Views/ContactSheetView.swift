@@ -75,7 +75,7 @@ struct ContactSheetView: View {
                 HStack {
                     CircularButton(icon: .phone, action: .call(number: phoneNumber))
                     CircularButton(icon: .sms, action: .sms(number: phoneNumber))
-                    CircularButton(icon: .whatsApp, action: .whatsApp(number: phoneNumber, prefilledText: nil))
+                    CircularButton(icon: .whatsApp, action: .whatsApp(number: phoneNumber, generateText: { _ in }))
                 }
             }
         }
