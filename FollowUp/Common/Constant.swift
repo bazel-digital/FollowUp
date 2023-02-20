@@ -45,6 +45,7 @@ enum Constant {
 
     // MARK: - Icons
     enum Icon: String {
+        case bolt = "bolt.fill"
         case chatBubbles = "bubble.left.and.bubble.right.fill"
         case checkmark = "checkmark"
         case chevronRight = "chevron.right"
@@ -60,6 +61,7 @@ enum Constant {
         case star = "star.fill"
         case starWithText = "text.badge.star"
         case slashedStar = "star.slash.fill"
+        case target = "target"
         case thumbsUp = "hand.thumbsup.fill"
         case whatsApp = "whatsAppIcon"
         case personWithCheckmark = "person.crop.circle.fill.badge.checkmark"
@@ -75,7 +77,7 @@ enum Constant {
 
         var kind: Kind {
             switch self {
-            case .chatBubbles, .checkmark, .chevronRight, .clock, .closeOutline, .close, .email, .minus, .phone, .plus, .settings, .sms, .star, .starWithText, .slashedStar, .thumbsUp, .personWithCheckmark, .partyPopper, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
+            case .bolt, .chatBubbles, .checkmark, .chevronRight, .clock, .closeOutline, .close, .email, .minus, .phone, .plus, .settings, .sms, .star, .starWithText, .slashedStar, .target, .thumbsUp, .personWithCheckmark, .partyPopper, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
             case .whatsApp: return .asset
             }
         }

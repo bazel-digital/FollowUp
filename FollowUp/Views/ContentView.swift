@@ -13,6 +13,7 @@ struct ContentView: View {
     @State var selectedTab: Int = 0
     @State var contactSheet: ContactSheet?
     @State var settingsSheetShown: Bool = false
+    @AppStorage("firstLaunch") var firstLaunch: Bool = true
     @EnvironmentObject var followUpManager: FollowUpManager
     @Environment(\.scenePhase) var scenePhase
 
@@ -63,6 +64,11 @@ struct ContentView: View {
                     onClose: {
                         followUpManager.contactsInteractor.hideContactSheet()
                     })
+            })
+            .sheet(isPresented: $firstLaunch, onDismiss: {
+                self.firstLaunch = false
+            }, content: {
+                WelcomeView()
             })
             .onReceive(followUpManager.contactsInteractor.contactSheetPublisher, perform: { contactSheet in
                 self.contactSheet = contactSheet
