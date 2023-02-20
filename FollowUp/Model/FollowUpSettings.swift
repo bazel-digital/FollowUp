@@ -44,7 +44,9 @@ class FollowUpSettings: Object {
     func addNewConversationStarter() {
         do {
             try self.realm?.write {
-                self.conversationStarters.append(.init(template: "Conversation Starter", platform: .whatsApp))
+                if let randomStarter = ConversationStarterTemplate.examples.randomElement() {
+                    self.conversationStarters.append(randomStarter)
+                }
             }
         } catch {
             assertionFailurePreviewSafe("Could not add conversation starter. \(error.localizedDescription)")
