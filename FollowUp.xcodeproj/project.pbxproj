@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		210378EA29A3CE5C001599EE /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210378E929A3CE5C001599EE /* WelcomeView.swift */; };
+		210378ED29A3CFD3001599EE /* IndividualFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210378EC29A3CFD3001599EE /* IndividualFeatureView.swift */; };
 		21064076277D04950065AD50 /* ContactSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21064075277D04950065AD50 /* ContactSheet.swift */; };
 		21064078277DDCA90065AD50 /* MockFollowUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21064077277DDCA90065AD50 /* MockFollowUpStore.swift */; };
 		2106407A277DDCE90065AD50 /* FollowUpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21064079277DDCE90065AD50 /* FollowUpManager.swift */; };
@@ -84,6 +86,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		210378E929A3CE5C001599EE /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		210378EC29A3CFD3001599EE /* IndividualFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualFeatureView.swift; sourceTree = "<group>"; };
 		21064075277D04950065AD50 /* ContactSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSheet.swift; sourceTree = "<group>"; };
 		21064077277DDCA90065AD50 /* MockFollowUpStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFollowUpStore.swift; sourceTree = "<group>"; };
 		21064079277DDCE90065AD50 /* FollowUpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpManager.swift; sourceTree = "<group>"; };
@@ -174,6 +178,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		210378EB29A3CFBC001599EE /* Feature Showcase */ = {
+			isa = PBXGroup;
+			children = (
+				210378E929A3CE5C001599EE /* WelcomeView.swift */,
+				210378EC29A3CFD3001599EE /* IndividualFeatureView.swift */,
+			);
+			path = "Feature Showcase";
+			sourceTree = "<group>";
+		};
 		2159CFC82711F49C005A2387 = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +274,7 @@
 				21312190297ED14D00C9E1EE /* HeroMessageView.swift */,
 				21312198297EDEF200C9E1EE /* SettingsSheetView.swift */,
 				21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */,
+				210378EB29A3CFBC001599EE /* Feature Showcase */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -507,6 +521,7 @@
 				218B3919271C9A0D002720BC /* ContactSheetView.swift in Sources */,
 				2159D00B2711FC2A005A2387 /* Constant.swift in Sources */,
 				21FB24242774D2400078BABC /* UserDefaultsPersisted.swift in Sources */,
+				210378ED29A3CFD3001599EE /* IndividualFeatureView.swift in Sources */,
 				21064078277DDCA90065AD50 /* MockFollowUpStore.swift in Sources */,
 				21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */,
 				218B3914271C73F9002720BC /* ContactListSectionView.swift in Sources */,
@@ -518,6 +533,7 @@
 				2131219D297F007500C9E1EE /* FollowUpSettings.swift in Sources */,
 				218B3917271C972B002720BC /* MockContactInteractor.swift in Sources */,
 				2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */,
+				210378EA29A3CE5C001599EE /* WelcomeView.swift in Sources */,
 				2159CFD72711F49C005A2387 /* ContentView.swift in Sources */,
 				2115FCC528E8E83D001A6E4E /* ButtonAction.swift in Sources */,
 				2159D0082711FABC005A2387 /* ContactBadge.swift in Sources */,

@@ -30,4 +30,8 @@ enum LocalisedTextKey: String {
     case editConversationStarterMessageDescription = "When writing your message template, use the <NAME> keyword and this will be replaced for the contact's first name when you use the conversation starter."
     
     case editConversationStarterSaveButtonTitle = "Save"
+    
+    // MARK: - Welcome Screen
+    case welcomeScreenTitle = "Welcome to FollowUp"
+    case welcomeScreenContinueButtonTitle = "Continue"
 }
