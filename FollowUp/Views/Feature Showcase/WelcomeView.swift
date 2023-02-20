@@ -45,6 +45,14 @@ struct WelcomeView: View {
 
             Spacer()
             
+            VStack(spacing: Constant.verticalPadding) {
+                Image(icon: .settings)
+                    .foregroundColor(.blue)
+                Text("Discover more on these features by tapping settings.")
+                    .font(.caption.weight(.regular))
+                    .foregroundColor(.secondary)
+            }.padding()
+            
             Button(action: {
                 self.dismissAction()
             }, label: {
