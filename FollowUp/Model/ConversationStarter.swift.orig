@@ -129,9 +129,208 @@ struct IntelligentConversationStarter: ConversationStarting {
     }
     
     func generateFormattedText(withContact contact: any Contactable, completion: @escaping ((Result<String, Error>) -> Void)) {
+<<<<<<< HEAD
+        <#code#>
+    }
+    
+    
+    var prompt: String
+    var context: String?
+}
+
+// MARK: -
+struct ConversationStarterTemplate: Codable, Hashable, Identifiable, CustomPersistable {
+    
+    typealias PersistedType = Data
+    
+    enum Platform: Codable, Hashable {
+        case whatsApp
+
+        var icon: Constant.Icon {
+            switch self {
+            case .whatsApp: return .whatsApp
+            }
+        }
+    }
+    
+    enum Kind: Codable, Hashable, Equatable, CaseIterable {
+        
+        static var allCases: [ConversationStarterTemplate.Kind] = [.standard(template: ""), .intelligent(prompt: "", context: "")]
+        
+        case standard(template: String)
+        case intelligent(prompt: String, context: String?)
+        
+        
+        var template: String? {
+            get {
+                switch self {
+                case let .standard(template): return template
+                default: return nil
+                }
+            }
+            set {
+                switch self {
+                case let .standard(template): self = .standard(template: newValue ?? template)
+                default: return
+                }
+            }
+        }
+        
+        var prompt: String? {
+            get {
+                switch self {
+                case let .intelligent(prompt, _): return prompt
+                default: return nil
+                }
+            }
+            set {
+                switch self {
+                case let .intelligent(prompt, context): self = .intelligent(prompt: newValue ?? prompt, context: context)
+                default: return
+                }
+            }
+        }
+        
+        var context: String? {
+            get {
+                switch self {
+                case let .intelligent(_, context): return context
+                default: return nil
+                }
+            }
+            set {
+                switch self {
+                case let .intelligent(prompt, context): self = .intelligent(prompt: prompt, context: newValue ?? context)
+                default: return
+                }
+            }
+        }
+        
+        var buttonTitle: String {
+            switch self {
+            case .intelligent: return "Intelligent"
+            case .standard: return "Standard"
+            }
+        }
+        
+        var icon: Constant.Icon {
+            switch self {
+            case .intelligent: return .chatWithWaveform
+            case .standard: return .chatWithElipses
+            }
+        }
+        
+    }
+    
+    var label: String?
+    var kind: Kind
+    var platform: Platform
+    var id: String
+    static var encoder = JSONEncoder()
+    static var decoder = JSONDecoder()
+    
+    var persistableValue: Data {
+        (try? Self.encoder.encode(self)) ?? .init()
+    }
+    
+    // MARK: - Computed Properties
+    var title: String {
+        guard let label = label, !label.isEmpty else {
+            switch self.kind {
+            case let .standard(template): return template
+            case let.intelligent(prompt, _): return prompt
+            }
+        }
+        return label
+    }
+    
+    // MARK: - Initialisers
+    init(persistedValue: Data) {
+        let decodedObject = try? Self.decoder.decode(Self.self, from: persistedValue)
+        self = decodedObject ?? .init(template: "", platform: .whatsApp)
+    }
+    
+    /// Create a standard conversation starter.
+    init(
+        label: String? = nil,
+        template: String,
+        platform: Platform,
+        id: String? = nil
+    ) {
+        self.kind = .standard(template: template)
+        self.label = label
+        self.platform = platform
+        self.id = id
+    }
+    
+    /// Create an intelligent conversation starter
+    init(
+        label: String? = nil,
+        prompt: String,
+        context: String?,
+        platform: Platform,
+        id: String = UUID().uuidString
+    ) {
+        self.kind = .intelligent(prompt: prompt, context: context)
+        self.label = label
+        self.platform = platform
+        self.id = id ?? UUID().uuidString
+    }
+    
+    // MARK: - Methods
+    
+    /// Uses the current template to create a conversation starter button action given the platform and contact.
+    func buttonAction(
+        contact: any Contactable
+    ) throws -> ButtonAction? {
+        switch self.platform {
+        case .whatsApp:
+            guard let number = contact.phoneNumber else { return nil }
+//            let replacedString = try await generateFormattedText(withContact: contact)
+            return .whatsApp(number: number, generateText: { completion in
+                let contactCopy = contact.concrete
+                generateFormattedText(withContact: contactCopy) { result in
+                    DispatchQueue.main.async {
+                        completion(result)
+                    }
+                }
+            })
+        }
+    }
+    
+    func generateFormattedText(
+        withContact contact: any Contactable
+    ) async -> Result<String, Error> {
+        switch self.kind {
+        case let .standard(template):
+            return .success(template.replacingOccurrences(of: "<NAME>", with: contact.firstName))
+        case let .intelligent(prompt, context):
+            let requestString = self.constructChatGPTRequestString(for: contact, withPrompt: prompt, context: context)
+            do {
+                let result = try await Networking.sendRequestToGPT3(prompt: requestString).value
+                return .success(result)
+            } catch {
+                return .failure(StarterGenerationError.couldNotGenerate(error))
+            }
+        }
+    }
+    
+    func generateFormattedText(
+        withContact contact: any Contactable,
+        completion: @escaping ((Result<String, Error>) -> Void)
+    ) {
+        switch self.kind {
+        case let .standard(template):
+             completion(.success(template.replacingOccurrences(of: "<NAME>", with: contact.firstName)))
+        case let .intelligent(prompt, context):
+            let requestString = self.constructChatGPTRequestString(for: contact, withPrompt: prompt, context: context)
+            Networking.sendRequestToGPT3(prompt: requestString, completion: completion)
+        }
+=======
         guard let prompt = prompt else { return completion(.failure(IntelligentConversationStarterError.couldNotUnwrapPrompt)) }
         let requestString = self.constructChatGPTRequestString(for: contact, withPrompt: prompt, context: context)
         Networking.sendRequestToGPT3(prompt: requestString, completion: completion)
+>>>>>>> d3906a4 (Refactor Intelligent Conversation Starter logic to use protocols.)
     }
     
     private func constructChatGPTRequestString(for contact: any Contactable, withPrompt prompt: String, context: String?) -> String {
@@ -220,7 +419,7 @@ struct ConversationStarterTemplate: Codable, Hashable, Identifiable, CustomPersi
         label: String? = nil,
         template: String,
         platform: Platform,
-        id: String? = nil
+        id: String = UUID().uuidString
     ) {
         self.kind = .standard
         self.starter = StandardConversationStarter(template: template)
@@ -241,7 +440,7 @@ struct ConversationStarterTemplate: Codable, Hashable, Identifiable, CustomPersi
         self.starter = IntelligentConversationStarter(prompt: prompt, context: context)
         self.label = label
         self.platform = platform
-        self.id = id ?? UUID().uuidString
+        self.id = id
     }
     
     // MARK: - Methods
@@ -298,12 +497,7 @@ struct ConversationStarterTemplate: Codable, Hashable, Identifiable, CustomPersi
     }
 }
 
-extension ConversationStarterTemplate {
-    enum StarterGenerationError: Error {
-        case couldNotGenerate(Error)
-    }
-}
-
+<<<<<<< HEAD
 // MARK: - Default Values
 extension ConversationStarterTemplate {
     static var arrangeForCoffee: ConversationStarterTemplate {
@@ -320,3 +514,19 @@ extension ConversationStarterTemplate {
     ]
 }
 
+=======
+extension ConversationStarterTemplate {
+     static var arrangeForCoffee: ConversationStarterTemplate {
+         .init(label: "Arrange for coffee", template: "Hey <NAME>! How are you? I was wondering if you'd be free for a coffee this week?", platform: .whatsApp)
+     }
+
+     static var howAreYou: ConversationStarterTemplate {
+         .init(label: "How are you?", template: "Hey <NAME>! How are you?", platform: .whatsApp)
+     }
+
+     static var examples: [ConversationStarterTemplate] = [
+         .arrangeForCoffee,
+         .howAreYou
+     ]
+ }
+>>>>>>> d3906a4 (Refactor Intelligent Conversation Starter logic to use protocols.)

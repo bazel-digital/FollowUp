@@ -39,7 +39,7 @@ struct EditConversationStarterView: View {
             Section(content: {
                 TextField(
                     LocalisedTextKey.editConversationStarterMessageTitle.rawValue,
-                    text: $editingConversationStarter.kind.template ?? "",
+                    text: $editingConversationStarter.starter.template ?? "",
                     axis: .horizontal
                 )
                 .submitLabel(.done)
@@ -69,7 +69,7 @@ struct EditConversationStarterView: View {
             Section(content: {
                 TextField(
                     LocalisedTextKey.editConversationStarterPromptTitle.rawValue,
-                    text: $editingConversationStarter.kind.prompt ?? "",
+                    text: $editingConversationStarter.starter.prompt ?? "",
                     axis: .horizontal
                 )
                 .submitLabel(.done)
@@ -82,7 +82,7 @@ struct EditConversationStarterView: View {
             Section(content: {
                 TextField(
                     LocalisedTextKey.editConversationStarterContextTitle.rawValue,
-                    text: $editingConversationStarter.kind.context ?? "",
+                    text: $editingConversationStarter.starter.context ?? "",
                     axis: .horizontal
                 )
                 .submitLabel(.done)
@@ -149,7 +149,7 @@ struct EditConversationStarterView: View {
                 .bold()
             
             Picker("Conversation Starter Kind", selection: $editingConversationStarter.kind, content: {
-                ForEach(ConversationStarterTemplate.Kind.allCases, id: \.self) { kind in
+                ForEach(ConversationStarterKind.allCases, id: \.self) { kind in
                      Text("\(Image(systemName: kind.icon.rawValue)) \(kind.buttonTitle)")
 //                        .tag(kind)
                 }
