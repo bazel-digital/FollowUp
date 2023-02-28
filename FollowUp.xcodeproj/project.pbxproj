@@ -25,6 +25,9 @@
 		21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21379043275AE6EE004059F4 /* FollowUpStore.swift */; };
 		21379047275AE82B004059F4 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379046275AE82B004059F4 /* Collections */; };
 		21379049275AE82B004059F4 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379048275AE82B004059F4 /* OrderedCollections */; };
+		2147644529AE641E0098A789 /* ConversationStarting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644429AE641E0098A789 /* ConversationStarting.swift */; };
+		2147644729AE64320098A789 /* StandardConversationStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644629AE64320098A789 /* StandardConversationStarter.swift */; };
+		2147644929AE64490098A789 /* IntelligentConversationStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644829AE64490098A789 /* IntelligentConversationStarter.swift */; };
 		215654B42A3F4A3B00233DE4 /* ConditionalLazyVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */; };
 		2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD42711F49C005A2387 /* FollowUpApp.swift */; };
 		2159CFD72711F49C005A2387 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD62711F49C005A2387 /* ContentView.swift */; };
@@ -69,7 +72,7 @@
 		21CB9CA1273F1A1600471C34 /* PhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CB9CA0273F1A1600471C34 /* PhoneNumber.swift */; };
 		21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CB9CA2273F214100471C34 /* CircularButton.swift */; };
 		21CB9CA5273F221C00471C34 /* Image+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CB9CA4273F221C00471C34 /* Image+Additions.swift */; };
-		21D7CF272982AD4F003E1277 /* ConversationStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF262982AD4F003E1277 /* ConversationStarter.swift */; };
+		21D7CF272982AD4F003E1277 /* ConversationStarterTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF262982AD4F003E1277 /* ConversationStarterTemplate.swift */; };
 		21D7CF292982B7C7003E1277 /* EditConversationStarterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */; };
 		21D7CF2B2982C62D003E1277 /* Operators+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */; };
 		21E69F85298EE8130043F9FF /* Assertion+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E69F84298EE8130043F9FF /* Assertion+Additions.swift */; };
@@ -111,6 +114,9 @@
 		21312198297EDEF200C9E1EE /* SettingsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheetView.swift; sourceTree = "<group>"; };
 		2131219C297F007500C9E1EE /* FollowUpSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpSettings.swift; sourceTree = "<group>"; };
 		21379043275AE6EE004059F4 /* FollowUpStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpStore.swift; sourceTree = "<group>"; };
+		2147644429AE641E0098A789 /* ConversationStarting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationStarting.swift; sourceTree = "<group>"; };
+		2147644629AE64320098A789 /* StandardConversationStarter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardConversationStarter.swift; sourceTree = "<group>"; };
+		2147644829AE64490098A789 /* IntelligentConversationStarter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentConversationStarter.swift; sourceTree = "<group>"; };
 		215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalLazyVStack.swift; sourceTree = "<group>"; };
 		2159CFD12711F49C005A2387 /* FollowUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FollowUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2159CFD42711F49C005A2387 /* FollowUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpApp.swift; sourceTree = "<group>"; };
@@ -160,7 +166,7 @@
 		21CB9CA0273F1A1600471C34 /* PhoneNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumber.swift; sourceTree = "<group>"; };
 		21CB9CA2273F214100471C34 /* CircularButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularButton.swift; sourceTree = "<group>"; };
 		21CB9CA4273F221C00471C34 /* Image+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Additions.swift"; sourceTree = "<group>"; };
-		21D7CF262982AD4F003E1277 /* ConversationStarter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationStarter.swift; sourceTree = "<group>"; };
+		21D7CF262982AD4F003E1277 /* ConversationStarterTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationStarterTemplate.swift; sourceTree = "<group>"; };
 		21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditConversationStarterView.swift; sourceTree = "<group>"; };
 		21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Operators+Additions.swift"; sourceTree = "<group>"; };
 		21E69F84298EE8130043F9FF /* Assertion+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assertion+Additions.swift"; sourceTree = "<group>"; };
@@ -201,6 +207,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2147644329AE640D0098A789 /* Conversation Starters */ = {
+			isa = PBXGroup;
+			children = (
+				2147644429AE641E0098A789 /* ConversationStarting.swift */,
+				2147644629AE64320098A789 /* StandardConversationStarter.swift */,
+				2147644829AE64490098A789 /* IntelligentConversationStarter.swift */,
+				21D7CF262982AD4F003E1277 /* ConversationStarterTemplate.swift */,
+			);
+			path = "Conversation Starters";
+			sourceTree = "<group>";
+		};
 		210378EB29A3CFBC001599EE /* Feature Showcase */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,6 +325,7 @@
 		2159D0022711F4D3005A2387 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2147644329AE640D0098A789 /* Conversation Starters */,
 				2159D0032711F4DF005A2387 /* Contactable.swift */,
 				218B390C271C695F002720BC /* Grouping.swift */,
 				21CB9CA0273F1A1600471C34 /* PhoneNumber.swift */,
@@ -316,7 +334,6 @@
 				21064079277DDCE90065AD50 /* FollowUpManager.swift */,
 				2115FCC428E8E83D001A6E4E /* ButtonAction.swift */,
 				2131219C297F007500C9E1EE /* FollowUpSettings.swift */,
-				21D7CF262982AD4F003E1277 /* ConversationStarter.swift */,
 				21E69F8829924D240043F9FF /* Networking.swift */,
 				2196759A2A3A2025003C9A20 /* Tag.swift */,
 			);
@@ -563,9 +580,10 @@
 				218B390D271C695F002720BC /* Grouping.swift in Sources */,
 				21064076277D04950065AD50 /* ContactSheet.swift in Sources */,
 				218B390F271C6D5A002720BC /* Sequence+Additions.swift in Sources */,
-				21D7CF272982AD4F003E1277 /* ConversationStarter.swift in Sources */,
+				21D7CF272982AD4F003E1277 /* ConversationStarterTemplate.swift in Sources */,
 				2115FCC328E8E732001A6E4E /* ConversationActionButtonView.swift in Sources */,
 				218B390B2718CB50002720BC /* EnvironmentValues+Additions.swift in Sources */,
+				2147644529AE641E0098A789 /* ConversationStarting.swift in Sources */,
 				21D7CF2B2982C62D003E1277 /* Operators+Additions.swift in Sources */,
 				21CB9CA5273F221C00471C34 /* Image+Additions.swift in Sources */,
 				21312195297ED1CF00C9E1EE /* Text+Additions.swift in Sources */,
@@ -587,10 +605,12 @@
 				219F940128830408008980CB /* HighlightsTabView.swift in Sources */,
 				2131219D297F007500C9E1EE /* FollowUpSettings.swift in Sources */,
 				218B3917271C972B002720BC /* MockContactInteractor.swift in Sources */,
+				2147644729AE64320098A789 /* StandardConversationStarter.swift in Sources */,
 				2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */,
 				215654B42A3F4A3B00233DE4 /* ConditionalLazyVStack.swift in Sources */,
 				210378EA29A3CE5C001599EE /* WelcomeView.swift in Sources */,
 				2159CFD72711F49C005A2387 /* ContentView.swift in Sources */,
+				2147644929AE64490098A789 /* IntelligentConversationStarter.swift in Sources */,
 				2115FCC528E8E83D001A6E4E /* ButtonAction.swift in Sources */,
 				2159D0082711FABC005A2387 /* ContactBadge.swift in Sources */,
 				21BD01BB29A1158F00C53F71 /* GradientButtonStyle.swift in Sources */,
