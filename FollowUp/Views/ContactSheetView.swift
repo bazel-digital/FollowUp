@@ -75,7 +75,7 @@ struct ContactSheetView: View {
                 HStack {
                     CircularButton(icon: .phone, action: .call(number: phoneNumber))
                     CircularButton(icon: .sms, action: .sms(number: phoneNumber))
-                    CircularButton(icon: .whatsApp, action: .whatsApp(number: phoneNumber, generateText: { _ in }))
+                    CircularButton(icon: .whatsApp, action: .whatsApp(number: phoneNumber, generateText: { completion in completion(.success("")) }))
                 }
             }
         }
@@ -161,7 +161,6 @@ struct ContactSheetView: View {
             .init(), .init(), .init()
         ], alignment: .center, content: {
   
-            
             if !contact.highlighted { highlightButton } else { unhighlightButton }
             if !contact.containedInFollowUps { addToFollowUpsButton } else { removeFromFollowUpsButton }
             followedUpButton
@@ -198,14 +197,14 @@ struct ContactSheetView: View {
                     }
                     Spacer()
 
-                VStack {
+            VStack(spacing: Constant.ContactSheet.verticalSpacing) {
 
                     contactBadgeAndNameView
                     
                     if let note = contact.note, !note.isEmpty {
-                        Text(note)
-                            .italic()
+                        ContactNoteView(note: note)
                     }
+
                     relativeTimeSinceMeetingView
 
                     contactDetailsView
@@ -258,16 +257,15 @@ struct ContactSheetView: View {
 struct ContactModalView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContactSheetView(kind: .modal, sheet: MockedContact(id: "1").sheet, onClose: { })
-                .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
+            ContactSheetView(kind: .modal, sheet: MockedContact(
+                id: "1",
+                note: "Met on the underground at Euston Station. Works at a local hedgefund and is into cryptocurrency. Open to coming out, but is quite busy."
+            ).sheet, onClose: { })
 
             ContactSheetView(kind: .inline, sheet: MockedContact(id: "0").sheet, onClose: { })
-                .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
 
             ContactSheetView(kind: .modal, sheet: MockedContact(id: "0").sheet, onClose: { })
                 .preferredColorScheme(.dark)
-                .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
-
         }
         .environmentObject(FollowUpManager())
         .environmentObject(FollowUpStore())

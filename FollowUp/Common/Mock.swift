@@ -30,11 +30,22 @@ final class MockedContact: Object, Contactable {
     @Persisted var containedInFollowUps: Bool = faker.number.randomBool()
     @Persisted var lastInteractedWith: Date? = faker.date.backward(days: 10)
 
-    convenience init(id: String? = nil){
+    
+    convenience init(id: ContactID = UUID().uuidString, name: String = faker.name.name(), phoneNumber: PhoneNumber? = .mocked, email: String? = faker.internet.email(), thumbnailImage: UIImage? = nil, note: String? = faker.hobbit.quote(), followUps: Int = faker.number.randomInt(min: 0, max: 10), createDate: Date = faker.date.backward(days: 30), lastFollowedUp: Date? = faker.date.backward(days: faker.number.randomInt(min: 0, max: 1)), highlighted: Bool = faker.number.randomBool(), containedInFollowUps: Bool = faker.number.randomBool(), lastInteractedWith: Date? = faker.date.backward(days: 10)) {
         self.init()
-        self.id = id ?? self.id
+        self.id = id
+        self.name = name
+        self.phoneNumber = phoneNumber
+        self.email = email
+        self.thumbnailImage = thumbnailImage
+        self.note = note
+        self.followUps = followUps
+        self.createDate = createDate
+        self.lastFollowedUp = lastFollowedUp
+        self.highlighted = highlighted
+        self.containedInFollowUps = containedInFollowUps
+        self.lastInteractedWith = lastInteractedWith
     }
-
 }
 
 extension ContactSection {
@@ -46,7 +57,7 @@ extension ContactSection {
 extension Contactable where Self == Contact {
     static var mocked: any Contactable { MockedContact() }
     static var mockedFollowedUpToday: any Contactable {
-        var contact = MockedContact()
+        let contact = MockedContact()
         contact.lastFollowedUp = .now
         contact.tags.append(objectsIn: [Tag(title: "Gym"), Tag(title: "AMS")])
         return contact

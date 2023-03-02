@@ -28,11 +28,8 @@
 		2147644529AE641E0098A789 /* ConversationStarting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644429AE641E0098A789 /* ConversationStarting.swift */; };
 		2147644729AE64320098A789 /* StandardConversationStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644629AE64320098A789 /* StandardConversationStarter.swift */; };
 		2147644929AE64490098A789 /* IntelligentConversationStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644829AE64490098A789 /* IntelligentConversationStarter.swift */; };
-<<<<<<< HEAD
-		215654B42A3F4A3B00233DE4 /* ConditionalLazyVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */; };
-=======
 		2147644C29B0D2D90098A789 /* CircularLoadingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644B29B0D2D90098A789 /* CircularLoadingSpinner.swift */; };
->>>>>>> 24cb1c1 (Add circular loading indicator when intelligent conversation starters are being generated.)
+		215654B42A3F4A3B00233DE4 /* ConditionalLazyVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */; };
 		2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD42711F49C005A2387 /* FollowUpApp.swift */; };
 		2159CFD72711F49C005A2387 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD62711F49C005A2387 /* ContentView.swift */; };
 		2159CFD92711F49D005A2387 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2159CFD82711F49D005A2387 /* Assets.xcassets */; };
@@ -79,6 +76,7 @@
 		21D7CF272982AD4F003E1277 /* ConversationStarterTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF262982AD4F003E1277 /* ConversationStarterTemplate.swift */; };
 		21D7CF292982B7C7003E1277 /* EditConversationStarterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */; };
 		21D7CF2B2982C62D003E1277 /* Operators+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */; };
+		21DA66BD29B0E3F100B5CAFD /* ContactNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DA66BC29B0E3F100B5CAFD /* ContactNoteView.swift */; };
 		21E69F85298EE8130043F9FF /* Assertion+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E69F84298EE8130043F9FF /* Assertion+Additions.swift */; };
 		21E69F87298EF01B0043F9FF /* FollowUp.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 21E69F86298EEEA10043F9FF /* FollowUp.entitlements */; };
 		21E69F8929924D240043F9FF /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E69F8829924D240043F9FF /* Networking.swift */; };
@@ -121,11 +119,8 @@
 		2147644429AE641E0098A789 /* ConversationStarting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationStarting.swift; sourceTree = "<group>"; };
 		2147644629AE64320098A789 /* StandardConversationStarter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardConversationStarter.swift; sourceTree = "<group>"; };
 		2147644829AE64490098A789 /* IntelligentConversationStarter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentConversationStarter.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalLazyVStack.swift; sourceTree = "<group>"; };
-=======
 		2147644B29B0D2D90098A789 /* CircularLoadingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLoadingSpinner.swift; sourceTree = "<group>"; };
->>>>>>> 24cb1c1 (Add circular loading indicator when intelligent conversation starters are being generated.)
+		215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalLazyVStack.swift; sourceTree = "<group>"; };
 		2159CFD12711F49C005A2387 /* FollowUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FollowUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2159CFD42711F49C005A2387 /* FollowUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpApp.swift; sourceTree = "<group>"; };
 		2159CFD62711F49C005A2387 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -177,6 +172,7 @@
 		21D7CF262982AD4F003E1277 /* ConversationStarterTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationStarterTemplate.swift; sourceTree = "<group>"; };
 		21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditConversationStarterView.swift; sourceTree = "<group>"; };
 		21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Operators+Additions.swift"; sourceTree = "<group>"; };
+		21DA66BC29B0E3F100B5CAFD /* ContactNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactNoteView.swift; sourceTree = "<group>"; };
 		21E69F84298EE8130043F9FF /* Assertion+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assertion+Additions.swift"; sourceTree = "<group>"; };
 		21E69F86298EEEA10043F9FF /* FollowUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FollowUp.entitlements; sourceTree = "<group>"; };
 		21E69F8829924D240043F9FF /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
@@ -226,7 +222,14 @@
 			path = "Conversation Starters";
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
+		2147644A29B0D2C90098A789 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				2147644B29B0D2D90098A789 /* CircularLoadingSpinner.swift */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
 		210378EB29A3CFBC001599EE /* Feature Showcase */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,14 +237,6 @@
 				210378EC29A3CFD3001599EE /* IndividualFeatureView.swift */,
 			);
 			path = "Feature Showcase";
-=======
-		2147644A29B0D2C90098A789 /* Animation */ = {
-			isa = PBXGroup;
-			children = (
-				2147644B29B0D2D90098A789 /* CircularLoadingSpinner.swift */,
-			);
-			path = Animation;
->>>>>>> 24cb1c1 (Add circular loading indicator when intelligent conversation starters are being generated.)
 			sourceTree = "<group>";
 		};
 		2159CFC82711F49C005A2387 = {
@@ -334,8 +329,12 @@
 				21312190297ED14D00C9E1EE /* HeroMessageView.swift */,
 				21312198297EDEF200C9E1EE /* SettingsSheetView.swift */,
 				21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */,
+<<<<<<< HEAD
 				210378EB29A3CFBC001599EE /* Feature Showcase */,
 				215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */,
+=======
+				21DA66BC29B0E3F100B5CAFD /* ContactNoteView.swift */,
+>>>>>>> be69a81 (Clean up note UI.)
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -617,6 +616,7 @@
 				21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */,
 				218B3914271C73F9002720BC /* ContactListSectionView.swift in Sources */,
 				21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */,
+				21DA66BD29B0E3F100B5CAFD /* ContactNoteView.swift in Sources */,
 				21C8BA0428E8D97D005298CE /* Int+Additions.swift in Sources */,
 				2147644C29B0D2D90098A789 /* CircularLoadingSpinner.swift in Sources */,
 				21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */,

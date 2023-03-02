@@ -75,7 +75,7 @@ struct ContactSheetView: View {
                 HStack {
                     CircularButton(icon: .phone, action: .call(number: phoneNumber))
                     CircularButton(icon: .sms, action: .sms(number: phoneNumber))
-                    CircularButton(icon: .whatsApp, action: .whatsApp(number: phoneNumber, prefilledText: nil))
+                    CircularButton(icon: .whatsApp, action: .whatsApp(number: phoneNumber, generateText: { completion in completion(.success("")) }))
                 }
             }
         }
@@ -161,7 +161,6 @@ struct ContactSheetView: View {
             .init(), .init(), .init()
         ], alignment: .center, content: {
   
-            
             if !contact.highlighted { highlightButton } else { unhighlightButton }
             if !contact.containedInFollowUps { addToFollowUpsButton } else { removeFromFollowUpsButton }
             followedUpButton
@@ -211,6 +210,7 @@ struct ContactSheetView: View {
                     contactDetailsView
                         .padding(.top)
                 }
+<<<<<<< HEAD
                 
                 
                 tagsView
@@ -222,6 +222,31 @@ struct ContactSheetView: View {
                 actionButtonGrid
                     .padding()
             }
+=======
+                Spacer()
+
+            VStack(spacing: Constant.ContactSheet.verticalSpacing) {
+
+                contactBadgeAndNameView
+                
+                relativeTimeSinceMeetingView
+
+                if let note = contact.note, !note.isEmpty {
+                    ContactNoteView(note: note)
+                }
+
+                contactDetailsView
+
+            }.padding(.horizontal)
+            
+            Spacer()
+            startAConversationRowView
+            Spacer()
+            followUpDetailsView
+            Spacer()
+            actionButtonGrid
+                .padding()
+>>>>>>> be69a81 (Clean up note UI.)
         }
     }
 
@@ -258,21 +283,22 @@ struct ContactSheetView: View {
 struct ContactModalView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContactSheetView(kind: .modal, sheet: MockedContact(id: "1").sheet, onClose: { })
-                .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
+            ContactSheetView(kind: .modal, sheet: MockedContact(
+                id: "1",
+                note: "Met on the underground at Euston Station. Works at a local hedgefund and is into cryptocurrency. Open to coming out, but is quite busy."
+            ).sheet, onClose: { })
 
             ContactSheetView(kind: .inline, sheet: MockedContact(id: "0").sheet, onClose: { })
-                .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
 
             ContactSheetView(kind: .modal, sheet: MockedContact(id: "0").sheet, onClose: { })
                 .preferredColorScheme(.dark)
-                .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
-
         }
 <<<<<<< HEAD
         .environmentObject(FollowUpManager())
         .environmentObject(FollowUpStore())
 =======
->>>>>>> 096b841 (Add note integration; merge contacts from both frameworks)
+        .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
+        .environmentObject(FollowUpStore.mocked(withNumberOfContacts: 4))
+>>>>>>> be69a81 (Clean up note UI.)
     }
 }

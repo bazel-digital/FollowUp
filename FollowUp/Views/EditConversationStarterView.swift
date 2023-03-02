@@ -152,7 +152,6 @@ struct EditConversationStarterView: View {
             Picker("Conversation Starter Kind", selection: $editingConversationStarter.kind, content: {
                 ForEach(ConversationStarterKind.allCases, id: \.self) { kind in
                      Text("\(Image(systemName: kind.icon.rawValue)) \(kind.buttonTitle)")
-//                        .tag(kind)
                 }
             }).pickerStyle(.segmented)
             .padding()

@@ -7,11 +7,8 @@
 
 import Foundation
 import CoreGraphics
-<<<<<<< HEAD
-import RealmSwift
-=======
 import SwiftUI
->>>>>>> 24cb1c1 (Add circular loading indicator when intelligent conversation starters are being generated.)
+import RealmSwift
 
 enum Constant {
 
@@ -63,6 +60,9 @@ enum Constant {
         case closeOutline = "xmark"
         case email = "envelope.fill"
         case minus = "minus"
+        case partyPopper = "party.popper.fill"
+        case personWithCheckmark = "person.crop.circle.fill.badge.checkmark"
+        case personWithDescription = "person.text.rectangle.fill"
         case phone = "phone.fill"
         case plus = "plus"
         case settings = "gearshape.fill"
@@ -74,8 +74,7 @@ enum Constant {
         case thumbsUp = "hand.thumbsup.fill"
         case trash = "trash.fill"
         case whatsApp = "whatsAppIcon"
-        case personWithCheckmark = "person.crop.circle.fill.badge.checkmark"
-        case partyPopper = "party.popper.fill"
+
         case arrowCirclePath = "arrow.triangle.2.circlepath"
         case lock = "lock.fill"
         case lockWithExclamationMark = "lock.trianglebadge.exclamationmark"
@@ -89,7 +88,11 @@ enum Constant {
 
         var kind: Kind {
             switch self {
+<<<<<<< HEAD
             case .bolt, chatBubbles, .chatWithElipses, .chatWithWaveform, .checkmark, .chevronRight, .clock, .closeOutline, .close, .email, .minus, .phone, .plus, .settings, .sms, .star, .starWithText, .slashedStar, .target, .thumbsUp, .trash, .personWithCheckmark, .partyPopper, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
+=======
+            case .chatBubbles, .chatWithElipses, .chatWithWaveform, .checkmark, .chevronRight, .clock, .closeOutline, .close, .email, .minus, .partyPopper, .personWithCheckmark, .personWithDescription, .phone, .plus, .settings, .sms, .star, .starWithText, .slashedStar, .thumbsUp, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
+>>>>>>> be69a81 (Clean up note UI.)
             case .whatsApp: return .asset
             }
         }
@@ -118,20 +121,19 @@ enum Constant {
         static let maxWidth: CGFloat = 200.0
     }
     
-<<<<<<< HEAD
-    // MARK: - Tags
-    enum Tag {
-        static let horiztontalPadding: CGFloat = 10.0
-        static let verticalPadding: CGFloat = 5.0
-        static let cornerRadius: CGFloat = 5.0
-=======
     // MARK: - Circular Loading Spiner
     enum CircularLoadingSpinner {
         static let defaultSize: CGFloat = 25.0
         static let defaultLineWidth: CGFloat = 5.0
         static let defaultBackgroundCircleOpacity: CGFloat = 0.50
         static let defaultColour: Color = .blue
->>>>>>> 24cb1c1 (Add circular loading indicator when intelligent conversation starters are being generated.)
+    }
+    
+    // MARK: - Tags
+    enum Tag {
+        static let horiztontalPadding: CGFloat = 10.0
+        static let verticalPadding: CGFloat = 5.0
+        static let cornerRadius: CGFloat = 5.0
     }
 
     // MARK: - Keys
