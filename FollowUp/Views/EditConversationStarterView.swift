@@ -24,6 +24,7 @@ struct EditConversationStarterView: View {
             Spacer()
             Image(icon: iconForHeader)
                 .resizable()
+                .aspectRatio(contentMode: .fit)
                 .frame(width: Constant.Icon.mediumSize, height: Constant.Icon.mediumSize)
                 .foregroundColor(.secondary)
                 .animation(.default, value: self.editingConversationStarter.kind)
