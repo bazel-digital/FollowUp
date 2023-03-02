@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ConversationActionButtonView: View {
     
-    // MARK: - Enums
+    // MARK: - Stored Properties
     var template: ConversationStarterTemplate
     var contact: any Contactable
+    @State var isLoading: Bool = false
 
     var maxWidth: CGFloat = Constant.ConversationActionButton.maxWidth
     
@@ -23,16 +24,16 @@ struct ConversationActionButtonView: View {
         return label
     }
     
-    var body: some View {
+    private var buttonView: some View {
         Button(action: {
-            Task {
-                // TODO: Ensure proper error handling, and wrap this in an 'AsyncButton' component. (See: https://www.swiftbysundell.com/articles/building-an-async-swiftui-button/)
-                do {
-                    let action = try template.buttonAction(contact: contact)
-                    await action?.closure()
-                } catch {
-                    Log.error("Could not perform button action: \(error.localizedDescription)")
-                }
+            do {
+                let action = try template.buttonAction(contact: contact)
+                self.isLoading = true
+                action?.closure(completion: {
+                    self.isLoading = false
+                })
+            } catch {
+                Log.error("Could not perform button action: \(error.localizedDescription)")
             }
         }, label: {
             Label(
@@ -41,25 +42,64 @@ struct ConversationActionButtonView: View {
                         .lineLimit(1)
                         .truncationMode(.tail)
                         .frame(maxWidth: maxWidth)
-                    
                 },
-                icon: { Image(icon: template.platform.icon).renderingMode(.template) }
+                icon: {
+                    if isLoading {
+                        CircularLoadingSpinner(
+                            lineWidth: 3,
+                            colour: .white
+                        )
+                        .frame(width: 25, height: 25)
+                    } else {
+                        Image(icon: template.platform.icon)
+                            .renderingMode(.template)
+                    }
+                }
             )
-                .foregroundColor(.secondary)
-                .fontWeight(.semibold)
-                .padding()
-                .background(Color(.tertiarySystemFill))
-                .cornerRadius(Constant.cornerRadius)
         })
     }
-
+    
+    private var standardConversationStarterButton: some View {
+        buttonView
+            .foregroundColor(.secondary)
+            .fontWeight(.semibold)
+            .padding()
+            .background(Color(.tertiarySystemFill))
+            .cornerRadius(Constant.cornerRadius)
+    }
+    
+    private var intelligentConversationStarterButton: some View {
+        buttonView
+            .foregroundColor(.secondary)
+            .fontWeight(.semibold)
+            .buttonStyle(
+                GradientButtonStyle(
+                    colours: [.pink, .purple],
+                    cornerRadius: Constant.cornerRadius
+                )
+            )
+            .cornerRadius(Constant.cornerRadius)
+    }
+    
+    var body: some View {
+        switch self.template.kind {
+        case .intelligent: intelligentConversationStarterButton
+        case .standard: standardConversationStarterButton
+        }
+    }
 }
 
 struct ConversationActionButtonView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            ConversationActionButtonView(template: .init(template: "Hey <NAME>!", platform: .whatsApp), contact: Contact.mocked)
+            HStack {
+                ConversationActionButtonView(template: .init(template: "Hey <NAME>!", platform: .whatsApp), contact: Contact.mocked)
+                ConversationActionButtonView(template: .init(template: "Hey <NAME>!", platform: .whatsApp), contact: Contact.mocked)
+                ConversationActionButtonView(template: .init(prompt: "Something", context: "Else", platform: .whatsApp), contact: Contact.mocked, isLoading: true)
+            }
+            ConversationActionButtonView(template: .init(prompt: "Something", context: "Else", platform: .whatsApp), contact: Contact.mocked, isLoading: true)
         }
         .previewLayout(.sizeThatFits)
+
     }
 }

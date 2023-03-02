@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreGraphics
+import SwiftUI
 import RealmSwift
 
 enum Constant {
@@ -112,6 +113,14 @@ enum Constant {
     // MARK: - Conversation Action Button
     enum ConversationActionButton {
         static let maxWidth: CGFloat = 200.0
+    }
+    
+    // MARK: - Circular Loading Spiner
+    enum CircularLoadingSpinner {
+        static let defaultSize: CGFloat = 25.0
+        static let defaultLineWidth: CGFloat = 5.0
+        static let defaultBackgroundCircleOpacity: CGFloat = 0.50
+        static let defaultColour: Color = .blue
     }
     
     // MARK: - Tags

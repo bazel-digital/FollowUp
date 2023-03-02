@@ -28,6 +28,7 @@
 		2147644529AE641E0098A789 /* ConversationStarting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644429AE641E0098A789 /* ConversationStarting.swift */; };
 		2147644729AE64320098A789 /* StandardConversationStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644629AE64320098A789 /* StandardConversationStarter.swift */; };
 		2147644929AE64490098A789 /* IntelligentConversationStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644829AE64490098A789 /* IntelligentConversationStarter.swift */; };
+		2147644C29B0D2D90098A789 /* CircularLoadingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644B29B0D2D90098A789 /* CircularLoadingSpinner.swift */; };
 		215654B42A3F4A3B00233DE4 /* ConditionalLazyVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */; };
 		2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD42711F49C005A2387 /* FollowUpApp.swift */; };
 		2159CFD72711F49C005A2387 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD62711F49C005A2387 /* ContentView.swift */; };
@@ -117,6 +118,7 @@
 		2147644429AE641E0098A789 /* ConversationStarting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationStarting.swift; sourceTree = "<group>"; };
 		2147644629AE64320098A789 /* StandardConversationStarter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardConversationStarter.swift; sourceTree = "<group>"; };
 		2147644829AE64490098A789 /* IntelligentConversationStarter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentConversationStarter.swift; sourceTree = "<group>"; };
+		2147644B29B0D2D90098A789 /* CircularLoadingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLoadingSpinner.swift; sourceTree = "<group>"; };
 		215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalLazyVStack.swift; sourceTree = "<group>"; };
 		2159CFD12711F49C005A2387 /* FollowUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FollowUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2159CFD42711F49C005A2387 /* FollowUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpApp.swift; sourceTree = "<group>"; };
@@ -218,6 +220,14 @@
 			path = "Conversation Starters";
 			sourceTree = "<group>";
 		};
+		2147644A29B0D2C90098A789 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				2147644B29B0D2D90098A789 /* CircularLoadingSpinner.swift */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
 		210378EB29A3CFBC001599EE /* Feature Showcase */ = {
 			isa = PBXGroup;
 			children = (
@@ -298,6 +308,7 @@
 		2159CFFF2711F4AE005A2387 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2147644A29B0D2C90098A789 /* Animation */,
 				21E69F8A29965FEF0043F9FF /* Button */,
 				2196759C2A3A208E003C9A20 /* Tags */,
 				2159CFD62711F49C005A2387 /* ContentView.swift */,
@@ -600,6 +611,7 @@
 				218B3914271C73F9002720BC /* ContactListSectionView.swift in Sources */,
 				21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */,
 				21C8BA0428E8D97D005298CE /* Int+Additions.swift in Sources */,
+				2147644C29B0D2D90098A789 /* CircularLoadingSpinner.swift in Sources */,
 				21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */,
 				2159D0042711F4DF005A2387 /* Contactable.swift in Sources */,
 				219F940128830408008980CB /* HighlightsTabView.swift in Sources */,

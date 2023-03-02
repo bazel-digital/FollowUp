@@ -11,16 +11,18 @@ import SwiftUI
 struct GradientButtonStyle: ButtonStyle {
     
     var colours: [Color]
+    var padding: CGFloat = Constant.borderedButtonPadding
+    var cornerRadius: CGFloat = Constant.buttonCornerRadius
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .padding(Constant.borderedButtonPadding)
+            .padding(padding)
             .background {
                 LinearGradient(colors: colours, startPoint: .leading, endPoint: .trailing)
                     .opacity(configuration.isPressed ? 0.75 : 1)
             }
             .opacity(configuration.isPressed ? 0.75 : 1)
             .foregroundColor(.white.opacity(configuration.isPressed ? 0.75 : 1))
-            .clipShape(RoundedRectangle(cornerRadius: Constant.buttonCornerRadius))
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
     }
 }

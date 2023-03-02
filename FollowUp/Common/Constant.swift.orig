@@ -7,7 +7,11 @@
 
 import Foundation
 import CoreGraphics
+<<<<<<< HEAD
 import RealmSwift
+=======
+import SwiftUI
+>>>>>>> 24cb1c1 (Add circular loading indicator when intelligent conversation starters are being generated.)
 
 enum Constant {
 
@@ -85,11 +89,7 @@ enum Constant {
 
         var kind: Kind {
             switch self {
-<<<<<<< HEAD
-            case .bolt, .chatBubbles, .checkmark, .chevronRight, .clock, .closeOutline, .close, .email, .minus, .phone, .plus, .settings, .sms, .star, .starWithText, .slashedStar, .target, .thumbsUp, .trash, .personWithCheckmark, .partyPopper, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
-=======
-            case .chatBubbles, .chatWithElipses, .chatWithWaveform, .checkmark, .chevronRight, .clock, .closeOutline, .close, .email, .minus, .phone, .plus, .settings, .sms, .star, .starWithText, .slashedStar, .thumbsUp, .personWithCheckmark, .partyPopper, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
->>>>>>> 074410e (Start implement ChatGPT conversation Starters.)
+            case .bolt, chatBubbles, .chatWithElipses, .chatWithWaveform, .checkmark, .chevronRight, .clock, .closeOutline, .close, .email, .minus, .phone, .plus, .settings, .sms, .star, .starWithText, .slashedStar, .target, .thumbsUp, .trash, .personWithCheckmark, .partyPopper, .arrowCirclePath, .lock, .lockWithExclamationMark: return .sfSymbol
             case .whatsApp: return .asset
             }
         }
@@ -118,11 +118,20 @@ enum Constant {
         static let maxWidth: CGFloat = 200.0
     }
     
+<<<<<<< HEAD
     // MARK: - Tags
     enum Tag {
         static let horiztontalPadding: CGFloat = 10.0
         static let verticalPadding: CGFloat = 5.0
         static let cornerRadius: CGFloat = 5.0
+=======
+    // MARK: - Circular Loading Spiner
+    enum CircularLoadingSpinner {
+        static let defaultSize: CGFloat = 25.0
+        static let defaultLineWidth: CGFloat = 5.0
+        static let defaultBackgroundCircleOpacity: CGFloat = 0.50
+        static let defaultColour: Color = .blue
+>>>>>>> 24cb1c1 (Add circular loading indicator when intelligent conversation starters are being generated.)
     }
 
     // MARK: - Keys
@@ -135,7 +144,6 @@ enum Constant {
         }
     }
     
-<<<<<<< HEAD
     // MARK: - Contact List
     enum ContactList {
         static let maxContactsForNonLazyVStack: Int = 20
@@ -148,7 +156,8 @@ enum Constant {
         static let tagSearchDebounce: RunLoop.SchedulerTimeType.Stride = 0.1
         static let maxNumberOfDisplayedSearchTagSuggestions: Int = 9
         static let suggestedTagViewTopPadding: CGFloat = 7.0
-=======
+    }
+    
     
     // MARK: - Secrets
     enum Secrets {
@@ -158,6 +167,5 @@ enum Constant {
     // MARK: - Conversation Starter
     enum ConversationStarter {
         static let defaultMaxTokenGenerationLength: Int = 1000
->>>>>>> 074410e (Start implement ChatGPT conversation Starters.)
     }
 }

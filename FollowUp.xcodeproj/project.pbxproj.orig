@@ -25,13 +25,14 @@
 		21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21379043275AE6EE004059F4 /* FollowUpStore.swift */; };
 		21379047275AE82B004059F4 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379046275AE82B004059F4 /* Collections */; };
 		21379049275AE82B004059F4 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379048275AE82B004059F4 /* OrderedCollections */; };
-<<<<<<< HEAD
-		215654B42A3F4A3B00233DE4 /* ConditionalLazyVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */; };
-=======
 		2147644529AE641E0098A789 /* ConversationStarting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644429AE641E0098A789 /* ConversationStarting.swift */; };
 		2147644729AE64320098A789 /* StandardConversationStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644629AE64320098A789 /* StandardConversationStarter.swift */; };
 		2147644929AE64490098A789 /* IntelligentConversationStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644829AE64490098A789 /* IntelligentConversationStarter.swift */; };
->>>>>>> 8075b55 (Break up conversation starter logic into separate files for clarity.)
+<<<<<<< HEAD
+		215654B42A3F4A3B00233DE4 /* ConditionalLazyVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */; };
+=======
+		2147644C29B0D2D90098A789 /* CircularLoadingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147644B29B0D2D90098A789 /* CircularLoadingSpinner.swift */; };
+>>>>>>> 24cb1c1 (Add circular loading indicator when intelligent conversation starters are being generated.)
 		2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD42711F49C005A2387 /* FollowUpApp.swift */; };
 		2159CFD72711F49C005A2387 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD62711F49C005A2387 /* ContentView.swift */; };
 		2159CFD92711F49D005A2387 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2159CFD82711F49D005A2387 /* Assets.xcassets */; };
@@ -117,13 +118,14 @@
 		21312198297EDEF200C9E1EE /* SettingsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheetView.swift; sourceTree = "<group>"; };
 		2131219C297F007500C9E1EE /* FollowUpSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpSettings.swift; sourceTree = "<group>"; };
 		21379043275AE6EE004059F4 /* FollowUpStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpStore.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalLazyVStack.swift; sourceTree = "<group>"; };
-=======
 		2147644429AE641E0098A789 /* ConversationStarting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationStarting.swift; sourceTree = "<group>"; };
 		2147644629AE64320098A789 /* StandardConversationStarter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardConversationStarter.swift; sourceTree = "<group>"; };
 		2147644829AE64490098A789 /* IntelligentConversationStarter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentConversationStarter.swift; sourceTree = "<group>"; };
->>>>>>> 8075b55 (Break up conversation starter logic into separate files for clarity.)
+<<<<<<< HEAD
+		215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalLazyVStack.swift; sourceTree = "<group>"; };
+=======
+		2147644B29B0D2D90098A789 /* CircularLoadingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLoadingSpinner.swift; sourceTree = "<group>"; };
+>>>>>>> 24cb1c1 (Add circular loading indicator when intelligent conversation starters are being generated.)
 		2159CFD12711F49C005A2387 /* FollowUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FollowUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2159CFD42711F49C005A2387 /* FollowUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpApp.swift; sourceTree = "<group>"; };
 		2159CFD62711F49C005A2387 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -213,15 +215,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-<<<<<<< HEAD
-		210378EB29A3CFBC001599EE /* Feature Showcase */ = {
-			isa = PBXGroup;
-			children = (
-				210378E929A3CE5C001599EE /* WelcomeView.swift */,
-				210378EC29A3CFD3001599EE /* IndividualFeatureView.swift */,
-			);
-			path = "Feature Showcase";
-=======
 		2147644329AE640D0098A789 /* Conversation Starters */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,7 +224,24 @@
 				21D7CF262982AD4F003E1277 /* ConversationStarterTemplate.swift */,
 			);
 			path = "Conversation Starters";
->>>>>>> 8075b55 (Break up conversation starter logic into separate files for clarity.)
+			sourceTree = "<group>";
+		};
+<<<<<<< HEAD
+		210378EB29A3CFBC001599EE /* Feature Showcase */ = {
+			isa = PBXGroup;
+			children = (
+				210378E929A3CE5C001599EE /* WelcomeView.swift */,
+				210378EC29A3CFD3001599EE /* IndividualFeatureView.swift */,
+			);
+			path = "Feature Showcase";
+=======
+		2147644A29B0D2C90098A789 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				2147644B29B0D2D90098A789 /* CircularLoadingSpinner.swift */,
+			);
+			path = Animation;
+>>>>>>> 24cb1c1 (Add circular loading indicator when intelligent conversation starters are being generated.)
 			sourceTree = "<group>";
 		};
 		2159CFC82711F49C005A2387 = {
@@ -305,6 +315,7 @@
 		2159CFFF2711F4AE005A2387 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2147644A29B0D2C90098A789 /* Animation */,
 				21E69F8A29965FEF0043F9FF /* Button */,
 				2196759C2A3A208E003C9A20 /* Tags */,
 				2159CFD62711F49C005A2387 /* ContentView.swift */,
@@ -607,6 +618,7 @@
 				218B3914271C73F9002720BC /* ContactListSectionView.swift in Sources */,
 				21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */,
 				21C8BA0428E8D97D005298CE /* Int+Additions.swift in Sources */,
+				2147644C29B0D2D90098A789 /* CircularLoadingSpinner.swift in Sources */,
 				21CB9CA3273F214100471C34 /* CircularButton.swift in Sources */,
 				2159D0042711F4DF005A2387 /* Contactable.swift in Sources */,
 				219F940128830408008980CB /* HighlightsTabView.swift in Sources */,
