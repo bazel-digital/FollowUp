@@ -25,26 +25,51 @@ struct IntelligentConversationStarter: ConversationStarting {
     // MARK: - Errors
     enum IntelligentConversationStarterError: Error {
         case couldNotGenerate(Error)
+        case noMessageIncluded
         case couldNotUnwrapPrompt
     }
 
     // MARK: - Methods
-    func generateFormattedText(withContact contact: any Contactable) async -> Result<String, Error> {
-        guard let prompt = prompt else { return .failure(IntelligentConversationStarterError.couldNotUnwrapPrompt) }
-        let requestString = self.constructChatGPTRequestString(for: contact, withPrompt: prompt, context: context)
-        do {
-            let result = try await Networking.sendRequestToGPT3(prompt: requestString).value
-            return .success(result)
-        } catch {
-            return .failure(IntelligentConversationStarterError.couldNotGenerate(error))
-        }
-    }
+//    func generateFormattedText(withContact contact: any Contactable) async -> Result<String, Error> {
+//        guard let prompt = prompt else { return .failure(IntelligentConversationStarterError.couldNotUnwrapPrompt) }
+//        let requestString = self.constructChatGPTRequestString(for: contact, withPrompt: prompt, context: context)
+//        do {
+//            let result = try await Networking.sendTextCompletionRequest(prompt: requestString).value
+//            return .success(result)
+//        } catch {
+//            return .failure(IntelligentConversationStarterError.couldNotGenerate(error))
+//        }
+//    }
+//
+//    func generateFormattedText(withContact contact: any Contactable, completion: @escaping ((Result<String, Error>) -> Void)) {
+//        guard let prompt = prompt else { return completion(.failure(IntelligentConversationStarterError.couldNotUnwrapPrompt)) }
+//        let requestString = self.constructChatGPTRequestString(for: contact, withPrompt: prompt, context: context)
+//        Networking.sendTextCompletionRequest(prompt: requestString, completion: completion)
+//    }
+    
+//    func generateFormattedText(withContact contact: any Contactable) async -> Result<String, Error> {
+//
+//    }
     
     func generateFormattedText(withContact contact: any Contactable, completion: @escaping ((Result<String, Error>) -> Void)) {
         guard let prompt = prompt else { return completion(.failure(IntelligentConversationStarterError.couldNotUnwrapPrompt)) }
-        let requestString = self.constructChatGPTRequestString(for: contact, withPrompt: prompt, context: context)
-        Networking.sendRequestToGPT3(prompt: requestString, completion: completion)
+
+        let promptString = self.constructChatGPTRequestString(for: contact, withPrompt: prompt, context: context)
+        let request = ChatCompletionRequest(model: .gpt35Turbo, messages: [
+            .init(role: .system, content: "You are the AI behind a mobile app used to help users follow up with contacts. Your role is to write messages that can be sent on behalf of the user submitting the prompts. The platforms vary from WhatsApp to Messages. Respond only with the exact text that will be sent to the user, nothing else. You do not support chatting with the user, only fulfilling their request with a direct answer that can be copied and pasted into their messaging app. Make sure to use the information given by the user's prompt in order to make each message personalised and relevant."),
+            .init(role: .user, content: promptString)
+        ])
+        
+        Networking.sendChatCompletionRequest(request, completion: { result in
+            completion(result.tryMap {
+                guard let responseString = $0.choices.first?.message.content else {
+                    throw IntelligentConversationStarterError.noMessageIncluded
+                }
+                return responseString
+            })
+        })
     }
+    
     
     private func constructChatGPTRequestString(for contact: any Contactable, withPrompt prompt: String, context: String?) -> String {
         

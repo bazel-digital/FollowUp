@@ -16,10 +16,6 @@ protocol ConversationStarting: Codable, Equatable, Hashable {
     var template: String? { get set }
     var prompt: String? { get set }
     var context: String? { get set }
-
-    func generateFormattedText(
-        withContact contact: any Contactable
-    ) async -> Result<String, Error>
     
     func generateFormattedText(
         withContact contact: any Contactable,

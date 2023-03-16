@@ -63,7 +63,13 @@
 		219675A02A3A2160003C9A20 /* Color+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196759F2A3A2160003C9A20 /* Color+Additions.swift */; };
 		219675A22A3A2482003C9A20 /* TagsCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219675A12A3A2482003C9A20 /* TagsCarouselView.swift */; };
 		219F940128830408008980CB /* HighlightsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F940028830408008980CB /* HighlightsTabView.swift */; };
+<<<<<<< HEAD
 		21A102D729C3589B00EDAE78 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D629C3589B00EDAE78 /* String+Additions.swift */; };
+=======
+		21A102D129C33CCA00EDAE78 /* ChatCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D029C33CCA00EDAE78 /* ChatCompletion.swift */; };
+		21A102D329C33D1D00EDAE78 /* LegacyCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D229C33D1D00EDAE78 /* LegacyCompletion.swift */; };
+		21A102D529C3429E00EDAE78 /* Result+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D429C3429E00EDAE78 /* Result+Additions.swift */; };
+>>>>>>> 8e09112 (Update from text completion to chat completions for intelligent conversation starters.)
 		21A74CCD28F85C9400B9EAC1 /* DailyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */; };
 		21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7FEFE278091BA00138819 /* ContactListView.swift */; };
 		21BD01BB29A1158F00C53F71 /* GradientButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD01BA29A1158F00C53F71 /* GradientButtonStyle.swift */; };
@@ -158,7 +164,13 @@
 		2196759F2A3A2160003C9A20 /* Color+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Additions.swift"; sourceTree = "<group>"; };
 		219675A12A3A2482003C9A20 /* TagsCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCarouselView.swift; sourceTree = "<group>"; };
 		219F940028830408008980CB /* HighlightsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightsTabView.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		21A102D629C3589B00EDAE78 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
+=======
+		21A102D029C33CCA00EDAE78 /* ChatCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCompletion.swift; sourceTree = "<group>"; };
+		21A102D229C33D1D00EDAE78 /* LegacyCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyCompletion.swift; sourceTree = "<group>"; };
+		21A102D429C3429E00EDAE78 /* Result+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Additions.swift"; sourceTree = "<group>"; };
+>>>>>>> 8e09112 (Update from text completion to chat completions for intelligent conversation starters.)
 		21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalView.swift; sourceTree = "<group>"; };
 		21B7FEFE278091BA00138819 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
 		21BD01BA29A1158F00C53F71 /* GradientButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButtonStyle.swift; sourceTree = "<group>"; };
@@ -329,12 +341,9 @@
 				21312190297ED14D00C9E1EE /* HeroMessageView.swift */,
 				21312198297EDEF200C9E1EE /* SettingsSheetView.swift */,
 				21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */,
-<<<<<<< HEAD
+				21DA66BC29B0E3F100B5CAFD /* ContactNoteView.swift */,
 				210378EB29A3CFBC001599EE /* Feature Showcase */,
 				215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */,
-=======
-				21DA66BC29B0E3F100B5CAFD /* ContactNoteView.swift */,
->>>>>>> be69a81 (Clean up note UI.)
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -342,6 +351,7 @@
 		2159D0022711F4D3005A2387 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				21A102CF29C33CAE00EDAE78 /* Networking */,
 				2147644329AE640D0098A789 /* Conversation Starters */,
 				2159D0032711F4DF005A2387 /* Contactable.swift */,
 				218B390C271C695F002720BC /* Grouping.swift */,
@@ -351,8 +361,11 @@
 				21064079277DDCE90065AD50 /* FollowUpManager.swift */,
 				2115FCC428E8E83D001A6E4E /* ButtonAction.swift */,
 				2131219C297F007500C9E1EE /* FollowUpSettings.swift */,
+<<<<<<< HEAD
 				21E69F8829924D240043F9FF /* Networking.swift */,
 				2196759A2A3A2025003C9A20 /* Tag.swift */,
+=======
+>>>>>>> 8e09112 (Update from text completion to chat completions for intelligent conversation starters.)
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -389,8 +402,12 @@
 				21312194297ED1CF00C9E1EE /* Text+Additions.swift */,
 				21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */,
 				21E69F84298EE8130043F9FF /* Assertion+Additions.swift */,
+<<<<<<< HEAD
 				21A102D629C3589B00EDAE78 /* String+Additions.swift */,
 				2196759F2A3A2160003C9A20 /* Color+Additions.swift */,
+=======
+				21A102D429C3429E00EDAE78 /* Result+Additions.swift */,
+>>>>>>> 8e09112 (Update from text completion to chat completions for intelligent conversation starters.)
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -418,6 +435,16 @@
 				21064077277DDCA90065AD50 /* MockFollowUpStore.swift */,
 			);
 			path = Mock;
+			sourceTree = "<group>";
+		};
+		21A102CF29C33CAE00EDAE78 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				21E69F8829924D240043F9FF /* Networking.swift */,
+				21A102D029C33CCA00EDAE78 /* ChatCompletion.swift */,
+				21A102D229C33D1D00EDAE78 /* LegacyCompletion.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		21E69F8A29965FEF0043F9FF /* Button */ = {
@@ -594,6 +621,7 @@
 			files = (
 				21A74CCD28F85C9400B9EAC1 /* DailyGoalView.swift in Sources */,
 				218B3912271C6EA4002720BC /* ContactSection.swift in Sources */,
+				21A102D329C33D1D00EDAE78 /* LegacyCompletion.swift in Sources */,
 				218B390D271C695F002720BC /* Grouping.swift in Sources */,
 				21064076277D04950065AD50 /* ContactSheet.swift in Sources */,
 				218B390F271C6D5A002720BC /* Sequence+Additions.swift in Sources */,
@@ -626,8 +654,12 @@
 				218B3917271C972B002720BC /* MockContactInteractor.swift in Sources */,
 				2147644729AE64320098A789 /* StandardConversationStarter.swift in Sources */,
 				2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */,
+<<<<<<< HEAD
 				215654B42A3F4A3B00233DE4 /* ConditionalLazyVStack.swift in Sources */,
 				210378EA29A3CE5C001599EE /* WelcomeView.swift in Sources */,
+=======
+				21A102D129C33CCA00EDAE78 /* ChatCompletion.swift in Sources */,
+>>>>>>> 8e09112 (Update from text completion to chat completions for intelligent conversation starters.)
 				2159CFD72711F49C005A2387 /* ContentView.swift in Sources */,
 				2147644929AE64490098A789 /* IntelligentConversationStarter.swift in Sources */,
 				2115FCC528E8E83D001A6E4E /* ButtonAction.swift in Sources */,
@@ -641,6 +673,7 @@
 				218B390927137FE2002720BC /* ContactsInteractor.swift in Sources */,
 				21E69F8C299660000043F9FF /* AsyncButton.swift in Sources */,
 				21312191297ED14D00C9E1EE /* HeroMessageView.swift in Sources */,
+				21A102D529C3429E00EDAE78 /* Result+Additions.swift in Sources */,
 				21931B0D2960AD2C00A2CD8D /* Results+Additions.swift in Sources */,
 				21E69F85298EE8130043F9FF /* Assertion+Additions.swift in Sources */,
 				2106407A277DDCE90065AD50 /* FollowUpManager.swift in Sources */,
