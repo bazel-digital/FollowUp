@@ -12,6 +12,7 @@ struct NewContactsView: View {
 
     @ObservedObject var store: FollowUpStore
     @State var contactInteractorState: ContactInteractorState = .fetchingContacts
+    @State var searchQuery: String = ""
     var contactsInteractor: ContactsInteracting
 
     // MARK: - Computed Properties
@@ -19,6 +20,10 @@ struct NewContactsView: View {
     private var sortedContacts: [any Contactable] {
         store
             .contacts
+            .filter { contact in
+                guard !searchQuery.isEmpty else { return true }
+                return contact.name.fuzzyMatch(searchQuery)
+            }
             .sorted(by: \.createDate)
             .reversed()
     }
@@ -48,6 +53,7 @@ struct NewContactsView: View {
         ContactListView(contactSetions: contactSections)
             .animation(.easeInOut, value: store.contacts.count)
             .animation(.easeInOut, value: newContactsCount)
+            .searchable(text: $searchQuery, placement: .automatic, prompt: "Search")
     }
     
     @ViewBuilder
@@ -84,6 +90,6 @@ struct NewContactsView: View {
 struct NewContactsView_Previews: PreviewProvider {
     static var previews: some View {
         NewContactsView(store: FollowUpStore(), contactsInteractor: ContactsInteractor(realm: nil))
-//            .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 4)))
+            .environmentObject(FollowUpManager(store: FollowUpStore()))
     }
 }
