@@ -30,7 +30,7 @@ struct NewContactsView: View {
 
     private var contactSections: [ContactSection] {
         sortedContacts
-            .grouped(by: \.grouping)
+            .grouped(by: \.dayMonthYearDateGrouping)
             .map { grouping, contacts in
                 .init(
                     contacts: contacts
@@ -40,6 +40,7 @@ struct NewContactsView: View {
                 )
             }
             .sorted(by: \.grouping)
+            .reversed()
     }
 
     private var newContactsCount: Int {

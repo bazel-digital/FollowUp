@@ -36,7 +36,7 @@ protocol Contactable: Object, Identifiable {
 // MARK: - Default Implementations
 extension Contactable {
     var isNew: Bool {
-        self.dateGrouping == .thisWeek && lastInteractedWith == nil
+        self.dateGrouping == .week && lastInteractedWith == nil
     }
 }
 
@@ -197,15 +197,23 @@ extension Contactable {
 
 // MARK: - Grouping Extension
 extension Contactable {
-
-    var dateGrouping: DateGrouping {
-        DateGrouping.allCases.first(where: { grouping in
-            grouping.dateInterval?.contains(self.createDate) == true
-        }) ?? .previous
+    
+    var dayMonthYearDateGrouping: Grouping {
+        isNew ? .new : .concreteDate(grouping: .dayMonthYear(forDate: self.createDate))
+    }
+    
+    var monthYearDateGrouping: Grouping {
+        isNew ? .new : .concreteDate(grouping: .monthYear(forDate: self.createDate))
     }
 
-    var grouping: Grouping {
-        isNew ? .new : .date(grouping: dateGrouping)
+    private var dateGrouping: RelativeDateGrouping {
+        RelativeDateGrouping.allCases.first(where: { grouping in
+            grouping.dateInterval?.contains(self.createDate) == true
+        }) ?? .beforeLastMonth
+    }
+
+    var relativeDateGrouping: Grouping {
+        isNew ? .new : .relativeDate(grouping: dateGrouping)
     }
 
 }

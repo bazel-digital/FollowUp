@@ -54,8 +54,8 @@ struct ConsolidatedContactListView_Previews: PreviewProvider {
         ContactListView(
             contactSetions: [
                 .mocked(forGrouping: .new),
-                .mocked(forGrouping: .date(grouping: .thisWeek)),
-                .mocked(forGrouping: .date(grouping: .thisMonth))
+                .mocked(forGrouping: .relativeDate(grouping: .week)),
+                .mocked(forGrouping: .relativeDate(grouping: .month))
             ]
         )
     }
