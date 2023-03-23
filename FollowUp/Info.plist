@@ -23,7 +23,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSContactsUsageDescription</key>
-	<string>To view and organise your contacts for FollowUp.</string>
+	<string>To view and organise your contacts. Contact names and notes may be used with the OpenAI API to enable intelligent conversation starters. They will not be stored anywhere. See Privacy Policy for more info.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
