@@ -11,6 +11,7 @@ import SwiftUI
 struct NewContactsView: View {
 
     @ObservedObject var store: FollowUpStore
+    @EnvironmentObject var settings: FollowUpSettings
     @State var contactInteractorState: ContactInteractorState = .fetchingContacts
     @State var searchQuery: String = ""
     var contactsInteractor: ContactsInteracting
@@ -30,7 +31,7 @@ struct NewContactsView: View {
 
     private var contactSections: [ContactSection] {
         sortedContacts
-            .grouped(by: \.dayMonthYearDateGrouping)
+            .grouped(by: settings.contactListGrouping.keyPath)
             .map { grouping, contacts in
                 .init(
                     contacts: contacts
