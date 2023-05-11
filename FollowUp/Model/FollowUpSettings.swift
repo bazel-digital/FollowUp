@@ -9,11 +9,48 @@ import Foundation
 import RealmSwift
 
 class FollowUpSettings: Object {
+    
+    // MARK: - Stored Properties
     @Persisted var dailyFollowUpGoal: Int? = 10
-        
     @Persisted var conversationStarters: RealmSwift.List<ConversationStarterTemplate>
+    @Persisted var contactListGrouping: ContactListGrouping = .dayMonthYear
+    
+}
+
+extension FollowUpSettings {
+    // MARK: - Enums
+    enum ContactListGrouping: String, PersistableEnum, CaseIterable {
+        case dayMonthYear
+        case monthYear
+        case relative
+        
+        var keyPath: KeyPath<any Contactable, Grouping> {
+            switch self {
+            case .dayMonthYear: return \.dayMonthYearDateGrouping
+            case .monthYear: return \.monthYearDateGrouping
+            case .relative: return \.relativeDateGrouping
+            }
+        }
+        
+        var title: String {
+            switch self {
+            case .dayMonthYear: return "Day, Month, Year"
+            case .monthYear: return "Month, Year"
+            case .relative: return "Relative"
+            }
+        }
+    }
+}
+ 
+extension FollowUpSettings {
     
     // MARK: - Methods
+    func set(contactListGrouping: ContactListGrouping) {
+        self.update {
+            self.contactListGrouping = contactListGrouping
+        }
+    }
+    
     func update(conversationStarter updatedConversationStarter: ConversationStarterTemplate) {
         
         guard let index = self.conversationStarters.firstIndex(where: {
@@ -44,7 +81,8 @@ class FollowUpSettings: Object {
     func addNewConversationStarter() {
         do {
             try self.realm?.write {
-                if let randomStarter = ConversationStarterTemplate.examples.randomElement() {
+                if var randomStarter = ConversationStarterTemplate.examples.randomElement() {
+                    randomStarter.id = UUID().uuidString
                     self.conversationStarters.append(randomStarter)
                 }
             }
@@ -69,7 +107,17 @@ class FollowUpSettings: Object {
                 self.conversationStarters.remove(atOffsets: offsets)
             }
         } catch {
-            assertionFailurePreviewSafe("Could not remove conversation stareters. \(error.localizedDescription)")
+            assertionFailurePreviewSafe("Could not remove conversation starters. \(error.localizedDescription)")
+        }
+    }
+    
+    private func update(closure: @escaping () -> Void, errorMessage: String = "Could not perform update") {
+        do {
+            try self.realm?.write {
+                closure()
+            }
+        } catch {
+            assertionFailurePreviewSafe("\(errorMessage) \(error.localizedDescription)")
         }
     }
     

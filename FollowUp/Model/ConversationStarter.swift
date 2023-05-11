@@ -51,12 +51,12 @@ struct ConversationStarterTemplate: Codable, Hashable, Identifiable, CustomPersi
         label: String? = nil,
         template: String,
         platform: Platform,
-        id: String = UUID().uuidString
+        id: String? = nil
     ) {
         self.label = label
         self.template = template
         self.platform = platform
-        self.id = id
+        self.id = id ?? UUID().uuidString
     }
     
     // MARK: - Methods

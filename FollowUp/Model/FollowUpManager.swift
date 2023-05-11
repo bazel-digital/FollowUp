@@ -54,11 +54,21 @@ final class FollowUpManager: ObservableObject {
     
     // MARK: - Realm Configuration
     static func initializeRealm(name: String = "followUpRealm") -> Realm? {
-        
         // Get the document directory and create a file with the passed name
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         let realmFileURL = documentDirectory?.appendingPathComponent("\(name).realm")
-        let config = Realm.Configuration(fileURL: realmFileURL, schemaVersion: 0)
+        let config = Realm.Configuration(
+            fileURL: realmFileURL,
+            schemaVersion: 2,
+            migrationBlock: { migration, oldSchemaVersion in
+                if oldSchemaVersion < 2 {
+                    print("Running migration")
+                    migration.enumerateObjects(ofType: FollowUpSettings.className()) { oldObject, newObject in
+                        newObject?["contactListGrouping"] = FollowUpSettings.ContactListGrouping.dayMonthYear.rawValue
+                    }
+                }
+            }
+        )
         Realm.Configuration.defaultConfiguration = config
         
         do {

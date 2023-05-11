@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingsSheetView: View {
 
     @State var dailyFollowUpGoal: Int = 0
+    @State var contactListGrouping: FollowUpSettings.ContactListGrouping = .dayMonthYear
     @EnvironmentObject var settings: FollowUpSettings
     @Environment(\.dismiss) private var dismiss
     @FocusState var dailyGoalInputActive: Bool
@@ -78,19 +79,6 @@ struct SettingsSheetView: View {
                 .onDelete(perform: self.settings.removeConversationStareters(atOffsets:))
                 .onMove(perform: self.settings.moveConversationStarters(fromOffsets:toOffset:))
                 
-//                if isEditing?.wrappedValue == .active {
-//                    Button(action: {
-//                        self.settings.addNewConversationStarter()
-//                    }, label: {
-//                        Text("New Conversation Starter")
-//                            .multilineTextAlignment(.center)
-//                            .frame(maxWidth: .infinity)
-//                    })
-//                    .listRowInsets(nil)
-//                    .frame(maxWidth: .infinity)
-//                    .animation(.default, value: isEditing?.wrappedValue)
-//                }
-                
             }
         }, header: {
             HStack {
@@ -113,6 +101,22 @@ struct SettingsSheetView: View {
         })
     }
     
+    private var groupingSelectionSectionView: some View {
+        Section(content: {
+            Picker(selection: $contactListGrouping, content: {
+                ForEach(FollowUpSettings.ContactListGrouping.allCases, id: \.self, content: { grouping in
+                    Text(grouping.title)
+                })
+            }, label: {
+                Text("Grouping")
+            })
+        }).onAppear {
+            self.contactListGrouping = self.settings.contactListGrouping
+        }.onChange(of: self.contactListGrouping, perform: { newValue in
+            self.settings.set(contactListGrouping: newValue)
+        })
+    }
+    
     var body: some View {
         #if DEBUG
         let _ = Self._printChanges()
@@ -129,6 +133,7 @@ struct SettingsSheetView: View {
             Form {
                 dailyGoalSectionView
                 conversationStartersSectionView
+                groupingSelectionSectionView
             }
         }.navigationTitle("Settings")
         .background(Color(.systemGroupedBackground))

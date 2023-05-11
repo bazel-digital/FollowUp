@@ -35,7 +35,7 @@ struct ContactListSectionView: View {
     @State var expanded: Bool = true
     
     private var sectionTitle: some View {
-        Text("\(Image(icon: .clock)) \(section.title)")
+        Text("\(section.title)")
             .font(.headline)
             .padding(.bottom)
     }
@@ -152,7 +152,7 @@ struct ContactListView_Previews: PreviewProvider {
         ScrollView {
             LazyVStack {
                 ContactListSectionView(
-                    section: .mocked(forGrouping: .date(grouping: .thisWeek)),
+                    section: .mocked(forGrouping: .relativeDate(grouping: .week)),
                     layoutDirection: .horizontal
                 )
                 ContactListSectionView(
