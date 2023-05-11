@@ -44,7 +44,8 @@ class FollowUpSettings: Object {
     func addNewConversationStarter() {
         do {
             try self.realm?.write {
-                if let randomStarter = ConversationStarterTemplate.examples.randomElement() {
+                if var randomStarter = ConversationStarterTemplate.examples.randomElement() {
+                    randomStarter.id = UUID().uuidString
                     self.conversationStarters.append(randomStarter)
                 }
             }
