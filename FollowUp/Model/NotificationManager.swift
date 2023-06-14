@@ -7,6 +7,7 @@
 
 import Foundation
 import NotificationCenter
+import RealmSwift
 
 protocol NotificationManaging {
     func scheduleNotification(
@@ -25,7 +26,12 @@ extension NotificationManaging {
 
 class NotificationManager: NotificationManaging {
     
+    
     let configuration: NotificationConfiguration
+    
+    // MARK: - Static Properties
+    static let encoder = JSONEncoder()
+    static let decoder = JSONDecoder()
     
     // MARK: - Initializer
     init(configuration: NotificationConfiguration = .default) {
@@ -66,21 +72,32 @@ class NotificationManager: NotificationManaging {
     }
 }
 
+typealias NotificationTrigger = NotificationConfiguration.Trigger
+
 /// Stores trigger information as well as frequency for notifications.
 struct NotificationConfiguration {
     
     enum Trigger {
         // TODO: Implement location-based notification triggers.
+        // TODO: Add user-configuration for notifications (e.g. custom time and frequency).
 //        case arrivingAtLocation
         case specificTime(DateComponents)
         case now
+        #if DEBUG
+        case afterSeconds(Int)
+        #endif
 
         var unNotificationTrigger: UNNotificationTrigger {
             switch self {
             case let .specificTime(dateComponents):
-                return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
             case .now:
-                return UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
+                // Local Notifications do not support firing an instant notification, so we wait five seconds before firing.
+                return UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+            #if DEBUG
+            case let .afterSeconds(seconds):
+                return UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(seconds), repeats: false)
+            #endif
             }
         }
     }

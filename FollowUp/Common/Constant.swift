@@ -13,7 +13,7 @@ import RealmSwift
 enum Constant {
     
     // MARK: - App Identifier
-    static let appIdentifier: String = "com.bazel.schedulenotifications"
+    static let appIdentifier: String = "com.bazel.followup"
 
     // MARK: - Padding
     static let verticalPadding: CGFloat = 10.0
@@ -187,5 +187,12 @@ enum Constant {
     // MARK: - Notifications
     enum Notification {
         static let defaultNotificationTriggerHour: Int = 18
+    }
+    
+    // MARK: - Processing
+    enum Processing {
+        /// Determines the total number of contacts that will be processed within a background task. Used to prevent background tasks from failing when users have very large contact lists.
+        static let numberOfContactsToProcessInBackground = 100
+        static let followUpRemindersTaskIdentifier = "\(Constant.appIdentifier).followupreminders"
     }
 }

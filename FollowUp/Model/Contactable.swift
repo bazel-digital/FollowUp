@@ -37,7 +37,7 @@ protocol Contactable: Object, Identifiable {
 // MARK: - Default Implementations
 extension Contactable {
     var isNew: Bool {
-        self.dateGrouping == .week && lastInteractedWith == nil
+        self.relativeDateGrouping == .week && lastInteractedWith == nil
     }
     
     /// Creates a hash value of the contact which does _not_ contain the 'note', 'id', or 'createDate' properties. This is used for merging.
@@ -221,14 +221,14 @@ extension Contactable {
         isNew ? .new : .concreteDate(grouping: .monthYear(forDate: self.createDate))
     }
 
-    private var dateGrouping: RelativeDateGrouping {
+    var relativeDateGrouping: RelativeDateGrouping {
         RelativeDateGrouping.allCases.first(where: { grouping in
             grouping.dateInterval?.contains(self.createDate) == true
         }) ?? .beforeLastMonth
     }
 
-    var relativeDateGrouping: Grouping {
-        isNew ? .new : .relativeDate(grouping: dateGrouping)
+    var newOrRelativeDateGrouping: Grouping {
+        isNew ? .new : .relativeDate(grouping: relativeDateGrouping)
     }
 
 }

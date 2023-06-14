@@ -27,14 +27,18 @@ struct FollowUpApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(followUpManager)
-                .onAppear(perform: self.followUpManager.configureNotifications)
                 .environmentObject(followUpManager.store)
                 .environmentObject(followUpManager.store.settings)
+                .onAppear(perform: self.followUpManager.configureNotifications)
             #if DEBUG
                 .onAppear {
                     print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
                 }
             #endif
+        }
+        .backgroundTask(.appRefresh(Constant.Processing.followUpRemindersTaskIdentifier)) { task in
+            // Freeze the current realm so that we can access it from a background thread.
+            await self.followUpManager.handleScheduledNotificationsBackgroundTask(nil)
         }
     }
 }

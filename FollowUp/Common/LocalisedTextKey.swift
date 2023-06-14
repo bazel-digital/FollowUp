@@ -43,6 +43,10 @@ enum LocalisedTextKey: String {
     case welcomeScreenTitle = "Welcome to FollowUp"
     case welcomeScreenContinueButtonTitle = "Continue"
     
+    // MARK: - Settings
+    case followUpReminderToggleText = "FollowUp Reminders"
+    case followUpReminderFooterText = "Sends you periodic reminders to follow up and hit your goal."
+    
     // MARK: - Edit Tag
     case delete = "Delete"
     case newTag = "New Tag"

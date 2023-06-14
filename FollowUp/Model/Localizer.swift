@@ -16,9 +16,10 @@ struct Localizer {
         
         static func body(
             withNumberOfPeople numberOfPeople: Int,
-            withinTimeFrame timeFrame: DateGrouping
+            withinTimeFrame timeFrame: RelativeDateGrouping
         ) -> String {
-            let stringWithNumPeople = Self.bodyTemplateString.replacingOccurrences(of: Self.numPeopleReplacementToken, with: "\(numberOfPeople) \(numberOfPeople == 1 ? "person" : "people")")
+            let numberOfPeopleString = numberOfPeople >= Constant.Processing.numberOfContactsToProcessInBackground ? "over \(numberOfPeople)" : "\(numberOfPeople)"
+            let stringWithNumPeople = Self.bodyTemplateString.replacingOccurrences(of: Self.numPeopleReplacementToken, with: "\(numberOfPeopleString) \(numberOfPeople == 1 ? "person" : "people")")
             let stringWithNumPeopleAndTimeFrame = stringWithNumPeople.replacingOccurrences(of: Self.timeFrameReplacementToken, with: timeFrame.title.lowercased())
             
             return stringWithNumPeopleAndTimeFrame

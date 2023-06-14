@@ -11,8 +11,10 @@ struct SettingsSheetView: View {
 
     @State var dailyFollowUpGoal: Int = 0
     @State var contactListGrouping: FollowUpSettings.ContactListGrouping = .dayMonthYear
+    @State var followUpRemindersActive: Bool = false
     @State var openAIKey: String = ""
     @EnvironmentObject var settings: FollowUpSettings
+    @EnvironmentObject var followUpManager: FollowUpManager
     @Environment(\.dismiss) private var dismiss
     @FocusState var dailyGoalInputActive: Bool
     @Environment(\.editMode) var isEditing
@@ -129,32 +131,47 @@ struct SettingsSheetView: View {
         .submitLabel(.done)
     }
     
+    private var followUpRemindersToggleView: some View {
+        Section(content: {
+            Toggle(isOn: $followUpRemindersActive, label: { Text(.followUpReminderToggleText) })
+        }, footer: {
+            Text(.followUpReminderFooterText)
+        })
+        .onAppear {
+            self.followUpRemindersActive = self.settings.followUpRemindersActive
+        }
+        .onChange(of: self.followUpRemindersActive, perform: { newValue in
+            // If the user has not granted notification permissions, do that now.
+            self.followUpManager.configureNotifications()
+            self.settings.set(followUpRemindersActive: newValue)
+        })
+    }
+    
     var body: some View {
         #if DEBUG
         let _ = Self._printChanges()
         #endif
         
-        NavigationView {
-            VStack {
-                closeButton
-                    .padding([.leading, .trailing, .top])
-                
-                Text("Settings")
-                    .font(.title)
-                    .bold()
-                
-                Form {
-                    dailyGoalSectionView
-                    conversationStartersSectionView
-                    groupingSelectionSectionView
-                    openAIKeySectionView
-                }
+        VStack {
+            closeButton
+                .padding([.leading, .trailing, .top])
+            
+            Text("Settings")
+                .font(.title)
+                .bold()
+            
+            Form {
+                dailyGoalSectionView
+                conversationStartersSectionView
+                groupingSelectionSectionView
+                followUpRemindersToggleView
+                openAIKeySectionView
             }
-                .background(Color(.systemGroupedBackground))
-                .sheet(item: self.$currentlyEditingConversationStarter, content: { conversationStarter in
-                    EditConversationStarterView(conversationStarter: conversationStarter)
-                })
-        }
+            .background(Color(.systemGroupedBackground))
+            .sheet(item: self.$currentlyEditingConversationStarter, content: { conversationStarter in
+                EditConversationStarterView(conversationStarter: conversationStarter)
+            })
+        }.background(Color(.systemGroupedBackground))
     }
     
     // MARK: - Methods

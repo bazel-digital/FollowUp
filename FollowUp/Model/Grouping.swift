@@ -122,6 +122,8 @@ enum ConcreteDateGrouping: Hashable, Comparable {
 }
 
 enum RelativeDateGrouping: CaseIterable, Hashable, Comparable {
+    
+    case today
     case week
     case month
     case beforeLastMonth
@@ -136,25 +138,32 @@ enum RelativeDateGrouping: CaseIterable, Hashable, Comparable {
         else { return nil }
         
         switch self {
-        case .week: return DateInterval.init(
-            start: startOfPreviousWeek,
-            end: .now
-        )
-        case .month: return DateInterval.init(
-            start: startOfLastMonthExcludingPreviousWeek,
-            end: startOfPreviousWeek
-        )
-            
-        case .beforeLastMonth: return DateInterval.init(
-            start: .distantPast,
-            end: startOfLastMonthExcludingPreviousWeek
-        )
+            case .today: return DateInterval.init(
+                start: startOfToday,
+                end: endOfToday
+            )
+                
+            case .week: return DateInterval.init(
+                start: startOfPreviousWeek,
+                end: .now
+            )
+                
+            case .month: return DateInterval.init(
+                start: startOfLastMonthExcludingPreviousWeek,
+                end: startOfPreviousWeek
+            )
+                
+            case .beforeLastMonth: return DateInterval.init(
+                start: .distantPast,
+                end: startOfLastMonthExcludingPreviousWeek
+            )
         }
         
     }
 
     var title: String {
         switch self {
+        case .today: return "Today"
         case .week: return "This Week"
         case .month: return "This Month"
         case .beforeLastMonth: return "Previous"

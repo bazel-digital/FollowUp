@@ -14,6 +14,7 @@ class FollowUpSettings: Object {
     @Persisted var dailyFollowUpGoal: Int? = 10
     @Persisted var conversationStarters: RealmSwift.List<ConversationStarterTemplate>
     @Persisted var contactListGrouping: ContactListGrouping = .dayMonthYear
+    @Persisted var followUpRemindersActive: Bool = false
     @UserDefaultsPersisted(Constant.Secrets.openAIUserDefaultsKey) var openAIKey: String = ""
     
 }
@@ -29,7 +30,7 @@ extension FollowUpSettings {
             switch self {
             case .dayMonthYear: return \.dayMonthYearDateGrouping
             case .monthYear: return \.monthYearDateGrouping
-            case .relative: return \.relativeDateGrouping
+            case .relative: return \.newOrRelativeDateGrouping
             }
         }
         
@@ -115,6 +116,12 @@ extension FollowUpSettings {
     public func set(openAIKey: String) {
         self.update {
             self.openAIKey = openAIKey
+        }
+    }
+    
+    public func set(followUpRemindersActive: Bool) {
+        self.update {
+            self.followUpRemindersActive = followUpRemindersActive
         }
     }
     

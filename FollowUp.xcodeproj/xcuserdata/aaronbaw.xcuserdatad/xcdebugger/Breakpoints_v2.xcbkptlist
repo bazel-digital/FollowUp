@@ -174,9 +174,9 @@
             filePath = "FollowUp/Model/FollowUpStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
-            landmarkName = "computeContactSections()"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "configureContactsObserver()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -190,9 +190,9 @@
             filePath = "FollowUp/Model/FollowUpStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "computeSortedContacts()"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "computeFilteredTags()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -206,9 +206,9 @@
             filePath = "FollowUp/Model/FollowUpStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
-            landmarkName = "computeContactSections()"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
+            landmarkName = "configureContactsObserver()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -491,9 +491,9 @@
             filePath = "FollowUp/Model/FollowUpStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
-            landmarkName = "computeContactSections()"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "configureContactsObserver()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -507,9 +507,9 @@
             filePath = "FollowUp/Model/FollowUpStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
-            landmarkName = "computeFilteredTags()"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
+            landmarkName = "configureTagsObserver()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -523,10 +523,10 @@
             filePath = "FollowUp/Model/FollowUpStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
-            landmarkName = "computeSortedContacts()"
-            landmarkType = "7">
+            startingLineNumber = "206"
+            endingLineNumber = "206"
+            landmarkName = "FollowUpStore"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -555,9 +555,9 @@
             filePath = "FollowUp/Model/FollowUpStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
-            landmarkName = "contact(forID:)"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "computeSortedContacts()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

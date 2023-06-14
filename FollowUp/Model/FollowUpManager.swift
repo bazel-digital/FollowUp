@@ -23,11 +23,8 @@ final class FollowUpManager: ObservableObject {
 
     var contactsInteractor: ContactsInteracting
     private var subscriptions: Set<AnyCancellable> = .init()
-    private var notificationManager: NotificationManaging
+    var notificationManager: NotificationManaging
     
-    // MARK: - Public Properties
-    public var contactsInteractor: ContactsInteracting = ContactsInteractor()
-
     // MARK: - Initialization
     init(
         contactsInteractor: ContactsInteracting? = nil,
@@ -66,13 +63,14 @@ final class FollowUpManager: ObservableObject {
         let realmFileURL = documentDirectory?.appendingPathComponent("\(name).realm")
         let config = Realm.Configuration(
             fileURL: realmFileURL,
-            schemaVersion: 4,
+            schemaVersion: 5,
             migrationBlock: { migration, oldSchemaVersion in
                 if oldSchemaVersion < 2 {
                     Log.info("Running migration to schema v2, adding contactListGrouping.")
                     migration.enumerateObjects(ofType: FollowUpSettings.className()) { oldObject, newObject in
                         newObject?["contactListGrouping"] = FollowUpSettings.ContactListGrouping.dayMonthYear.rawValue
                     }
+                    Log.info("Migration complete.")
                 }
                 
                 if oldSchemaVersion < 4 {
@@ -81,8 +79,19 @@ final class FollowUpManager: ObservableObject {
                         newObject?["tags"] = RealmSwift.List<Tag>()
                     }
                 }
+
+                if oldSchemaVersion < 5 {
+                    Log.info("Running migration to schema V3.")
+                    migration.enumerateObjects(ofType: FollowUpSettings.className(), { oldObject, newObject in
+                        newObject?["followUpRemindersActive"] = false
+                    })
+                    Log.info("Migration complete.")
+                }
+                
             }
         )
+        
+        // We set the default configuration so that we can open up multiple Realm instances with the same configuration.
         Realm.Configuration.defaultConfiguration = config
         
         do {
@@ -93,51 +102,48 @@ final class FollowUpManager: ObservableObject {
         }
     }
     
-    /// Fetches any existing FollowUpStores from Realm. If one does not exist, then one is created and returned.
-//    func fetchFollowUpStoreFromRealm() -> FollowUpStore {
-//
-//        guard let realm = self.realm else {
-//            assertionFailurePreviewSafe("Could not initialise FollowUpStore as Realm is nil.")
-//            return .init()
-//        }
-//
-//        if let followUpStore = realm.objects(FollowUpStore.self).first {
-//            return followUpStore
-//        } else {
-//            let followUpStore: FollowUpStore = .init()
-//            do {
-//                try realm.write {
-//                    realm.add(followUpStore)
-//                }
-//            } catch {
-//                print("Could not add FollowUpStore to realm: \(error.localizedDescription)")
-//            }
-//            return followUpStore
-//        }
-//    }
-    
     // Notification Configuration
     func configureNotifications() {
-        self.notificationManager.requestNotificationAuthorization()
-        
-        BGTaskScheduler.shared.register(
-            forTaskWithIdentifier: Constant.appIdentifier,
-            using: nil,
-            launchHandler: { task in
-                guard let appRefreshTask = task as? BGAppRefreshTask else { return }
-                self.handleScheduledNotificationsBackgroundTask(appRefreshTask)
+        BGTaskScheduler.shared.getPendingTaskRequests(completionHandler: { requests in
+            
+            DispatchQueue.main.async {
+                
+                if self.store.settings.followUpRemindersActive {
+                    
+                    // Check if we have the right authorisation.
+                    self.notificationManager.requestNotificationAuthorization()
+                    
+                    // Check to see if any background tasks are scheduled.
+                    guard !requests.map(\.identifier).contains(Constant.Processing.followUpRemindersTaskIdentifier)
+                    else {
+                        Log.info("Background task already scheduled for follow up reminders.")
+                        return
+                    }
+                    
+                    Log.info("No background tasks found for follow up reminders. Scheduling now.")
+                    
+                    self.scheduleBackgroundTaskForConfiguringNotifications(
+                        onDay: .now.setting(
+                            .hour,
+                            to: Constant.Notification.defaultNotificationTriggerHour
+                        )?.setting(.minute, to: 0)?.setting(.second, to: 0)
+                    )
+                    
+                } else {
+                    // Remove all pending tasks.
+                    Log.info("Removing \(requests.count) background tasks for follow up reminders.")
+                    BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Constant.Processing.followUpRemindersTaskIdentifier)
+                }
             }
-        )
+            
+        })
         
-        self.scheduleBackgroundTaskForConfiguringNotifications(onDay: .now)
-        
-        self.scheduleFollowUpReminderNotification()
     }
     
     private func scheduleBackgroundTaskForConfiguringNotifications(onDay date: Date?) {
         let date = date ?? .now
 
-        let backgroundTaskRequest = BGAppRefreshTaskRequest(identifier: Constant.appIdentifier)
+        let backgroundTaskRequest = BGAppRefreshTaskRequest(identifier: Constant.Processing.followUpRemindersTaskIdentifier)
         
         // Schedule the background task 30 minutes before the notification should be sheduled to the user.
         let backgroundTaskDate = date
@@ -150,39 +156,46 @@ final class FollowUpManager: ObservableObject {
         DispatchQueue.global(qos: .background).async {
             do {
                 try BGTaskScheduler.shared.submit(backgroundTaskRequest)
-                print("Scheduled notification configuration background task for \(backgroundTaskDate?.description ?? "unknown date")")
+                Log.info("Scheduled notification configuration background task for \(backgroundTaskDate?.description ?? "unknown date")")
             } catch {
-                print("Could not submit background task to schedule notifications. \(error.localizedDescription)")
+                Log.error("Could not submit background task to schedule notifications. \(error.localizedDescription)")
             }
         }
     }
     
-    func scheduleFollowUpReminderNotification() {
-        self.notificationManager.scheduleNotification(
-            forNumberOfAddedContacts: self.store.contacts(
-                metWithinTimeframe: .today
-                
-            ).count,
-            withConfiguration: .default
-        )
+    func calculateNewlyMetContactsAndScheduleFollowUpReminderNotification() {
+        self.store.numberOfContacts(metWithinTimeframe: .today) { numberOfContacts in
+            guard let numberOfContacts = numberOfContacts else {
+                Log.error("Unable to determine number of contacts met within specified timeframe.")
+                return
+            }
+            Log.info("Detected \(numberOfContacts) met today. Reporting attempting to schedule notification.")
+            self.notificationManager.scheduleNotification(
+                forNumberOfAddedContacts: numberOfContacts,
+                withConfiguration: .init(trigger: .now)
+            )
+        }
     }
     
     /// Contains the logic associated with a request to sechedule notifications while the app is running in the background.
-    private func handleScheduledNotificationsBackgroundTask(_ task: BGAppRefreshTask) {
-        task.expirationHandler = {
-            print("Could not register notifications.")
+    public func handleScheduledNotificationsBackgroundTask(_ task: BGAppRefreshTask?) {
+        
+        Log.info("Executing background task: \(task?.description ?? "Unknown task")")
+        
+        task?.expirationHandler = {
+            Log.error("Could not register notifications.")
         }
-        
-        // Clear current notifications.
-        self.notificationManager.clearScheduledNotifications()
-        
-        // Re-register notifications.
-        self.scheduleFollowUpReminderNotification()
-        
-        // Schedule a background task for tomorrow, at the same time.
-        self.scheduleBackgroundTaskForConfiguringNotifications(onDay: Date().adding(1, to: .day))
-        
-        task.setTaskCompleted(success: true)
+                 
+         // Clear current notifications.
+         self.notificationManager.clearScheduledNotifications()
+         
+         // Re-register notifications.
+         self.calculateNewlyMetContactsAndScheduleFollowUpReminderNotification()
+         
+         // Schedule a background task for tomorrow, at the same time.
+         self.scheduleBackgroundTaskForConfiguringNotifications(onDay: Date().adding(1, to: .day))
+         
+         task?.setTaskCompleted(success: true)
     }
 
 }

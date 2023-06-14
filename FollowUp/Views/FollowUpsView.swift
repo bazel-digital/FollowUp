@@ -35,7 +35,7 @@ struct FollowUpsView: View {
 
     private var contactSections: [ContactSection] {
         sortedContacts
-            .grouped(by: \.relativeDateGrouping)
+            .grouped(by: \.newOrRelativeDateGrouping)
             .map { grouping, contacts in
                 .init(
                     contacts: contacts
