@@ -25,6 +25,7 @@
 		21379044275AE6EE004059F4 /* FollowUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21379043275AE6EE004059F4 /* FollowUpStore.swift */; };
 		21379047275AE82B004059F4 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379046275AE82B004059F4 /* Collections */; };
 		21379049275AE82B004059F4 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 21379048275AE82B004059F4 /* OrderedCollections */; };
+		215654B42A3F4A3B00233DE4 /* ConditionalLazyVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */; };
 		2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD42711F49C005A2387 /* FollowUpApp.swift */; };
 		2159CFD72711F49C005A2387 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159CFD62711F49C005A2387 /* ContentView.swift */; };
 		2159CFD92711F49D005A2387 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2159CFD82711F49D005A2387 /* Assets.xcassets */; };
@@ -101,6 +102,7 @@
 		21312198297EDEF200C9E1EE /* SettingsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheetView.swift; sourceTree = "<group>"; };
 		2131219C297F007500C9E1EE /* FollowUpSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpSettings.swift; sourceTree = "<group>"; };
 		21379043275AE6EE004059F4 /* FollowUpStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpStore.swift; sourceTree = "<group>"; };
+		215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalLazyVStack.swift; sourceTree = "<group>"; };
 		2159CFD12711F49C005A2387 /* FollowUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FollowUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2159CFD42711F49C005A2387 /* FollowUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpApp.swift; sourceTree = "<group>"; };
 		2159CFD62711F49C005A2387 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 				21312198297EDEF200C9E1EE /* SettingsSheetView.swift */,
 				21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */,
 				210378EB29A3CFBC001599EE /* Feature Showcase */,
+				215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -536,6 +539,7 @@
 				2131219D297F007500C9E1EE /* FollowUpSettings.swift in Sources */,
 				218B3917271C972B002720BC /* MockContactInteractor.swift in Sources */,
 				2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */,
+				215654B42A3F4A3B00233DE4 /* ConditionalLazyVStack.swift in Sources */,
 				210378EA29A3CE5C001599EE /* WelcomeView.swift in Sources */,
 				2159CFD72711F49C005A2387 /* ContentView.swift in Sources */,
 				2115FCC528E8E83D001A6E4E /* ButtonAction.swift in Sources */,

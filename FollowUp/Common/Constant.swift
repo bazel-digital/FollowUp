@@ -115,4 +115,10 @@ enum Constant {
             static let contactDictionary: String = "storage.FollowUpStore.contactDictionary"
         }
     }
+    
+    // MARK: - Contact List
+    enum ContactList {
+        static let maxContactsForNonLazyVStack: Int = 20
+        static let verticalSpacing: CGFloat = 20.0
+    }
 }

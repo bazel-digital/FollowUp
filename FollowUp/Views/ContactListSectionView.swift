@@ -99,16 +99,18 @@ struct ContactListSectionView: View {
     
     private var verticalContactList: some View {
         DisclosureGroup(isExpanded: $expanded, content: {
-            ForEach(section.contacts, id: \.id) { contact in
-                ContactRowView(contact: contact)
-                    .swipeActions(edge: .leading, allowsFullSwipe: true, content: {
-                        createAddToFollowUpsToggleButton(for: contact)
-                    })
-                    .swipeActions(edge: .trailing, allowsFullSwipe: false, content: {
-                        createHighlightToggleButton(for: contact)
-                    })
+            ConditionalLazyVStack(lazy: section.contacts.count >= Constant.ContactList.maxContactsForNonLazyVStack) {
+                ForEach(section.contacts, id: \.id) { contact in
+                    ContactRowView(contact: contact)
+                        .swipeActions(edge: .leading, allowsFullSwipe: true, content: {
+                            createAddToFollowUpsToggleButton(for: contact)
+                        })
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false, content: {
+                            createHighlightToggleButton(for: contact)
+                        })
+                }
+                .listRowInsets(.init(verticalListRowItemEdgeInsets))
             }
-            .listRowInsets(.init(verticalListRowItemEdgeInsets))
         }, label: {
             sectionTitle
         })

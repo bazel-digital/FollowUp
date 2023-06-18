@@ -31,21 +31,21 @@ struct ContactListView: View {
         #if DEBUG
         let _ = Self._printChanges()
         #endif
-        List(contactSetions) { section in
-            Section(content: {
+        
+        ScrollView {
+            LazyVStack(spacing: Constant.ContactList.verticalSpacing) {
+                ForEach(contactSetions) { section in
                     ContactListSectionView(
                         section: section,
                         layoutDirection: section.grouping == .new ? .horizontal : .vertical
                     )
-                    .listRowInsets(
-                        .init(emptyListRowItemEdgeInsets)
-                    )
-            })
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
-
+                    .padding(emptyListRowItemEdgeInsets)
+                }
+            }
+            .background(Color.clear)
         }
-        .listStyle(GroupedListStyle())
+        .background(Color(.systemGroupedBackground))
+
     }
 
 }
