@@ -10,6 +10,7 @@ import Foundation
 class MockFollowUpStore: FollowUpStoring {
     var contacts: [any Contactable] = []
     var dailyFollowUpGoal: Int? = nil
+    var searchQuery: String = ""
     var settings: FollowUpSettings = .init()
     
     func updateWithFetchedContacts(_ contacts: [any Contactable]) {
@@ -24,6 +25,10 @@ class MockFollowUpStore: FollowUpStoring {
 
     func contact(forID contactID: ContactID) -> (any Contactable)? {
         self.contacts.first(where: { $0.id == contactID })
+    }
+    
+    func set(searchQuery: String) {
+        self.searchQuery = searchQuery
     }
 
 //    func encode(to encoder: Encoder) throws {
@@ -45,7 +50,7 @@ class MockFollowUpStore: FollowUpStoring {
 // MARK: - Mock Static Property
 extension FollowUpStoring where Self == MockFollowUpStore {
     static func mocked(withNumberOfContacts numberOfContacts: Int = 5) -> MockFollowUpStore {
-        var followUpStore = MockFollowUpStore()
+        let followUpStore = MockFollowUpStore()
         followUpStore.contacts = (0...numberOfContacts).map { MockedContact(id: $0.description) }
         return followUpStore
     }

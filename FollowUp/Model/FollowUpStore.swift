@@ -21,6 +21,7 @@ protocol FollowUpStoring: ObservableObject {
 
     func updateWithFetchedContacts(_ contacts: [any Contactable])
     func contact(forID contactID: ContactID) -> (any Contactable)?
+    func set(searchQuery: String)
 }
 
 // MARK: - Default Implementations
@@ -37,11 +38,20 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     
     // MARK: - Stored Properties
     var lastFetchedContacts: Date = .distantPast
-
+    var searchQuery: String = "" { didSet { self.sortedContacts = self.computeSortedContacts() } }
     var settings: FollowUpSettings = .init()
 
     // This exposes variables which take the Realm Contacts, merge them with those from the device, and broadcast them to the rest of the app.
-    @Published var contacts: [any Contactable] = []
+    @Published var contacts: [any Contactable] = [] {
+        didSet { self.sortedContacts = self.computeSortedContacts() }
+    }
+    
+    // Cached view properties
+    @Published var sortedContacts: [any Contactable] = [] {
+        didSet { self.contactSections = self.computeContactSections() }
+    }
+    @Published var contactSections: [ContactSection] = []
+    
     private var contactsDictionary: [ContactID: any Contactable] = [:] {
         didSet {
             self.contacts = self.contactsDictionary.values.map { $0 }
@@ -95,7 +105,6 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         }
     }
 
-
     func contact(forID contactID: ContactID) -> (any Contactable)? {
         guard
             let realm = realm,
@@ -108,6 +117,40 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         return contact
     }
     
+    func set(searchQuery: String) {
+        self.searchQuery = searchQuery
+    }
+    
+    // MARK: - Methods (View Model)
+    private func computeSortedContacts() -> [any Contactable] {
+        contacts
+        .filter { contact in
+            guard !searchQuery.isEmpty else { return true }
+            return contact.name.fuzzyMatch(self.searchQuery)
+        }
+        .sorted(by: \.createDate)
+        .reversed()
+    }
+    
+    private func computeContactSections() -> [ContactSection] {
+        sortedContacts
+            .grouped(by: settings.contactListGrouping.keyPath)
+            .map { grouping, contacts in
+                .init(
+                    contacts: contacts
+                        .sorted(by: \.createDate)
+                        .reversed(),
+                    grouping: grouping
+                )
+            }
+            .sorted(by: \.grouping)
+            .reversed()
+    }
+    
+    // MARK: - Realm Configuration
+    // CHECKPOINT:
+//    - I am trying to intelligently update the list by listening to specific changes from realm.
+    // The latest commit on the tag branch has the latest updates for tags.
     func configureObserver() {
         guard let realm = realm else {
             assertionFailurePreviewSafe("Could not find realm in order to configure contacts observer.")
@@ -118,6 +161,48 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             self?.contactsResults = observedContacts
         }
     }
+    
+//    func configureObserver() {
+//        guard let realm = realm else {
+//            assertionFailurePreviewSafe("Could not find realm in order to configure contacts observer.")
+//            return
+//        }
+//        let observedContacts = realm.objects(Contact.self)
+//        self.contactsNotificationToken = observedContacts.observe { [weak self] changes in
+//
+//            self?.contactsResults = observedContacts
+//            switch changes {
+//            case .initial:
+//                self?.contacts = observedContacts.array
+//                // Results are now populated and can be accessed without blocking the UI
+////            self?.contacts = observedContacts.array
+//            case .update(let results, let deletions, let insertions, let modifications):
+//
+////                print(results)
+//
+//                insertions.forEach { index in
+//                    self?.contacts.insert(results[index], at: index)
+//                }
+//
+//                modifications.forEach { index in
+//                    self?.contacts[index] = results[index]
+//                }
+//
+//                // Check this is working as expected.
+//                self?.contacts.remove(atOffsets: .init(deletions))
+//                Log.info("Modifications \(modifications)")
+//                Log.info("Deletions \(deletions)")
+//                Log.info("Insertions \(insertions)")
+//
+//
+//            case .error(let error):
+//                // An error occurred while opening the Realm file on the background worker thread
+//                fatalError("\(error)")
+//            }
+//
+//
+//        }
+//    }
     
     func loadSettingsFromRealm() {
         if let followUpSettings = self.realm?.objects(FollowUpSettings.self).first {
@@ -137,35 +222,7 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             }
         }
     }
-
-    // MARK: - CodingKeys
-    enum CodingKeys: CodingKey {
-        case contactDictionary
-        case lastFetchedContacts
-    }
-
-    // MARK: - Codable Conformance
-//    func encode(to encoder: Encoder) throws {
-//        var container = encoder.container(keyedBy: CodingKeys.self)
-//        try container.encode(contactDictionary, forKey: .contactDictionary)
-//        try container.encode(lastFetchedContacts, forKey: .lastFetchedContacts)
-//    }
-//
-//    required init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        self.contactDictionary = try container.decode([ContactID:Contact].self, forKey: .contactDictionary)
-//        self.lastFetchedContacts = try container.decodeIfPresent(Date.self, forKey: .lastFetchedContacts)
-//        self.contacts = self.contactDictionary.values.map { $0 }
-//    }
-
-    // MARK: - RawRepresentable Conformance
-//    var rawValue: String {
-//        guard
-//            let data = try? Self.encoder.encode(self),
-//            let string = String(data: data, encoding: .utf8)
-//        else { return .defaultFollowUpStoreString }
-//        return string
-//    }
+    
 }
 
 fileprivate extension String {

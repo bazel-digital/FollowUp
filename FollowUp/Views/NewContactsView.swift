@@ -18,44 +18,19 @@ struct NewContactsView: View {
 
     // MARK: - Computed Properties
 
-    private var sortedContacts: [any Contactable] {
-        store
-            .contacts
-            .filter { contact in
-                guard !searchQuery.isEmpty else { return true }
-                return contact.name.fuzzyMatch(searchQuery)
-            }
-            .sorted(by: \.createDate)
-            .reversed()
-    }
-
-    private var contactSections: [ContactSection] {
-        sortedContacts
-            .grouped(by: settings.contactListGrouping.keyPath)
-            .map { grouping, contacts in
-                .init(
-                    contacts: contacts
-                        .sorted(by: \.createDate)
-                        .reversed(),
-                    grouping: grouping
-                )
-            }
-            .sorted(by: \.grouping)
-            .reversed()
-    }
-
     private var newContactsCount: Int {
-        contactSections.filter { $0.grouping == .new }.count
+        store.contactSections.filter { $0.grouping == .new }.count
     }
     
     // MARK: - Views
     
     
     private var contactsListView: some View {
-        ContactListView(contactSetions: contactSections)
+        ContactListView(contactSetions: store.contactSections)
             .animation(.easeInOut, value: store.contacts.count)
             .animation(.easeInOut, value: newContactsCount)
             .searchable(text: $searchQuery, placement: .automatic, prompt: "Search")
+            .onChange(of: searchQuery, perform: self.store.set(searchQuery:))
     }
     
     @ViewBuilder
