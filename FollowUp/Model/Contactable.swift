@@ -56,7 +56,6 @@ class Contact: Object, ObjectKeyIdentifiable, Contactable, Identifiable {
     @Persisted var phoneNumber: PhoneNumber?
     @Persisted var _thumbnailImageData: Data?
     @Persisted var email: String?
-    @Persisted var tags: RealmSwift.List<Tag>
     @Persisted var createDate: Date
     
     // MARK: - Protocol Conformance
@@ -75,6 +74,7 @@ class Contact: Object, ObjectKeyIdentifiable, Contactable, Identifiable {
     
     
     // MARK: - Interactive Properties
+    @Persisted var tags: RealmSwift.List<Tag> { didSet { lastInteractedWith = .now } }
     @Persisted var followUps: Int = 0 { didSet { lastFollowedUp = .now } }
     @Persisted var lastFollowedUp: Date? { didSet { lastInteractedWith = .now } }
     @Persisted var highlighted: Bool = false { didSet { lastInteractedWith = .now } }
