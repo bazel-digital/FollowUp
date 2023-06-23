@@ -10,7 +10,8 @@ import Foundation
 class MockFollowUpStore: FollowUpStoring {
     var contacts: [any Contactable] = []
     var dailyFollowUpGoal: Int? = nil
-    var searchQuery: String = ""
+    var tagSearchQuery: String = ""
+    var contactSearchQuery: String = ""
     var settings: FollowUpSettings = .init()
     
     func updateWithFetchedContacts(_ contacts: [any Contactable]) {
@@ -27,8 +28,12 @@ class MockFollowUpStore: FollowUpStoring {
         self.contacts.first(where: { $0.id == contactID })
     }
     
-    func set(searchQuery: String) {
-        self.searchQuery = searchQuery
+    func set(tagSearchQuery searchQuery: String) {
+        self.tagSearchQuery = searchQuery
+    }
+    
+    func set(contactSearchQuery searchQuery: String) {
+        self.contactSearchQuery = searchQuery
     }
 
 //    func encode(to encoder: Encoder) throws {

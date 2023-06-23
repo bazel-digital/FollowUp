@@ -29,10 +29,17 @@ struct TagsCarouselView: View {
     }
     
     // MARK: - Computed Properties
+    var tagSearchSuggestions: [Tag] {
+        self.followUpManager.store.tagSuggestions.filter { tagSuggestion in
+            !self.tags.contains(where: { $0.isEqual(tagSuggestion)
+            })
+        }
+    }
+    
+    // MARK: - Views
     private var addTagButton: some View {
         Button(action: {
-            textFieldIsFocused = true
-            creatingTag = true
+            self.showTextField()
         }, label: {
             Text("+")
         })
@@ -44,19 +51,36 @@ struct TagsCarouselView: View {
         .cornerRadius(5)
     }
     
-    private var creatingTagView: some View {
-        TextField(text: $newTagTitle, label: {
-            Text("New tag")
-        })
-        .padding(.horizontal, Constant.Tag.horiztontalPadding)
-        .padding(.vertical, Constant.Tag.verticalPadding)
-        .overlay(
-            RoundedRectangle(cornerRadius: Constant.Tag.cornerRadius).stroke(Color(.systemGray3), lineWidth: 1).padding(1)
-        )
-        .focused($textFieldIsFocused)
-        .onSubmit(onCreateTagSubmit)
-        .submitLabel(.go)
+    private var suggestedTagView: some View {
+        HStack {
+            CloseButton(onClose: { self.hideTextField() })
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(tagSearchSuggestions) { suggestedTag in
+                        TagChipView(tag: suggestedTag, action: { self.onTapTagSuggestion(suggestedTag) })
+                    }
+                }
+            }
+        }
     }
+    
+    private var creatingTagView: some View {
+            TextField(text: $newTagTitle, label: {
+                Text("New tag")
+            })
+            .textFieldStyle(.roundedBorder)
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard, content: {
+                    suggestedTagView
+                })
+            }
+            .onChange(of: newTagTitle, perform: followUpManager.store.set(tagSearchQuery:))
+            .padding(.vertical, Constant.Tag.verticalPadding)
+            .focused($textFieldIsFocused)
+            .onSubmit(onCreateTagSubmit)
+        .submitLabel(.go)
+        }
+        
     
     var body: some View {
         ScrollView(.horizontal) {
@@ -106,14 +130,34 @@ struct TagsCarouselView: View {
         followUpManager.contactsInteractor.set(tags: tags, for: contact)
     }
     
-    func onCreateTagSubmit() {
-        // Add the new tag to the list of tags.
+    private func showTextField() {
+        self.creatingTag = true
+        self.textFieldIsFocused = true
+    }
+    
+    private func hideTextField() {
+        self.newTagTitle = ""
+        self.creatingTag = false
+        self.textFieldIsFocused = false
+    }
+    
+    private func onTapTagSuggestion(_ tag: Tag) {
         withAnimation {
-            tags.append(.init(title: newTagTitle))
+            tags.append(tag)
         }
-        newTagTitle = ""
-        creatingTag = false
-        textFieldIsFocused = false
+        self.hideTextField()
+        self.followUpManager.contactsInteractor.set(tags: tags, for: contact)
+    }
+    
+    private func onCreateTagSubmit() {
+        if !self.newTagTitle.isEmpty {
+            // Add the new tag to the list of tags.
+            withAnimation {
+                tags.append(.init(title: newTagTitle))
+            }
+        }
+        
+        self.hideTextField()
         self.followUpManager.contactsInteractor.set(tags: tags, for: contact)
     }
     

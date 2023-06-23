@@ -21,7 +21,8 @@ protocol FollowUpStoring: ObservableObject {
 
     func updateWithFetchedContacts(_ contacts: [any Contactable])
     func contact(forID contactID: ContactID) -> (any Contactable)?
-    func set(searchQuery: String)
+    func set(contactSearchQuery searchQuery: String)
+    func set(tagSearchQuery searchQuery: String)
 }
 
 // MARK: - Default Implementations
@@ -38,7 +39,8 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     
     // MARK: - Stored Properties
     var lastFetchedContacts: Date = .distantPast
-    var searchQuery: String = "" { didSet { self.sortedContacts = self.computeSortedContacts() } }
+    private var contactSearchQuery: String = "" { didSet { self.sortedContacts = self.computeSortedContacts() } }
+    private var tagSearchQuery: String = "" { didSet { self.tagSuggestions = self.computeFilteredTags() } }
     var settings: FollowUpSettings = .init()
 
     // This exposes variables which take the Realm Contacts, merge them with those from the device, and broadcast them to the rest of the app.
@@ -58,6 +60,10 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         }
     }
     
+    // Tags
+    @Published var tagSuggestions: [Tag] = []
+    private var tagsResults: Results<Tag>?
+    
     // MARK: - Realm Properties
     // We subscribe to this to observe changes to the contacts within the Realm DB.
     var contactsResults: Results<Contact>? {
@@ -65,7 +71,8 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             self.mergeWithContactsDictionary(contacts: contactsResults?.array ?? [])
         }
     }
-    var contactsNotificationToken: NotificationToken?
+    private var contactsNotificationToken: NotificationToken?
+    private var tagsNotificationToken: NotificationToken?
     private var realm: Realm?
 
     // MARK: - Static Properties
@@ -75,7 +82,8 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     init(realm: Realm? = nil) {
         self.realm = realm
         self.loadSettingsFromRealm()
-        self.configureObserver()
+        self.configureContactsObserver()
+        self.configureTagsObserver()
     }
 
     // MARK: - Methods
@@ -117,16 +125,20 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         return contact
     }
     
-    func set(searchQuery: String) {
-        self.searchQuery = searchQuery
+    func set(contactSearchQuery searchQuery: String) {
+        self.contactSearchQuery = searchQuery
+    }
+    
+    func set(tagSearchQuery searchQuery: String) {
+        self.tagSearchQuery = searchQuery
     }
     
     // MARK: - Methods (View Model)
     private func computeSortedContacts() -> [any Contactable] {
         contacts
         .filter { contact in
-            guard !searchQuery.isEmpty else { return true }
-            return contact.name.fuzzyMatch(self.searchQuery)
+            guard !self.contactSearchQuery.isEmpty else { return true }
+            return contact.name.fuzzyMatch(self.contactSearchQuery)
         }
         .sorted(by: \.createDate)
         .reversed()
@@ -147,11 +159,16 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             .reversed()
     }
     
+    private func computeFilteredTags() -> [Tag] {
+        guard !self.tagSearchQuery.isEmpty else { return [] }
+        return self.tagsResults?.array.filter { $0.title.fuzzyMatch(self.tagSearchQuery) } ?? []
+    }
+    
     // MARK: - Realm Configuration
     // CHECKPOINT:
 //    - I am trying to intelligently update the list by listening to specific changes from realm.
     // The latest commit on the tag branch has the latest updates for tags.
-    func configureObserver() {
+    func configureContactsObserver() {
         guard let realm = realm else {
             assertionFailurePreviewSafe("Could not find realm in order to configure contacts observer.")
             return
@@ -159,6 +176,18 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         let observedContacts = realm.objects(Contact.self)
         self.contactsNotificationToken = observedContacts.observe { [weak self] _ in
             self?.contactsResults = observedContacts
+        }
+    }
+    
+    private func configureTagsObserver() {
+        guard let realm = realm else {
+            assertionFailurePreviewSafe("Could not find realm in order to configure tags observer.")
+            return
+        }
+        let observedTags = realm.objects(Tag.self)
+        self.tagsNotificationToken = observedTags.observe { [weak self] _ in
+            self?.tagSuggestions = []
+            self?.tagsResults = observedTags
         }
     }
     

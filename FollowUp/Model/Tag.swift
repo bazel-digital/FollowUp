@@ -11,21 +11,29 @@ import SwiftUI
 
 class Tag: Object, Identifiable {
     @Persisted var id: String = UUID().uuidString
-    @Persisted var title: String
     @Persisted var colour: Color = .random()
     @Persisted var icon: Constant.Icon?
+    @Persisted(originProperty: "tags") var taggedContacts: LinkingObjects<Contact>
+
+    var title: String { id }
     
     convenience init(
-        id: String? = nil,
         title: String,
         colour: Color? = nil,
         icon: Constant.Icon? = nil
     ) {
         self.init()
-        self.id = id ?? self.id
-        self.title = title
+        self.id = title
         self.colour = colour ?? self.colour
         self.icon = icon ?? self.icon
+    }
+    
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? Tag else {
+            return false
+        }
+        
+        return !self.isInvalidated && (self.id == object.id)
     }
 }
 

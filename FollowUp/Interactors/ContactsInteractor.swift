@@ -149,6 +149,19 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
                 return
             }
             contact?.tags.remove(at: tagIndex)
+            
+            // TODO: Check to see if the tag is bound to any contacts. If not, then we can remove the tag as it would be dangling on its own.
+            self.removeIfOrphaned(tag: tag)
+            
+        }
+    }
+    
+    /// Checks if the tag is orphaned, and if so, removes it.
+    private func removeIfOrphaned(tag: Tag) {
+        guard tag.taggedContacts.isEmpty else { return }
+        Log.info("Tag: \(tag.title) no longer belongs to any contacts. Removing now.")
+        self.writeToRealm { realm in
+            realm.delete(tag)
         }
     }
     

@@ -30,7 +30,7 @@ struct NewContactsView: View {
             .animation(.easeInOut, value: store.contacts.count)
             .animation(.easeInOut, value: newContactsCount)
             .searchable(text: $searchQuery, placement: .automatic, prompt: "Search")
-            .onChange(of: searchQuery, perform: self.store.set(searchQuery:))
+            .onChange(of: searchQuery, perform: self.store.set(contactSearchQuery:))
     }
     
     @ViewBuilder

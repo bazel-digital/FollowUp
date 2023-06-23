@@ -189,39 +189,39 @@ struct ContactSheetView: View {
     }
     
     var modalContactSheetView: some View {
-        VStack(spacing: verticalSpacing) {
-
-            
-                HStack {
+        NavigationView {
+            VStack(spacing: verticalSpacing) {
+                    HStack {
+                        Spacer()
+                        CloseButton(onClose: onClose)
+                            .padding([.top, .trailing])
+                    }
                     Spacer()
-                    CloseButton(onClose: onClose)
-                        .padding([.top, .trailing])
+
+                VStack {
+
+                    contactBadgeAndNameView
+                    
+                    if let note = contact.note, !note.isEmpty {
+                        Text(note)
+                            .italic()
+                    }
+                    relativeTimeSinceMeetingView
+
+                    contactDetailsView
+                        .padding(.top)
                 }
-                Spacer()
-
-            VStack {
-
-                contactBadgeAndNameView
                 
-                if let note = contact.note, !note.isEmpty {
-                    Text(note)
-                        .italic()
-                }
-                relativeTimeSinceMeetingView
-
-                contactDetailsView
-                    .padding(.top)
+                
+                tagsView
+                Spacer()
+                startAConversationRowView
+                Spacer()
+                followUpDetailsView
+                Spacer()
+                actionButtonGrid
+                    .padding()
             }
-            
-            
-            tagsView
-            Spacer()
-            startAConversationRowView
-            Spacer()
-            followUpDetailsView
-            Spacer()
-            actionButtonGrid
-                .padding()
         }
     }
 
