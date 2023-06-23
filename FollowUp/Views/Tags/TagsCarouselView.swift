@@ -156,9 +156,13 @@ struct TagsCarouselView: View {
     
     private func onCreateTagSubmit() {
         if !self.newTagTitle.isEmpty {
+            
+            // If the first suggested tag contains the same title, use that instead.
+            let tag: Tag = (newTagTitle == tagSearchSuggestions.first?.title) ? tagSearchSuggestions.first! : .init(title: newTagTitle)
+            
             // Add the new tag to the list of tags.
             withAnimation {
-                tags.append(.init(title: newTagTitle))
+                tags.append(tag)
             }
         }
         
