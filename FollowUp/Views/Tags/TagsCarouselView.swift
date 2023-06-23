@@ -58,6 +58,7 @@ struct TagsCarouselView: View {
                 HStack {
                     ForEach(tagSearchSuggestions) { suggestedTag in
                         TagChipView(tag: suggestedTag, action: { self.onTapTagSuggestion(suggestedTag) })
+                            .transition(.push(from: .trailing))
                     }
                 }
             }
@@ -74,7 +75,11 @@ struct TagsCarouselView: View {
                     suggestedTagView
                 })
             }
-            .onChange(of: newTagTitle, perform: followUpManager.store.set(tagSearchQuery:))
+            .onChange(of: newTagTitle, perform: { tagSearchQuery in
+                withAnimation {
+                    followUpManager.store.set(tagSearchQuery:tagSearchQuery)
+                }
+            })
             .padding(.vertical, Constant.Tag.verticalPadding)
             .focused($textFieldIsFocused)
             .onSubmit(onCreateTagSubmit)
