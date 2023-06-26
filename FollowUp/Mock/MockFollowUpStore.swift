@@ -11,6 +11,7 @@ class MockFollowUpStore: FollowUpStoring {
     var contacts: [any Contactable] = []
     var dailyFollowUpGoal: Int? = nil
     var tagSearchQuery: String = ""
+    var selectedTagSearchTokens: [Tag] = []
     var contactSearchQuery: String = ""
     var settings: FollowUpSettings = .init()
     
@@ -30,6 +31,10 @@ class MockFollowUpStore: FollowUpStoring {
     
     func set(tagSearchQuery searchQuery: String) {
         self.tagSearchQuery = searchQuery
+    }
+    
+    func set(selectedTagSearchTokens tagSearchTokens: [Tag]) {
+        self.selectedTagSearchTokens = tagSearchTokens
     }
     
     func set(contactSearchQuery searchQuery: String) {

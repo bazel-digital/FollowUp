@@ -135,5 +135,6 @@ enum Constant {
     enum Search {
         static let contactSearchDebounce: RunLoop.SchedulerTimeType.Stride = 0.5
         static let tagSearchDebounce: RunLoop.SchedulerTimeType.Stride = 0.5
+        static let maxNumberOfDisplayedSearchTagSuggestions: Int = 9
     }
 }

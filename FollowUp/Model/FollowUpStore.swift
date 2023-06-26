@@ -23,6 +23,7 @@ protocol FollowUpStoring: ObservableObject {
     func contact(forID contactID: ContactID) -> (any Contactable)?
     func set(contactSearchQuery searchQuery: String)
     func set(tagSearchQuery searchQuery: String)
+    func set(selectedTagSearchTokens tagSearchTokens: [Tag])
 }
 
 // MARK: - Default Implementations
@@ -67,7 +68,15 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     // Tags
     @Published var tagSuggestions: [Tag] = []
     @Published var allTags: [Tag] = []
-    private var tagsResults: Results<Tag>? { didSet { self.allTags = tagsResults?.array ?? [] } }
+    @Published var selectedTagSearchTokens: [Tag] = []
+    private var tagsResults: Results<Tag>? {
+        didSet {
+            self.allTags = tagsResults?
+            .array
+            .prefix(Constant.Search.maxNumberOfDisplayedSearchTagSuggestions)
+            .map { $0 } ?? []    
+        }
+    }
     
     // MARK: - Realm Properties
     // We subscribe to this to observe changes to the contacts within the Realm DB.
@@ -93,8 +102,8 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         // Register for changes in the search queries, then recalculate the results with a debounce.
         $contactSearchQuery
             .debounce(for: Constant.Search.contactSearchDebounce, scheduler: RunLoop.main)
-            .sink(receiveValue: { searchQuery in
-                self.sortedContacts = self.computeSortedContacts(forContactSearchQuery: searchQuery)
+            .sink(receiveValue: { _ in
+                self.sortedContacts = self.computeSortedContacts()
             })
             .store(in: &cancellables)
         
@@ -102,6 +111,13 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             .debounce(for: Constant.Search.tagSearchDebounce, scheduler: RunLoop.main)
             .sink(receiveValue: { searchQuery in
                 self.tagSuggestions = self.computeFilteredTags(forSearchQuery: searchQuery)
+            })
+            .store(in: &cancellables)
+        
+        $selectedTagSearchTokens
+            .debounce(for: Constant.Search.tagSearchDebounce, scheduler: RunLoop.main)
+            .sink(receiveValue: { _ in
+                self.sortedContacts = self.computeSortedContacts()
             })
             .store(in: &cancellables)
     }
@@ -153,12 +169,17 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         self.tagSearchQuery = searchQuery
     }
     
+    /// Called by the Contact List view when a Tag is selected and to be used for filtering.
+    func set(selectedTagSearchTokens tagSearchTokens: [Tag]) {
+        self.selectedTagSearchTokens = tagSearchTokens
+    }
+    
     // MARK: - Methods (View Model)
-    private func computeSortedContacts(forContactSearchQuery contactSearchQuery: String = "") -> [any Contactable] {
+    private func computeSortedContacts() -> [any Contactable] {
         contacts
         .filter { contact in
-            guard !contactSearchQuery.isEmpty else { return true }
-            return contact.name.fuzzyMatch(contactSearchQuery)
+            guard !self.contactSearchQuery.isEmpty || !self.selectedTagSearchTokens.isEmpty else { return true }
+            return contact.name.fuzzyMatch(self.contactSearchQuery) && contact.tags.contains(self.selectedTagSearchTokens)
         }
         .sorted(by: \.createDate)
         .reversed()
@@ -181,7 +202,7 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     
     private func computeFilteredTags(forSearchQuery searchQuery: String) -> [Tag] {
         guard searchQuery.isEmpty else { return [] }
-        return self.tagsResults?.array.filter { $0.title.fuzzyMatch(searchQuery) } ?? []
+        return self.allTags.filter { $0.title.fuzzyMatch(searchQuery) }
     }
     
     // MARK: - Realm Configuration

@@ -48,6 +48,7 @@ struct NewContactsView: View {
             token: { token in TagChipView(tag: token) }
         )
         .onChange(of: searchQuery, perform: self.store.set(contactSearchQuery:))
+        .onChange(of: selectedTagSearchTokens, perform: self.store.set(selectedTagSearchTokens:))
         .onReceive(store.$allTags, perform: { self.availableTagSearchTokens = $0 })
     }
     
