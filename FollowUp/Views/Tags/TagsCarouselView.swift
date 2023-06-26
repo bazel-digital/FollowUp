@@ -48,7 +48,7 @@ struct TagsCarouselView: View {
         .padding(.horizontal, Constant.Tag.horiztontalPadding)
         .padding(.vertical, Constant.Tag.verticalPadding)
         .background(Color(.systemGray3))
-        .cornerRadius(5)
+        .cornerRadius(Constant.Tag.cornerRadius)
     }
     
     private var suggestedTagView: some View {
