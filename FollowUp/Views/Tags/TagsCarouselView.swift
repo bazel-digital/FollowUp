@@ -68,7 +68,7 @@ struct TagsCarouselView: View {
     
     private var creatingTagView: some View {
             TextField(text: $newTagTitle, label: {
-                Text("New tag")
+                Text(.newTag)
             })
             .textFieldStyle(.roundedBorder)
             .toolbar {
