@@ -63,6 +63,7 @@ struct TagsCarouselView: View {
                 }
             }
         }
+        .animation(.default, value: tagSearchSuggestions)
     }
     
     private var creatingTagView: some View {
@@ -76,9 +77,7 @@ struct TagsCarouselView: View {
                 })
             }
             .onChange(of: newTagTitle, perform: { tagSearchQuery in
-                withAnimation {
-                    followUpManager.store.set(tagSearchQuery:tagSearchQuery)
-                }
+                followUpManager.store.set(tagSearchQuery:tagSearchQuery)
             })
             .padding(.vertical, Constant.Tag.verticalPadding)
             .focused($textFieldIsFocused)
@@ -126,6 +125,7 @@ struct TagsCarouselView: View {
                 addTagButton
             }
             .padding()
+            .animation(.default, value: creatingTag)
         }
         .scrollIndicators(.hidden)
     }
