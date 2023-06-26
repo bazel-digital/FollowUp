@@ -41,6 +41,7 @@ struct ContactListView: View {
         }
         .animation(.default, value: suggestedTagSearchTokens)
         .padding(.horizontal)
+        .padding(.top, Constant.Search.suggestedTagViewTopPadding)
         .background(Color(.systemGroupedBackground))
     }
     
