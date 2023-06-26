@@ -39,14 +39,18 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     
     // MARK: - Stored Properties
     var lastFetchedContacts: Date = .distantPast
-    private var contactSearchQuery: String = "" { didSet { self.sortedContacts = self.computeSortedContacts() } }
-    private var tagSearchQuery: String = "" { didSet { self.tagSuggestions = self.computeFilteredTags() } }
+    var cancellables: Set<AnyCancellable> = []
+    
+    // MARK: - Stored Properties (Search Queries)
+    @Published private var contactSearchQuery: String = ""
+    @Published private var tagSearchQuery: String = ""
+    
     var settings: FollowUpSettings = .init()
+    private let backgroundQueue: DispatchQueue = .init(label: "com.bazel.followup.store.background", qos: .background)
 
+    // MARK: - Stored Properties (Published)
     // This exposes variables which take the Realm Contacts, merge them with those from the device, and broadcast them to the rest of the app.
-    @Published var contacts: [any Contactable] = [] {
-        didSet { self.sortedContacts = self.computeSortedContacts() }
-    }
+    @Published var contacts: [any Contactable] = [] { didSet { self.sortedContacts = self.computeSortedContacts() } }
     
     // Cached view properties
     @Published var sortedContacts: [any Contactable] = [] {
@@ -62,7 +66,8 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     
     // Tags
     @Published var tagSuggestions: [Tag] = []
-    private var tagsResults: Results<Tag>?
+    @Published var allTags: [Tag] = []
+    private var tagsResults: Results<Tag>? { didSet { self.allTags = tagsResults?.array ?? [] } }
     
     // MARK: - Realm Properties
     // We subscribe to this to observe changes to the contacts within the Realm DB.
@@ -84,6 +89,21 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         self.loadSettingsFromRealm()
         self.configureContactsObserver()
         self.configureTagsObserver()
+        
+        // Register for changes in the search queries, then recalculate the results with a debounce.
+        $contactSearchQuery
+            .debounce(for: Constant.Search.contactSearchDebounce, scheduler: RunLoop.main)
+            .sink(receiveValue: { searchQuery in
+                self.sortedContacts = self.computeSortedContacts(forContactSearchQuery: searchQuery)
+            })
+            .store(in: &cancellables)
+        
+        $tagSearchQuery
+            .debounce(for: Constant.Search.tagSearchDebounce, scheduler: RunLoop.main)
+            .sink(receiveValue: { searchQuery in
+                self.tagSuggestions = self.computeFilteredTags(forSearchQuery: searchQuery)
+            })
+            .store(in: &cancellables)
     }
 
     // MARK: - Methods
@@ -134,11 +154,11 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     }
     
     // MARK: - Methods (View Model)
-    private func computeSortedContacts() -> [any Contactable] {
+    private func computeSortedContacts(forContactSearchQuery contactSearchQuery: String = "") -> [any Contactable] {
         contacts
         .filter { contact in
-            guard !self.contactSearchQuery.isEmpty else { return true }
-            return contact.name.fuzzyMatch(self.contactSearchQuery)
+            guard !contactSearchQuery.isEmpty else { return true }
+            return contact.name.fuzzyMatch(contactSearchQuery)
         }
         .sorted(by: \.createDate)
         .reversed()
@@ -159,9 +179,9 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             .reversed()
     }
     
-    private func computeFilteredTags() -> [Tag] {
-        guard !self.tagSearchQuery.isEmpty else { return [] }
-        return self.tagsResults?.array.filter { $0.title.fuzzyMatch(self.tagSearchQuery) } ?? []
+    private func computeFilteredTags(forSearchQuery searchQuery: String) -> [Tag] {
+        guard searchQuery.isEmpty else { return [] }
+        return self.tagsResults?.array.filter { $0.title.fuzzyMatch(searchQuery) } ?? []
     }
     
     // MARK: - Realm Configuration

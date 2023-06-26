@@ -41,6 +41,7 @@
 		2159D01027120349005A2387 /* Fakery in Frameworks */ = {isa = PBXBuildFile; productRef = 2159D00F27120349005A2387 /* Fakery */; };
 		2159D013271207D6005A2387 /* NavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159D012271207D6005A2387 /* NavigationBarModifier.swift */; };
 		2159D0162712081C005A2387 /* View+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2159D0152712081C005A2387 /* View+Additions.swift */; };
+		2184F3F62A45F72700D4E8C6 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 2184F3F52A45F72700D4E8C6 /* WrappingHStack */; };
 		218B39062712240F002720BC /* Data+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B39052712240F002720BC /* Data+Additions.swift */; };
 		218B390927137FE2002720BC /* ContactsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B390827137FE2002720BC /* ContactsInteractor.swift */; };
 		218B390B2718CB50002720BC /* EnvironmentValues+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B390A2718CB50002720BC /* EnvironmentValues+Additions.swift */; };
@@ -169,6 +170,7 @@
 				2159D01027120349005A2387 /* Fakery in Frameworks */,
 				210A6213295014040064EB8A /* Realm in Frameworks */,
 				210A6215295014040064EB8A /* RealmSwift in Frameworks */,
+				2184F3F62A45F72700D4E8C6 /* WrappingHStack in Frameworks */,
 				21379049275AE82B004059F4 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,6 +414,7 @@
 				21379048275AE82B004059F4 /* OrderedCollections */,
 				210A6212295014040064EB8A /* Realm */,
 				210A6214295014040064EB8A /* RealmSwift */,
+				2184F3F52A45F72700D4E8C6 /* WrappingHStack */,
 			);
 			productName = FollowUp;
 			productReference = 2159CFD12711F49C005A2387 /* FollowUp.app */;
@@ -488,6 +491,7 @@
 				2159D00E27120349005A2387 /* XCRemoteSwiftPackageReference "Fakery" */,
 				21379045275AE82B004059F4 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				210A6211295014040064EB8A /* XCRemoteSwiftPackageReference "realm-swift" */,
+				2184F3F42A45F72700D4E8C6 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = 2159CFD22711F49C005A2387 /* Products */;
 			projectDirPath = "";
@@ -948,6 +952,14 @@
 				minimumVersion = 5.1.0;
 			};
 		};
+		2184F3F42A45F72700D4E8C6 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ksemianov/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -975,6 +987,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2159D00E27120349005A2387 /* XCRemoteSwiftPackageReference "Fakery" */;
 			productName = Fakery;
+		};
+		2184F3F52A45F72700D4E8C6 /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2184F3F42A45F72700D4E8C6 /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

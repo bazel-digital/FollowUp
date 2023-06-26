@@ -9,28 +9,46 @@ import RealmSwift
 import SwiftUI
 
 struct NewContactsView: View {
-
+    
     @ObservedObject var store: FollowUpStore
     @EnvironmentObject var settings: FollowUpSettings
     @State var contactInteractorState: ContactInteractorState = .fetchingContacts
     @State var searchQuery: String = ""
+    @State var availableTagSearchTokens: [Tag] = []
+    @State var selectedTagSearchTokens: [Tag] = []
     var contactsInteractor: ContactsInteracting
-
+    
+    @Environment(\.isSearching) var isSearching
+    
     // MARK: - Computed Properties
-
+    
     private var newContactsCount: Int {
         store.contactSections.filter { $0.grouping == .new }.count
     }
     
+    private var suggestedTagSearchTokens: [Tag] {
+        availableTagSearchTokens.filter {
+            $0.title.fuzzyMatch(searchQuery) && !selectedTagSearchTokens.contains($0)
+        }
+    }
+    
     // MARK: - Views
     
-    
     private var contactsListView: some View {
-        ContactListView(contactSetions: store.contactSections)
-            .animation(.easeInOut, value: store.contacts.count)
-            .animation(.easeInOut, value: newContactsCount)
-            .searchable(text: $searchQuery, placement: .automatic, prompt: "Search")
-            .onChange(of: searchQuery, perform: self.store.set(contactSearchQuery:))
+        ContactListView(
+            contactSetions: store.contactSections,
+            suggestedTagSearchTokens: suggestedTagSearchTokens, selectedTagSearchTokens: $selectedTagSearchTokens
+        )
+        .animation(.easeInOut, value: newContactsCount)
+        .searchable(
+            text: $searchQuery,
+            tokens: $selectedTagSearchTokens,
+            placement: .automatic,
+            prompt: "Search",
+            token: { token in TagChipView(tag: token) }
+        )
+        .onChange(of: searchQuery, perform: self.store.set(contactSearchQuery:))
+        .onReceive(store.$allTags, perform: { self.availableTagSearchTokens = $0 })
     }
     
     @ViewBuilder

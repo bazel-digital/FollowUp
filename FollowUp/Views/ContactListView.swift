@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+import WrappingHStack
 
 struct ContactListView: View {
 
     // MARK: - Stored Properties
     var contactSetions: [ContactSection]
+    var suggestedTagSearchTokens: [Tag]
+    @Binding var selectedTagSearchTokens: [Tag]
+    @Environment(\.isSearching) var isSearching: Bool
 
     var verticalListRowItemEdgeInsets: EdgeInsets = .init(
         top: 5,
@@ -25,6 +29,46 @@ struct ContactListView: View {
         bottom: 0,
         trailing: 0
     )
+    
+    // MARK: - Computed Properties
+    private var searchSuggestionView: some View {
+        WrappingHStack(alignment: .leading) {
+            ForEach(suggestedTagSearchTokens) { tag in
+                TagChipView(tag: tag, action: {
+                    self.selectedTagSearchTokens.append(tag)
+                })
+            }
+        }
+        .animation(.default, value: suggestedTagSearchTokens)
+        .padding(.horizontal)
+        .background(Color(.systemGroupedBackground))
+    }
+    
+    private var fullContactListView: some View {
+        LazyVStack(spacing: Constant.ContactList.verticalSpacing) {
+            ForEach(contactSetions) { section in
+                ContactListSectionView(
+                    section: section,
+                    layoutDirection: section.grouping == .new ? .horizontal : .vertical
+                )
+                .padding(emptyListRowItemEdgeInsets)
+            }
+        }
+        .background(Color.clear)
+    }
+    
+    private var searchingContactListView: some View {
+        LazyVStack(spacing: Constant.ContactList.verticalSpacing) {
+            ForEach(contactSetions) { section in
+                ContactListSectionView(
+                    section: section,
+                    layoutDirection: .vertical
+                )
+                .padding(emptyListRowItemEdgeInsets)
+            }
+        }
+        .background(Color.clear)
+    }
 
     // MARK: - Views
     var body: some View {
@@ -33,17 +77,15 @@ struct ContactListView: View {
         #endif
         
         ScrollView {
-            LazyVStack(spacing: Constant.ContactList.verticalSpacing) {
-                ForEach(contactSetions) { section in
-                    ContactListSectionView(
-                        section: section,
-                        layoutDirection: section.grouping == .new ? .horizontal : .vertical
-                    )
-                    .padding(emptyListRowItemEdgeInsets)
-                }
+            if isSearching {
+                searchSuggestionView
+                    .transition(.opacity)
+                searchingContactListView
+            } else {
+                fullContactListView
             }
-            .background(Color.clear)
         }
+        .animation(.default, value: isSearching)
         .background(Color(.systemGroupedBackground))
 
     }
@@ -56,7 +98,9 @@ struct ConsolidatedContactListView_Previews: PreviewProvider {
                 .mocked(forGrouping: .new),
                 .mocked(forGrouping: .relativeDate(grouping: .week)),
                 .mocked(forGrouping: .relativeDate(grouping: .month))
-            ]
+            ],
+            suggestedTagSearchTokens: [],
+            selectedTagSearchTokens: .constant([])
         )
     }
 }

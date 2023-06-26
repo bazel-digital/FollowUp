@@ -63,7 +63,7 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
     // MARK: - Private Properties
     private var _contactsPublisher: PassthroughSubject<[any Contactable], Never> = .init()
     private var realm: Realm?
-    private let backgroundQueue: DispatchQueue = .init(label: "com.bazel.followup.background", qos: .background)
+    private let backgroundQueue: DispatchQueue = .init(label: "com.bazel.followup.contacts.background", qos: .background)
 
     // MARK: - Public Properties
     var contactsPublisher: AnyPublisher<[any Contactable], Never> { _contactsPublisher.eraseToAnyPublisher() }
