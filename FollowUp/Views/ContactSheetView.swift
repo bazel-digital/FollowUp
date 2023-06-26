@@ -184,38 +184,44 @@ struct ContactSheetView: View {
         }
     }
     
+    private var tagsView: some View {
+        TagsCarouselView(contact: contact)
+    }
+    
     var modalContactSheetView: some View {
-        VStack(spacing: verticalSpacing) {
-
-            
-                HStack {
+        NavigationView {
+            VStack(spacing: verticalSpacing) {
+                    HStack {
+                        Spacer()
+                        CloseButton(onClose: onClose)
+                            .padding([.top, .trailing])
+                    }
                     Spacer()
-                    CloseButton(onClose: onClose)
-                        .padding([.top, .trailing])
+
+                VStack {
+
+                    contactBadgeAndNameView
+                    
+                    if let note = contact.note, !note.isEmpty {
+                        Text(note)
+                            .italic()
+                    }
+                    relativeTimeSinceMeetingView
+
+                    contactDetailsView
+                        .padding(.top)
                 }
-                Spacer()
-
-            VStack {
-
-                contactBadgeAndNameView
                 
-                if let note = contact.note, !note.isEmpty {
-                    Text(note)
-                        .italic()
-                }
-                relativeTimeSinceMeetingView
-
-                contactDetailsView
-                    .padding(.top)
+                
+                tagsView
+                Spacer()
+                startAConversationRowView
+                Spacer()
+                followUpDetailsView
+                Spacer()
+                actionButtonGrid
+                    .padding()
             }
-            
-            Spacer()
-            startAConversationRowView
-            Spacer()
-            followUpDetailsView
-            Spacer()
-            actionButtonGrid
-                .padding()
         }
     }
 
@@ -257,6 +263,7 @@ struct ContactModalView_Previews: PreviewProvider {
             ContactSheetView(kind: .modal, sheet: MockedContact(id: "0").sheet, onClose: { })
                 .preferredColorScheme(.dark)
         }
-//        .environmentObject(FollowUpManager(store: .mocked(withNumberOfContacts: 5)))
+        .environmentObject(FollowUpManager())
+        .environmentObject(FollowUpStore())
     }
 }

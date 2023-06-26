@@ -34,4 +34,8 @@ enum LocalisedTextKey: String {
     // MARK: - Welcome Screen
     case welcomeScreenTitle = "Welcome to FollowUp"
     case welcomeScreenContinueButtonTitle = "Continue"
+    
+    // MARK: - Edit Tag
+    case delete = "Delete"
+    case newTag = "New Tag"
 }

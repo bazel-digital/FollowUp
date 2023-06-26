@@ -9,53 +9,47 @@ import RealmSwift
 import SwiftUI
 
 struct NewContactsView: View {
-
+    
     @ObservedObject var store: FollowUpStore
     @EnvironmentObject var settings: FollowUpSettings
     @State var contactInteractorState: ContactInteractorState = .fetchingContacts
     @State var searchQuery: String = ""
+    @State var availableTagSearchTokens: [Tag] = []
+    @State var selectedTagSearchTokens: [Tag] = []
     var contactsInteractor: ContactsInteracting
-
+    
+    @Environment(\.isSearching) var isSearching
+    
     // MARK: - Computed Properties
-
-    private var sortedContacts: [any Contactable] {
-        store
-            .contacts
-            .filter { contact in
-                guard !searchQuery.isEmpty else { return true }
-                return contact.name.fuzzyMatch(searchQuery)
-            }
-            .sorted(by: \.createDate)
-            .reversed()
-    }
-
-    private var contactSections: [ContactSection] {
-        sortedContacts
-            .grouped(by: settings.contactListGrouping.keyPath)
-            .map { grouping, contacts in
-                .init(
-                    contacts: contacts
-                        .sorted(by: \.createDate)
-                        .reversed(),
-                    grouping: grouping
-                )
-            }
-            .sorted(by: \.grouping)
-            .reversed()
-    }
-
+    
     private var newContactsCount: Int {
-        contactSections.filter { $0.grouping == .new }.count
+        store.contactSections.filter { $0.grouping == .new }.count
+    }
+    
+    private var suggestedTagSearchTokens: [Tag] {
+        availableTagSearchTokens.filter {
+            $0.title.fuzzyMatch(searchQuery) && !selectedTagSearchTokens.contains($0)
+        }
     }
     
     // MARK: - Views
     
-    
     private var contactsListView: some View {
-        ContactListView(contactSetions: contactSections)
-            .animation(.easeInOut, value: store.contacts.count)
-            .animation(.easeInOut, value: newContactsCount)
-            .searchable(text: $searchQuery, placement: .automatic, prompt: "Search")
+        ContactListView(
+            contactSetions: store.contactSections,
+            suggestedTagSearchTokens: suggestedTagSearchTokens, selectedTagSearchTokens: $selectedTagSearchTokens
+        )
+        .animation(.easeInOut, value: newContactsCount)
+        .searchable(
+            text: $searchQuery,
+            tokens: $selectedTagSearchTokens,
+            placement: .automatic,
+            prompt: "Search",
+            token: { token in TagChipView(tag: token) }
+        )
+        .onChange(of: searchQuery, perform: self.store.set(contactSearchQuery:))
+        .onChange(of: selectedTagSearchTokens, perform: self.store.set(selectedTagSearchTokens:))
+        .onReceive(store.$allTags, perform: { self.availableTagSearchTokens = $0 })
     }
     
     @ViewBuilder

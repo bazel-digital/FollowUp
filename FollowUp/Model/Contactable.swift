@@ -18,6 +18,7 @@ protocol Contactable: Object, Identifiable {
     var email: String? { get }
     var thumbnailImage: UIImage? { get }
     var note: String? { get set }
+    var tags: RealmSwift.List<Tag> { get set }
     var followUps: Int { get set }
     var createDate: Date { get }
     var highlighted: Bool { get }
@@ -73,6 +74,7 @@ class Contact: Object, ObjectKeyIdentifiable, Contactable, Identifiable {
     
     
     // MARK: - Interactive Properties
+    @Persisted var tags: RealmSwift.List<Tag> { didSet { lastInteractedWith = .now } }
     @Persisted var followUps: Int = 0 { didSet { lastFollowedUp = .now } }
     @Persisted var lastFollowedUp: Date? { didSet { lastInteractedWith = .now } }
     @Persisted var highlighted: Bool = false { didSet { lastInteractedWith = .now } }

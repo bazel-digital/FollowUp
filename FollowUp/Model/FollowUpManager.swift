@@ -59,12 +59,19 @@ final class FollowUpManager: ObservableObject {
         let realmFileURL = documentDirectory?.appendingPathComponent("\(name).realm")
         let config = Realm.Configuration(
             fileURL: realmFileURL,
-            schemaVersion: 2,
+            schemaVersion: 4,
             migrationBlock: { migration, oldSchemaVersion in
                 if oldSchemaVersion < 2 {
-                    print("Running migration")
+                    Log.info("Running migration to schema v2, adding contactListGrouping.")
                     migration.enumerateObjects(ofType: FollowUpSettings.className()) { oldObject, newObject in
                         newObject?["contactListGrouping"] = FollowUpSettings.ContactListGrouping.dayMonthYear.rawValue
+                    }
+                }
+                
+                if oldSchemaVersion < 4 {
+                    Log.info("Running migration to schema v4. Adding 'tags' property.")
+                    migration.enumerateObjects(ofType: Contact.className()) { oldObject, newObject in
+                        newObject?["tags"] = RealmSwift.List<Tag>()
                     }
                 }
             }

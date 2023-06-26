@@ -8,7 +8,7 @@
 import Foundation
 
 struct ContactSection: Identifiable {
-    var id: String = UUID().uuidString
+    var id: String { grouping.title }
     let contacts: [any Contactable]
     let grouping: Grouping
     var expanded: Bool = false

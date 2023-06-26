@@ -7,8 +7,10 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 class MockContactsInteractor: ContactsInteracting, ObservableObject {
+    
     
     @Published var contactSheet: ContactSheet?
 
@@ -78,4 +80,29 @@ class MockContactsInteractor: ContactsInteracting, ObservableObject {
     func dismiss(_ contact: any Contactable) {
         
     }
+    
+    func add(tag: Tag, to contact: any Contactable) {
+            
+    }
+
+    func set(tags: [Tag], for contact: any Contactable) {
+        
+    }
+    
+    func remove(tag: Tag, from contact: any Contactable) {
+        
+    }
+    
+    func removeTags(forContact contact: any Contactable, atOffsets offsets: IndexSet) {
+            
+    }
+    
+    func moveTags(forContact contact: any Contactable, fromOffsets offsets: IndexSet, toOffset destination: Int) {
+            
+    }
+    
+    func changeColour(forTag tag: Tag, toColour colour: Color, forContact contact: any Contactable) {
+            
+    }
+
 }

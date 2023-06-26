@@ -101,7 +101,7 @@ extension FollowUpSettings {
         }
     }
     
-    public func removeConversationStareters(atOffsets offsets: IndexSet) {
+    public func removeConversationStarters(atOffsets offsets: IndexSet) {
         do {
             try self.realm?.write {
                 self.conversationStarters.remove(atOffsets: offsets)

@@ -23,14 +23,26 @@ protocol ContactsInteracting {
     var statePublisher: AnyPublisher<ContactInteractorState, Never> { get }
     var contactSheet: ContactSheet? { get }
     func fetchContacts()
+    
+    // MARK: - Actions
     func highlight(_ contact: any Contactable)
     func unhighlight(_ contact: any Contactable)
     func addToFollowUps(_ contact: any Contactable)
     func removeFromFollowUps(_ contact: any Contactable)
     func markAsFollowedUp(_ contact: any Contactable)
+    
+    // MARK: - Actions (Sheet)
     func displayContactSheet(_ contact: any Contactable)
     func hideContactSheet()
     func dismiss(_ contact: any Contactable)
+    
+    // MARK: - Actions (Tags)
+    func add(tag: Tag, to contact: any Contactable)
+    func remove(tag: Tag, from contact: any Contactable)
+    func removeTags(forContact contact: any Contactable, atOffsets offsets: IndexSet)
+    func moveTags(forContact contact: any Contactable, fromOffsets offsets: IndexSet, toOffset destination: Int)
+    func set(tags: [Tag], for contact: any Contactable)
+    func changeColour(forTag tag: Tag, toColour colour: Color, forContact contact: any Contactable)
 }
 
 /// Describes the current state of the contacts interactor.
@@ -51,7 +63,7 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
     // MARK: - Private Properties
     private var _contactsPublisher: PassthroughSubject<[any Contactable], Never> = .init()
     private var realm: Realm?
-    private let backgroundQueue: DispatchQueue = .init(label: "com.bazel.followup.background", qos: .background)
+    private let backgroundQueue: DispatchQueue = .init(label: "com.bazel.followup.contacts.background", qos: .background)
 
     // MARK: - Public Properties
     var contactsPublisher: AnyPublisher<[any Contactable], Never> { _contactsPublisher.eraseToAnyPublisher() }
@@ -115,22 +127,82 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
         })
     }
     
-    // MARK: - Private methods
-    private func modify(contact: any Contactable, closure: @escaping (Contact?) -> Void) {
-            guard let realm = self.realm else {
-                print("Unable to modify contact, as no realm instance was found in the ContactsInteractor.")
+    // MARK: - Actions (Tags)
+    func add(tag: Tag, to contact: any Contactable) {
+        self.modify(contact: contact){ contact in
+            contact?.tags.append(tag)
+        }
+    }
+    
+    func set(tags: [Tag], for contact: any Contactable) {
+        self.modify(contact: contact) { contact in
+            contact?.tags = .init()
+            contact?.tags.append(objectsIn: tags)
+        }
+    }
+    
+    func remove(tag: Tag, from contact: any Contactable) {
+        self.modify(contact: contact) { contact in
+            guard let tagIndex = contact?.tags.map(\.id).firstIndex(of: tag.id)
+            else {
+                Log.warn("Attempted to remove tag: \(tag) from \(contact?.name ?? "Unknown contact")(\(contact?.id ?? "") but could not find an index for it in the current list of tags.")
                 return
             }
+            contact?.tags.remove(at: tagIndex)
             
+            self.removeIfOrphaned(tag: tag)
+            
+        }
+    }
+    
+    /// Checks if the tag is orphaned, and if so, removes it.
+    private func removeIfOrphaned(tag: Tag) {
+        guard tag.taggedContacts.isEmpty else { return }
+        Log.info("Tag: \(tag.title) no longer belongs to any contacts. Removing now.")
+        self.writeToRealm { realm in
+            realm.delete(tag)
+        }
+    }
+    
+    public func removeTags(forContact contact: any Contactable, atOffsets offsets: IndexSet) {
+        self.modify(contact: contact) { contact in
+            contact?.tags.remove(atOffsets: offsets)
+        }
+    }
+    
+    public func moveTags(forContact contact: any Contactable, fromOffsets offsets: IndexSet, toOffset destination: Int) {
+        self.modify(contact: contact) { contact in
+            contact?.tags.move(fromOffsets: offsets, toOffset: destination)
+        }
+    }
+    
+    func changeColour(forTag tag: Tag, toColour colour: Color, forContact contact: any Contactable) {
+        self.writeToRealm { _ in
+            tag.colour = colour
+        }
+    }
+    
+    // MARK: - Private methods
+    private func modify(contact: any Contactable, closure: @escaping (Contact?) -> Void) {
+        writeToRealm { realm in
             let contact = realm.object(ofType: Contact.self, forPrimaryKey: contact.id)
-            
-            do {
-                try realm.writeAsync {
-                    closure(contact)
-                }
-            } catch {
-                print("Could not perform action: \(error.localizedDescription)")
+            closure(contact)
+        }
+    }
+    
+    private func writeToRealm(_ closure: @escaping (Realm) -> Void) {
+        guard let realm = self.realm else {
+            Log.error("Unable to modify contact, as no realm instance was found in the ContactsInteractor.")
+            return
+        }
+
+        do {
+            try realm.writeAsync {
+                closure(realm)
             }
+        } catch {
+            Log.error("Could not perform action: \(error.localizedDescription)")
+        }
     }
 }
 

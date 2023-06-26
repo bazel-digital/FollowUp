@@ -21,6 +21,9 @@ protocol FollowUpStoring: ObservableObject {
 
     func updateWithFetchedContacts(_ contacts: [any Contactable])
     func contact(forID contactID: ContactID) -> (any Contactable)?
+    func set(contactSearchQuery searchQuery: String)
+    func set(tagSearchQuery searchQuery: String)
+    func set(selectedTagSearchTokens tagSearchTokens: [Tag])
 }
 
 // MARK: - Default Implementations
@@ -37,14 +40,41 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     
     // MARK: - Stored Properties
     var lastFetchedContacts: Date = .distantPast
-
+    var cancellables: Set<AnyCancellable> = []
+    
+    // MARK: - Stored Properties (Search Queries)
+    @Published private var contactSearchQuery: String = ""
+    @Published private var tagSearchQuery: String = ""
+    
     var settings: FollowUpSettings = .init()
+    private let backgroundQueue: DispatchQueue = .init(label: "com.bazel.followup.store.background", qos: .background)
 
+    // MARK: - Stored Properties (Published)
     // This exposes variables which take the Realm Contacts, merge them with those from the device, and broadcast them to the rest of the app.
-    @Published var contacts: [any Contactable] = []
+    @Published var contacts: [any Contactable] = [] { didSet { self.sortedContacts = self.computeSortedContacts() } }
+    
+    // Cached view properties
+    @Published var sortedContacts: [any Contactable] = [] {
+        didSet { self.contactSections = self.computeContactSections() }
+    }
+    @Published var contactSections: [ContactSection] = []
+    
     private var contactsDictionary: [ContactID: any Contactable] = [:] {
         didSet {
             self.contacts = self.contactsDictionary.values.map { $0 }
+        }
+    }
+    
+    // Tags
+    @Published var tagSuggestions: [Tag] = []
+    @Published var allTags: [Tag] = []
+    @Published var selectedTagSearchTokens: [Tag] = []
+    private var tagsResults: Results<Tag>? {
+        didSet {
+            self.allTags = tagsResults?
+            .array
+            .prefix(Constant.Search.maxNumberOfDisplayedSearchTagSuggestions)
+            .map { $0 } ?? []
         }
     }
     
@@ -55,7 +85,8 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             self.mergeWithContactsDictionary(contacts: contactsResults?.array ?? [])
         }
     }
-    var contactsNotificationToken: NotificationToken?
+    private var contactsNotificationToken: NotificationToken?
+    private var tagsNotificationToken: NotificationToken?
     private var realm: Realm?
 
     // MARK: - Static Properties
@@ -65,7 +96,30 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     init(realm: Realm? = nil) {
         self.realm = realm
         self.loadSettingsFromRealm()
-        self.configureObserver()
+        self.configureContactsObserver()
+        self.configureTagsObserver()
+        
+        // Register for changes in the search queries, then recalculate the results with a debounce.
+        $contactSearchQuery
+            .debounce(for: Constant.Search.contactSearchDebounce, scheduler: RunLoop.main)
+            .sink(receiveValue: { _ in
+                self.sortedContacts = self.computeSortedContacts()
+            })
+            .store(in: &cancellables)
+        
+        $tagSearchQuery
+            .debounce(for: Constant.Search.tagSearchDebounce, scheduler: RunLoop.main)
+            .sink(receiveValue: { _ in
+                self.tagSuggestions = self.computeFilteredTags()
+            })
+            .store(in: &cancellables)
+        
+        $selectedTagSearchTokens
+            .debounce(for: Constant.Search.tagSearchDebounce, scheduler: RunLoop.main)
+            .sink(receiveValue: { _ in
+                self.sortedContacts = self.computeSortedContacts()
+            })
+            .store(in: &cancellables)
     }
 
     // MARK: - Methods
@@ -95,7 +149,6 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         }
     }
 
-
     func contact(forID contactID: ContactID) -> (any Contactable)? {
         guard
             let realm = realm,
@@ -108,7 +161,52 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         return contact
     }
     
-    func configureObserver() {
+    func set(contactSearchQuery searchQuery: String) {
+        self.contactSearchQuery = searchQuery
+    }
+    
+    func set(tagSearchQuery searchQuery: String) {
+        self.tagSearchQuery = searchQuery
+    }
+    
+    /// Called by the Contact List view when a Tag is selected and to be used for filtering.
+    func set(selectedTagSearchTokens tagSearchTokens: [Tag]) {
+        self.selectedTagSearchTokens = tagSearchTokens
+    }
+    
+    // MARK: - Methods (View Model)
+    private func computeSortedContacts() -> [any Contactable] {
+        contacts
+        .filter { contact in
+            guard !self.contactSearchQuery.isEmpty || !self.selectedTagSearchTokens.isEmpty else { return true }
+            return contact.name.fuzzyMatch(self.contactSearchQuery) && contact.tags.contains(self.selectedTagSearchTokens)
+        }
+        .sorted(by: \.createDate)
+        .reversed()
+    }
+    
+    private func computeContactSections() -> [ContactSection] {
+        sortedContacts
+            .grouped(by: settings.contactListGrouping.keyPath)
+            .map { grouping, contacts in
+                .init(
+                    contacts: contacts
+                        .sorted(by: \.createDate)
+                        .reversed(),
+                    grouping: grouping
+                )
+            }
+            .sorted(by: \.grouping)
+            .reversed()
+    }
+    
+    private func computeFilteredTags() -> [Tag] {
+        guard !self.tagSearchQuery.isEmpty else { return self.allTags }
+        return self.allTags.filter { $0.title.fuzzyMatch(self.tagSearchQuery.trimmingWhitespace()) }
+    }
+    
+    // MARK: - Realm Configuration
+    func configureContactsObserver() {
         guard let realm = realm else {
             assertionFailurePreviewSafe("Could not find realm in order to configure contacts observer.")
             return
@@ -118,6 +216,60 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             self?.contactsResults = observedContacts
         }
     }
+    
+    private func configureTagsObserver() {
+        guard let realm = realm else {
+            assertionFailurePreviewSafe("Could not find realm in order to configure tags observer.")
+            return
+        }
+        let observedTags = realm.objects(Tag.self)
+        self.tagsNotificationToken = observedTags.observe { [weak self] _ in
+            self?.tagSuggestions = []
+            self?.tagsResults = observedTags
+        }
+    }
+    
+//    func configureObserver() {
+//        guard let realm = realm else {
+//            assertionFailurePreviewSafe("Could not find realm in order to configure contacts observer.")
+//            return
+//        }
+//        let observedContacts = realm.objects(Contact.self)
+//        self.contactsNotificationToken = observedContacts.observe { [weak self] changes in
+//
+//            self?.contactsResults = observedContacts
+//            switch changes {
+//            case .initial:
+//                self?.contacts = observedContacts.array
+//                // Results are now populated and can be accessed without blocking the UI
+////            self?.contacts = observedContacts.array
+//            case .update(let results, let deletions, let insertions, let modifications):
+//
+////                print(results)
+//
+//                insertions.forEach { index in
+//                    self?.contacts.insert(results[index], at: index)
+//                }
+//
+//                modifications.forEach { index in
+//                    self?.contacts[index] = results[index]
+//                }
+//
+//                // Check this is working as expected.
+//                self?.contacts.remove(atOffsets: .init(deletions))
+//                Log.info("Modifications \(modifications)")
+//                Log.info("Deletions \(deletions)")
+//                Log.info("Insertions \(insertions)")
+//
+//
+//            case .error(let error):
+//                // An error occurred while opening the Realm file on the background worker thread
+//                fatalError("\(error)")
+//            }
+//
+//
+//        }
+//    }
     
     func loadSettingsFromRealm() {
         if let followUpSettings = self.realm?.objects(FollowUpSettings.self).first {
@@ -137,35 +289,7 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             }
         }
     }
-
-    // MARK: - CodingKeys
-    enum CodingKeys: CodingKey {
-        case contactDictionary
-        case lastFetchedContacts
-    }
-
-    // MARK: - Codable Conformance
-//    func encode(to encoder: Encoder) throws {
-//        var container = encoder.container(keyedBy: CodingKeys.self)
-//        try container.encode(contactDictionary, forKey: .contactDictionary)
-//        try container.encode(lastFetchedContacts, forKey: .lastFetchedContacts)
-//    }
-//
-//    required init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        self.contactDictionary = try container.decode([ContactID:Contact].self, forKey: .contactDictionary)
-//        self.lastFetchedContacts = try container.decodeIfPresent(Date.self, forKey: .lastFetchedContacts)
-//        self.contacts = self.contactDictionary.values.map { $0 }
-//    }
-
-    // MARK: - RawRepresentable Conformance
-//    var rawValue: String {
-//        guard
-//            let data = try? Self.encoder.encode(self),
-//            let string = String(data: data, encoding: .utf8)
-//        else { return .defaultFollowUpStoreString }
-//        return string
-//    }
+    
 }
 
 fileprivate extension String {
