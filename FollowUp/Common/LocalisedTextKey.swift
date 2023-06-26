@@ -37,4 +37,5 @@ enum LocalisedTextKey: String {
     
     // MARK: - Edit Tag
     case delete = "Delete"
+    case newTag = "New Tag"
 }
