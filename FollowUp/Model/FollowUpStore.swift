@@ -109,8 +109,8 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
         
         $tagSearchQuery
             .debounce(for: Constant.Search.tagSearchDebounce, scheduler: RunLoop.main)
-            .sink(receiveValue: { searchQuery in
-                self.tagSuggestions = self.computeFilteredTags(forSearchQuery: searchQuery)
+            .sink(receiveValue: { _ in
+                self.tagSuggestions = self.computeFilteredTags()
             })
             .store(in: &cancellables)
         
@@ -200,9 +200,9 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             .reversed()
     }
     
-    private func computeFilteredTags(forSearchQuery searchQuery: String) -> [Tag] {
-        guard searchQuery.isEmpty else { return [] }
-        return self.allTags.filter { $0.title.fuzzyMatch(searchQuery) }
+    private func computeFilteredTags() -> [Tag] {
+        guard !self.tagSearchQuery.isEmpty else { return self.allTags }
+        return self.allTags.filter { $0.title.fuzzyMatch(self.tagSearchQuery.trimmingWhitespace()) }
     }
     
     // MARK: - Realm Configuration
