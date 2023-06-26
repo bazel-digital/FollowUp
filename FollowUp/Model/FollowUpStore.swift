@@ -206,9 +206,6 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     }
     
     // MARK: - Realm Configuration
-    // CHECKPOINT:
-//    - I am trying to intelligently update the list by listening to specific changes from realm.
-    // The latest commit on the tag branch has the latest updates for tags.
     func configureContactsObserver() {
         guard let realm = realm else {
             assertionFailurePreviewSafe("Could not find realm in order to configure contacts observer.")

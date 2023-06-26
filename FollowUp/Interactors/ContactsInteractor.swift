@@ -150,7 +150,6 @@ class ContactsInteractor: ContactsInteracting, ObservableObject {
             }
             contact?.tags.remove(at: tagIndex)
             
-            // TODO: Check to see if the tag is bound to any contacts. If not, then we can remove the tag as it would be dangling on its own.
             self.removeIfOrphaned(tag: tag)
             
         }
