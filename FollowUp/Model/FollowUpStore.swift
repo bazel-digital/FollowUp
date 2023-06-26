@@ -74,7 +74,7 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             self.allTags = tagsResults?
             .array
             .prefix(Constant.Search.maxNumberOfDisplayedSearchTagSuggestions)
-            .map { $0 } ?? []    
+            .map { $0 } ?? []
         }
     }
     
