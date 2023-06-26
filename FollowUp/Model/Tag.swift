@@ -23,7 +23,7 @@ class Tag: Object, Identifiable {
         icon: Constant.Icon? = nil
     ) {
         self.init()
-        self.id = title
+        self.id = title.trimmingWhitespace()
         self.colour = colour ?? self.colour
         self.icon = icon ?? self.icon
     }

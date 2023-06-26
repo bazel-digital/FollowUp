@@ -105,6 +105,7 @@ struct TagsCarouselView: View {
                                     commitTagChangesClosure: commitTagChanges
                                 )
                         )
+                        .transition(.opacity)
                         .contextMenu {
                             Button(
                                 role: .destructive,
@@ -115,8 +116,6 @@ struct TagsCarouselView: View {
                             })
                         }
                 }
-                .animation(.default, value: contact.tags)
-                
                 
                 if creatingTag {
                     creatingTagView
@@ -124,6 +123,7 @@ struct TagsCarouselView: View {
                 
                 addTagButton
             }
+            .animation(.default, value: tags)
             .padding()
             .animation(.default, value: creatingTag)
         }
@@ -171,9 +171,7 @@ struct TagsCarouselView: View {
     }
     
     func delete(tag: Tag) {
-        withAnimation {
-            self.tags.removeAll(where: { $0 == tag })
-        }
+        self.tags.removeAll(where: { $0 == tag })
         self.followUpManager.contactsInteractor.remove(tag: tag, from: contact)
     }
     
