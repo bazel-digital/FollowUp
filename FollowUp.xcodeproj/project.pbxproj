@@ -168,7 +168,6 @@
 		21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalView.swift; sourceTree = "<group>"; };
 		21B7FEFE278091BA00138819 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
 		21BD01BA29A1158F00C53F71 /* GradientButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButtonStyle.swift; sourceTree = "<group>"; };
-		21BF36CB29799F29009879D3 /* FollowUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FollowUp.entitlements; sourceTree = "<group>"; };
 		21C8BA0128E8D83F005298CE /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		21C8BA0328E8D97D005298CE /* Int+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Additions.swift"; sourceTree = "<group>"; };
 		21CB9C9E273D311500471C34 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
@@ -269,7 +268,6 @@
 		2159CFD32711F49C005A2387 /* FollowUp */ = {
 			isa = PBXGroup;
 			children = (
-				21BF36CB29799F29009879D3 /* FollowUp.entitlements */,
 				21FB24222774D2370078BABC /* Utility */,
 				218B3915271C96AF002720BC /* Mock */,
 				218B390727137FD5002720BC /* Interactors */,
