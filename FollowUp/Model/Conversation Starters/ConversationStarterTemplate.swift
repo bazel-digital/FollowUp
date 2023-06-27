@@ -99,7 +99,7 @@ struct ConversationStarterTemplate: Codable, Hashable, Identifiable, CustomPersi
         self.starter = StandardConversationStarter(template: template)
         self.label = label
         self.platform = platform
-        self.id = id
+        self.id = id ?? UUID().uuidString
     }
     
     /// Create an intelligent conversation starter
