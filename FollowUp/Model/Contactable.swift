@@ -177,7 +177,7 @@ extension Contact {
             note: contact.note,
             followUps: 0,
             // ⚠️ TODO: Update this to use the provided dates from CNContact.
-            createDate: contact.value(forKey: "creationDate") as! Date ?? Date(),
+            createDate: Date(),
             lastFollowedUp: nil,
             highlighted: false,
             containedInFollowUps: false,
