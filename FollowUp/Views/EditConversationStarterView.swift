@@ -19,6 +19,10 @@ struct EditConversationStarterView: View {
         self.editingConversationStarter.kind.icon
     }
     
+    private var saveButtonDisabled: Bool {
+        editingConversationStarter == savedConversationStarter
+    }
+    
     private var modalHeader: some View {
         HStack(alignment: .center) {
             Spacer()
@@ -125,7 +129,7 @@ struct EditConversationStarterView: View {
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity)
         })
-        .disabled(editingConversationStarter == savedConversationStarter)
+        .disabled(saveButtonDisabled)
         .controlSize(.large)
         .frame(maxWidth: .infinity)
         .padding()
@@ -135,7 +139,12 @@ struct EditConversationStarterView: View {
     private var styledSaveButtonView: some View {
         switch self.editingConversationStarter.kind {
         case .standard: unstyledSaveButton.buttonStyle(.borderedProminent)
-        case .intelligent: unstyledSaveButton.buttonStyle(GradientButtonStyle(colours: [.pink, .purple]))
+        case .intelligent: unstyledSaveButton.buttonStyle(
+            GradientButtonStyle(
+                colours: [.pink, .purple],
+                disabled: saveButtonDisabled
+            )
+        )
 
         }
     }

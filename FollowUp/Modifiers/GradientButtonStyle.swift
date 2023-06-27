@@ -13,16 +13,24 @@ struct GradientButtonStyle: ButtonStyle {
     var colours: [Color]
     var padding: CGFloat = Constant.borderedButtonPadding
     var cornerRadius: CGFloat = Constant.buttonCornerRadius
+    var disabled: Bool = false
+    
+    func opacity(for configuration: Configuration) -> CGFloat {
+        if disabled { return 0.5 }
+        else {
+            return configuration.isPressed ? 0.75 : 1
+        }
+    }
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(padding)
             .background {
                 LinearGradient(colors: colours, startPoint: .leading, endPoint: .trailing)
-                    .opacity(configuration.isPressed ? 0.75 : 1)
+                    .opacity(opacity(for: configuration))
             }
-            .opacity(configuration.isPressed ? 0.75 : 1)
-            .foregroundColor(.white.opacity(configuration.isPressed ? 0.75 : 1))
+            .opacity(opacity(for: configuration))
+            .foregroundColor(.white.opacity(opacity(for: configuration)))
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
     }
 }
