@@ -81,6 +81,7 @@
 		21D7CF292982B7C7003E1277 /* EditConversationStarterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */; };
 		21D7CF2B2982C62D003E1277 /* Operators+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */; };
 		21DA66BD29B0E3F100B5CAFD /* ContactNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DA66BC29B0E3F100B5CAFD /* ContactNoteView.swift */; };
+		21DE77C12A4DF053007EA909 /* ActionButtonGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DE77C02A4DF053007EA909 /* ActionButtonGridView.swift */; };
 		21E69F85298EE8130043F9FF /* Assertion+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E69F84298EE8130043F9FF /* Assertion+Additions.swift */; };
 		21E69F87298EF01B0043F9FF /* FollowUp.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 21E69F86298EEEA10043F9FF /* FollowUp.entitlements */; };
 		21E69F8C299660000043F9FF /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E69F8B299660000043F9FF /* AsyncButton.swift */; };
@@ -179,6 +180,7 @@
 		21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditConversationStarterView.swift; sourceTree = "<group>"; };
 		21D7CF2A2982C62D003E1277 /* Operators+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Operators+Additions.swift"; sourceTree = "<group>"; };
 		21DA66BC29B0E3F100B5CAFD /* ContactNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactNoteView.swift; sourceTree = "<group>"; };
+		21DE77C02A4DF053007EA909 /* ActionButtonGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonGridView.swift; sourceTree = "<group>"; };
 		21E69F84298EE8130043F9FF /* Assertion+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assertion+Additions.swift"; sourceTree = "<group>"; };
 		21E69F86298EEEA10043F9FF /* FollowUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FollowUp.entitlements; sourceTree = "<group>"; };
 		21E69F8B299660000043F9FF /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
@@ -314,17 +316,14 @@
 		2159CFFF2711F4AE005A2387 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				21DE77BF2A4DF01D007EA909 /* ContactSheet */,
 				2147644A29B0D2C90098A789 /* Animation */,
 				21E69F8A29965FEF0043F9FF /* Button */,
 				2196759C2A3A208E003C9A20 /* Tags */,
 				2159CFD62711F49C005A2387 /* ContentView.swift */,
 				2159D0002711F4C5005A2387 /* NewContactsView.swift */,
 				2159D0052711F887005A2387 /* ContactRowView.swift */,
-				2159D0072711FABC005A2387 /* ContactBadge.swift */,
 				218B3913271C73F9002720BC /* ContactListSectionView.swift */,
-				218B3918271C9A0C002720BC /* ContactSheetView.swift */,
-				218B391A271C9A3B002720BC /* BadgeView.swift */,
-				218CAC57272F1B130048F54C /* ContactCardView.swift */,
 				2106407B277E5E270065AD50 /* FollowUpsView.swift */,
 				21B7FEFE278091BA00138819 /* ContactListView.swift */,
 				219F940028830408008980CB /* HighlightsTabView.swift */,
@@ -439,6 +438,18 @@
 				21A102D229C33D1D00EDAE78 /* LegacyCompletion.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		21DE77BF2A4DF01D007EA909 /* ContactSheet */ = {
+			isa = PBXGroup;
+			children = (
+				2159D0072711FABC005A2387 /* ContactBadge.swift */,
+				218B3918271C9A0C002720BC /* ContactSheetView.swift */,
+				218B391A271C9A3B002720BC /* BadgeView.swift */,
+				218CAC57272F1B130048F54C /* ContactCardView.swift */,
+				21DE77C02A4DF053007EA909 /* ActionButtonGridView.swift */,
+			);
+			path = ContactSheet;
 			sourceTree = "<group>";
 		};
 		21E69F8A29965FEF0043F9FF /* Button */ = {
@@ -660,6 +671,7 @@
 				21931B0D2960AD2C00A2CD8D /* Results+Additions.swift in Sources */,
 				21E69F85298EE8130043F9FF /* Assertion+Additions.swift in Sources */,
 				2106407A277DDCE90065AD50 /* FollowUpManager.swift in Sources */,
+				21DE77C12A4DF053007EA909 /* ActionButtonGridView.swift in Sources */,
 				219675A02A3A2160003C9A20 /* Color+Additions.swift in Sources */,
 				2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */,
 				21312193297ED17B00C9E1EE /* LocalisedTextKey.swift in Sources */,

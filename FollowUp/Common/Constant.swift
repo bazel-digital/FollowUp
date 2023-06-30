@@ -104,6 +104,8 @@ enum Constant {
         static let verticalSpacing: CGFloat = 10.0
         static let maxHeight: CGFloat = 400.0
         static let noHighlightsViewMaxContentWidth: CGFloat = 250.0
+        static let noteViewMaxHeight: CGFloat = 150.0
+        static let bottomPaddingForFollowUpDetails: CGFloat = 120.0
     }
     
     // MARK: - Hero Message
