@@ -14,6 +14,7 @@ class FollowUpSettings: Object {
     @Persisted var dailyFollowUpGoal: Int? = 10
     @Persisted var conversationStarters: RealmSwift.List<ConversationStarterTemplate>
     @Persisted var contactListGrouping: ContactListGrouping = .dayMonthYear
+    @UserDefaultsPersisted(Constant.Secrets.openAIUserDefaultsKey) var openAIKey: String = ""
     
 }
 
@@ -108,6 +109,12 @@ extension FollowUpSettings {
             }
         } catch {
             assertionFailurePreviewSafe("Could not remove conversation starters. \(error.localizedDescription)")
+        }
+    }
+
+    public func set(openAIKey: String) {
+        self.update {
+            self.openAIKey = openAIKey
         }
     }
     

@@ -161,7 +161,7 @@ enum Constant {
     
     // MARK: - Secrets
     enum Secrets {
-        static let chatGPTApiKey: String = "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"
+        static let openAIUserDefaultsKey: String = "openAIKey"
     }
     
     // MARK: - Conversation Starter

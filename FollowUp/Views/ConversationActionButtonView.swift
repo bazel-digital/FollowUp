@@ -13,6 +13,7 @@ struct ConversationActionButtonView: View {
     var template: ConversationStarterTemplate
     var contact: any Contactable
     @State var isLoading: Bool = false
+    @State var intelligentConversationStarterError: Networking.NetworkingError?
 
     var maxWidth: CGFloat = Constant.ConversationActionButton.maxWidth
     
@@ -29,8 +30,14 @@ struct ConversationActionButtonView: View {
             do {
                 let action = try template.buttonAction(contact: contact)
                 self.isLoading = true
-                action?.closure(completion: {
+                action?.closure(completion: { (result: Result<URL, Error>?) in
                     self.isLoading = false
+                    
+                    switch result {
+                    case let .failure(error):
+                        self.intelligentConversationStarterError = error as? Networking.NetworkingError
+                    default: ()
+                    }
                 })
             } catch {
                 Log.error("Could not perform button action: \(error.localizedDescription)")
@@ -56,7 +63,13 @@ struct ConversationActionButtonView: View {
                     }
                 }
             )
-        })
+        }).alert(item: $intelligentConversationStarterError) { error in
+            Alert(
+                title: Text("Unable To Generate Message"),
+                message: Text(error.description),
+                dismissButton: .cancel()
+            )
+        }
     }
     
     private var standardConversationStarterButton: some View {
