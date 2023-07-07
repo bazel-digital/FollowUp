@@ -13,6 +13,7 @@ struct ActionButtonGridView: View {
     var background: Background = .material
     var buttonFont: Font = .caption
     @EnvironmentObject var followUpManager: FollowUpManager
+    private let generator: UIImpactFeedbackGenerator = .init(style: .medium)
     
     
     // MARK: - Computed Properties
@@ -29,6 +30,7 @@ struct ActionButtonGridView: View {
         Button(action: {
             contactsInteractor
                 .highlight(contact)
+            self.generator.impactOccurred()
         }, label: {
             VStack {
                 Image(icon: .star)
@@ -43,6 +45,7 @@ struct ActionButtonGridView: View {
         Button(action: {
             contactsInteractor
                 .unhighlight(contact)
+            self.generator.impactOccurred()
         }, label: {
             VStack {
                 Image(icon: .slashedStar)
@@ -66,6 +69,7 @@ struct ActionButtonGridView: View {
         Button(action: {
             contactsInteractor
                 .markAsFollowedUp(contact)
+            self.generator.impactOccurred()
         }, label: {
             VStack {
                 Image(icon: .thumbsUp)
@@ -83,6 +87,7 @@ struct ActionButtonGridView: View {
         Button(action: {
             contactsInteractor
                 .addToFollowUps(contact)
+            self.generator.impactOccurred()
         }, label: {
             VStack {
                 Image(icon: .plus)
@@ -96,6 +101,7 @@ struct ActionButtonGridView: View {
         Button(action: {
             contactsInteractor
                 .removeFromFollowUps(contact)
+            self.generator.impactOccurred()
         }, label: {
             VStack {
                 Image(icon: .minus)
@@ -118,7 +124,7 @@ struct ActionButtonGridView: View {
         LazyVGrid(columns: [
             .init(), .init(), .init()
         ], alignment: .center, content: {
-  
+            
             Group {
                 highlightOrUnhighlightButton
                 addOrRemoveFromFollowUpsButton
