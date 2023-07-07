@@ -29,6 +29,14 @@ enum LocalisedTextKey: String {
     case editConversationStarterMessageTitle = "Message"
     case editConversationStarterMessageDescription = "When writing your message template, use the <NAME> keyword and this will be replaced for the contact's first name when you use the conversation starter."
     
+    case editConversationStarterAISegmentDescription = "AI-enabled conversation starters use AI to automatically generate a personalised, unique conversation starter for your contact. ✨"
+    
+    case editConversationStarterPromptTitle = "Prompt"
+    case editConversationStarterPromptDescription = "Choose a prompt to instruct the AI on how to compose your message."
+    
+    case editConversationStarterContextTitle = "Context"
+    case editConversationStarterContextDescription = "Optional. Add some extra context to help the AI construct a tailor-made message. "
+    
     case editConversationStarterSaveButtonTitle = "Save"
     
     // MARK: - Welcome Screen

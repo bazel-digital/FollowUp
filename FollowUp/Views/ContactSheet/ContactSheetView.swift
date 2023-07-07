@@ -72,10 +72,11 @@ struct ContactSheetView: View {
                 Text(phoneNumber.value)
                     .font(.title2)
                     .foregroundColor(.secondary)
+                    .textSelection(.enabled)
                 HStack {
                     CircularButton(icon: .phone, action: .call(number: phoneNumber))
                     CircularButton(icon: .sms, action: .sms(number: phoneNumber))
-                    CircularButton(icon: .whatsApp, action: .whatsApp(number: phoneNumber, prefilledText: nil))
+                    CircularButton(icon: .whatsApp, action: .whatsApp(number: phoneNumber, generateText: { completion in completion(.success("")) }))
                 }
             }
         }
@@ -89,84 +90,6 @@ struct ContactSheetView: View {
         }
         .font(.subheadline)
         .foregroundColor(.secondary)
-    }
-
-    // MARK: - Buttons
-    private var highlightButton: some View {
-        Button(action: {
-            contactsInteractor
-                .highlight(contact)
-        }, label: {
-            VStack {
-                Image(icon: .star)
-                Text("Highlight")
-            }
-        })
-        .accentColor(.yellow)
-    }
-
-    private var unhighlightButton: some View {
-        Button(action: {
-            contactsInteractor
-                .unhighlight(contact)
-        }, label: {
-            VStack {
-                Image(icon: .slashedStar)
-                Text("Unhighlight")
-            }
-        })
-        .accentColor(.orange)
-    }
-
-    private var followedUpButton: some View {
-        Button(action: {
-            contactsInteractor
-                .markAsFollowedUp(contact)
-        }, label: {
-            VStack {
-                Image(icon: .thumbsUp)
-                Text("I followed up")
-            }
-        })
-        .accentColor(.green)
-        .disabled(contact.hasBeenFollowedUpToday)
-    }
-
-    private var addToFollowUpsButton: some View {
-        Button(action: {
-            contactsInteractor
-                .addToFollowUps(contact)
-        }, label: {
-            VStack {
-                Image(icon: .plus)
-                Text("Add to follow ups")
-            }
-        })
-    }
-
-    private var removeFromFollowUpsButton: some View {
-        Button(action: {
-            contactsInteractor
-                .removeFromFollowUps(contact)
-        }, label: {
-            VStack {
-                Image(icon: .minus)
-                Text("Remove from follow ups")
-            }
-        })
-    }
-
-    private var actionButtonGrid: some View {
-        LazyVGrid(columns: [
-            .init(), .init(), .init()
-        ], alignment: .center, content: {
-  
-            
-            if !contact.highlighted { highlightButton } else { unhighlightButton }
-            if !contact.containedInFollowUps { addToFollowUpsButton } else { removeFromFollowUpsButton }
-            followedUpButton
-            
-        })
     }
 
     // TODO: Refactor this out into a separate view.
@@ -188,57 +111,67 @@ struct ContactSheetView: View {
         TagsCarouselView(contact: contact)
     }
     
+    private var closeButtonView: some View {
+        HStack {
+            Spacer()
+            CloseButton(onClose: onClose)
+                .padding([.top, .trailing])
+        }
+    }
+    
     var modalContactSheetView: some View {
         NavigationView {
-            VStack(spacing: verticalSpacing) {
-                    HStack {
+            
+            ZStack(alignment: .top) {
+
+                ScrollView(.vertical) {
+                    VStack(spacing: verticalSpacing) {
                         Spacer()
-                        CloseButton(onClose: onClose)
-                            .padding([.top, .trailing])
+                        VStack(spacing: Constant.ContactSheet.verticalSpacing) {
+                            
+                            contactBadgeAndNameView
+                            
+                            relativeTimeSinceMeetingView
+                            
+                            if let note = contact.note, !note.isEmpty {
+                                ContactNoteView(note: note)
+                            }
+                            
+                            contactDetailsView
+                            
+                        }.padding(.top, 50)
+                        
+                        
+                        tagsView
+                        Spacer()
+                        startAConversationRowView
+                        Spacer()
+                        followUpDetailsView
+                        Spacer(minLength: 120)
+                        
                     }
-                    Spacer()
-
-                VStack {
-
-                    contactBadgeAndNameView
-                    
-                    if let note = contact.note, !note.isEmpty {
-                        Text(note)
-                            .italic()
-                    }
-                    relativeTimeSinceMeetingView
-
-                    contactDetailsView
-                        .padding(.top)
                 }
-                
-                
-                tagsView
-                Spacer()
-                startAConversationRowView
-                Spacer()
-                followUpDetailsView
-                Spacer()
-                actionButtonGrid
-                    .padding()
+
+                // Overlay View
+                VStack {
+                    closeButtonView
+                    Spacer()
+                    ActionButtonGridView(contact: contact)
+                        .padding()
+                }
             }
         }
     }
-
+    
     private var inlineContactSheetView: some View {
         VStack(spacing: verticalSpacing) {
             contactBadgeAndNameView
-            
-            if let note = contact.note, !note.isEmpty {
-                Text(note)
-                    .italic()
-            }
             
             relativeTimeSinceMeetingView
             
             contactDetailsView
                 .padding(.top)
-            actionButtonGrid
+            ActionButtonGridView(contact: contact, background: .clear)
                 .padding([.top, .horizontal])
         }
         .padding(.vertical)
@@ -258,8 +191,13 @@ struct ContactSheetView: View {
 struct ContactModalView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContactSheetView(kind: .modal, sheet: MockedContact(id: "1").sheet, onClose: { })
+            ContactSheetView(kind: .modal, sheet: MockedContact(
+                id: "1",
+                note: "Met on the underground at Euston Station. Works at a local hedgefund and is into cryptocurrency. Open to coming out, but is quite busy."
+            ).sheet, onClose: { })
+
             ContactSheetView(kind: .inline, sheet: MockedContact(id: "0").sheet, onClose: { })
+
             ContactSheetView(kind: .modal, sheet: MockedContact(id: "0").sheet, onClose: { })
                 .preferredColorScheme(.dark)
         }

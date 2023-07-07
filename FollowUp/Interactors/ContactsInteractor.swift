@@ -212,7 +212,16 @@ extension ContactsInteractor {
     // MARK: - Public Methods
     public func fetchContacts() {
         self.backgroundQueue.async {
-            self.fetchABContacts()
+            self.fetchABContacts { abContacts in
+                self.fetchCNContacts { cnContacts in
+                    let mergedContacts = self.merged(cnContacts: cnContacts.map(Contact.init(from:)), withABContacts: abContacts)
+                    DispatchQueue.main.async {
+                        print(mergedContacts)
+                        self._contactsPublisher.send(mergedContacts)
+                        self.objectWillChange.send()
+                    }
+                }
+            }
         }
     }
     
@@ -226,24 +235,8 @@ extension ContactsInteractor {
             }
         }
     }
-
-    private func fetchCNContacts() async {
-        print("Fetching contacts.")
-        let contactStore = CNContactStore()
-        guard
-            let authorizationResult = try? await contactStore.requestAccess(for: .contacts),
-            authorizationResult,
-            let fetchedContacts = try? contactStore.unifiedContacts(
-                matching: .init(value: true),
-                keysToFetch: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactImageDataKey, CNContactThumbnailImageDataKey,
-                    CNContactDatesKey] as [CNKeyDescriptor]
-                )
-        else { return }
-        print("Received contacts:", fetchedContacts)
-        self._contactsPublisher.send(fetchedContacts.map(Contact.init(from:)))
-    }
     
-    private func fetchCNContacts(completion: @escaping () -> Void? = {()}) {
+    private func fetchCNContacts(completion: (([CNContact]) -> Void)? = nil) {
         print("Fetching contacts.")
         let contactStore = CNContactStore()
         contactStore.requestAccess(for: .contacts) { authorizationResult, error in
@@ -253,36 +246,57 @@ extension ContactsInteractor {
             
             self.contactsAuthorized = authorizationResult
             
-            guard let fetchedContacts = try? contactStore.unifiedContacts(
-                matching: .init(value: true),
-                keysToFetch: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactImageDataKey, CNContactThumbnailImageDataKey,
-                    CNContactDatesKey] as [CNKeyDescriptor]
-            ) else {
-                return
+            do {
+                let fetchedContacts = try contactStore.unifiedContacts(
+                    matching: .init(value: true),
+                    keysToFetch: [
+                        CNContactGivenNameKey,
+                        CNContactDatesKey,
+                        CNContactPhoneNumbersKey,
+                        CNContactFamilyNameKey,
+                        CNContactMiddleNameKey,
+                        CNContactImageDataKey,
+                        CNContactThumbnailImageDataKey,
+                        CNContactNoteKey,
+                        CNContactDatesKey
+                    ] as [CNKeyDescriptor]
+                )
+                print("Received contacts:", fetchedContacts)
+                completion?(fetchedContacts)
+            } catch {
+                print("Unable to fetch CNContacts: \(error.localizedDescription)")
             }
-            print("Received contacts:", fetchedContacts)
-            self._contactsPublisher.send(fetchedContacts.map(Contact.init(from:)))
         }
     }
 
-    private func fetchABContacts() {
+    private func fetchABContacts(completion: @escaping ([any Contactable]) -> Void) {
         switch ABAddressBookGetAuthorizationStatus() {
-        case .authorized: self.processABContacts()
+        case .authorized: self.processABContacts(completion: completion)
         case .denied, .restricted:
             self.contactsAuthorized = false
             self.setState(.authorizationDenied)
-        case .notDetermined: self.requestAuthorization()
+        case .notDetermined: self.requestAuthorization(completion: completion)
         default: break
         }
     }
+    
+    /// Merges contacts from the CNContact and AddressBook frameworks, so as to keep the 'note' as well as 'creationDate' properties.
+    private func merged(cnContacts: [any Contactable], withABContacts abContacts: [any Contactable]) -> [any Contactable] {
+        var dictionary: [Int: any Contactable] = [:]
+        cnContacts.forEach { contact in dictionary[contact.mergeableHashValue()] = contact }
+        abContacts.forEach { contact in
+            dictionary[contact.mergeableHashValue(), default: contact].createDate = contact.createDate
+        }
+        return Array(dictionary.values)
+    }
 
-    private func requestAuthorization() {
+    private func requestAuthorization(completion: @escaping ([any Contactable]) -> Void) {
         self.setState(.requestingAuthorization)
         let addressBook = ABAddressBookCreate().takeRetainedValue()
         ABAddressBookRequestAccessWithCompletion(addressBook, { success, error in
             if success {
                 self.contactsAuthorized = success
-                self.processABContacts();
+                self.processABContacts(completion: completion)
             }
             else {
                 print("Unable to request access to Address Book.", error?.localizedDescription ?? "Unknown error.")
@@ -290,7 +304,7 @@ extension ContactsInteractor {
         })
     }
 
-    private func processABContacts() {
+    private func processABContacts(completion: ([any Contactable]) -> Void) {
         self.setState(.fetchingContacts)
         var errorRef: Unmanaged<CFError>?
         var addressBook: ABAddressBook? = extractABAddressBookRef(abRef: ABAddressBookCreateWithOptions(nil, &errorRef))
@@ -316,20 +330,20 @@ extension ContactsInteractor {
             let fullImage = get(imageOfSize: .full, from: abRecord)?.uiImage
             return Contact(
                 contactID: recordID.description,
-                name: [firstName, middleName, lastName].compactMap { $0 }.joined(separator: " "),
+                name: self.generateNameString(forFirstName: firstName, middleName: middleName, lastName: lastName),
                 phoneNumber: phoneNumbers.first,
                 email: email,
                 thumbnailImage: thumbnailImage,
-                note: "",
+                note: nil,
                 createDate: creationDate
             )
         }
 
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-            self.setState(.loaded)
-            self._contactsPublisher.send(contacts)
-        }
+            // TODO: Check this
+//            self.objectWillChange.send()
+//            self.setState(.loaded)
+//            self._contactsPublisher.send(contacts)
+            completion(contacts)
 
     }
 
@@ -412,6 +426,10 @@ extension ContactsInteractor {
     private func extractABEmailAddress (abEmailAddress: Unmanaged<AnyObject>!) -> String? {
         guard let ab = abEmailAddress else { return nil }
         return Unmanaged.fromOpaque(ab.toOpaque()).takeUnretainedValue() as CFString as String
+    }
+    
+    private func generateNameString(forFirstName firstName: String, middleName: String, lastName: String) -> String {
+        [firstName, middleName.isEmpty ? nil : middleName, lastName].compactMap { $0 }.joined(separator: " ")
     }
 
     private func localized(phoneLabel: CFString?) -> String? {
