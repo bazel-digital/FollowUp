@@ -148,6 +148,7 @@ enum Constant {
     enum ContactList {
         static let maxContactsForNonLazyVStack: Int = 20
         static let verticalSpacing: CGFloat = 20.0
+        static let newContactsBadgeSize: CGFloat = 22.0
     }
     
     // MARK: - Search
