@@ -27,10 +27,6 @@ struct ContactSheetView: View {
     var verticalSpacing: CGFloat = Constant.ContactSheet.verticalSpacing
     
     // MARK: - Computed Properties
-    var relativeTimeSinceMeetingString: String {
-        Constant.relativeDateTimeFormatter.localizedString(for: contact.createDate, relativeTo: .now)
-    }
-
     private var relativeTimeSinceFollowingUp: String {
         guard let lastFollowedUpDate = contact.lastFollowedUp else { return "Never" }
         return Constant.relativeDateTimeFormatter
@@ -40,12 +36,6 @@ struct ContactSheetView: View {
             )
     }
     
-    private var relativeTimeSinceMeetingView: some View {
-        (Text(Image(icon: .clock)) +
-         Text(" Met ") +
-         Text(relativeTimeSinceMeetingString))
-            .fontWeight(.medium)
-    }
 
     private var contact: any Contactable {
         store.contact(forID: sheet.contactID) ?? Contact.unknown
@@ -131,7 +121,7 @@ struct ContactSheetView: View {
                             
                             contactBadgeAndNameView
                             
-                            relativeTimeSinceMeetingView
+                            DateMetView(contact: contact)
                             
                             if let note = contact.note, !note.isEmpty {
                                 ContactNoteView(note: note)
@@ -167,7 +157,7 @@ struct ContactSheetView: View {
         VStack(spacing: verticalSpacing) {
             contactBadgeAndNameView
             
-            relativeTimeSinceMeetingView
+            DateMetView(contact: contact)
             
             contactDetailsView
                 .padding(.top)

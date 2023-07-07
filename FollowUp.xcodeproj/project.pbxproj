@@ -73,6 +73,7 @@
 		21B97E7C2A5863C700EE46EF /* ChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E7B2A5863C700EE46EF /* ChipView.swift */; };
 		21B97E812A586DB900EE46EF /* RegularConversationStarterEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E802A586DB900EE46EF /* RegularConversationStarterEditorView.swift */; };
 		21B97E832A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E822A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift */; };
+		21B97E852A5875DE00EE46EF /* DateMetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E842A5875DE00EE46EF /* DateMetView.swift */; };
 		21BD01BB29A1158F00C53F71 /* GradientButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD01BA29A1158F00C53F71 /* GradientButtonStyle.swift */; };
 		21C8BA0228E8D83F005298CE /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C8BA0128E8D83F005298CE /* Log.swift */; };
 		21C8BA0428E8D97D005298CE /* Int+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C8BA0328E8D97D005298CE /* Int+Additions.swift */; };
@@ -175,6 +176,7 @@
 		21B97E7B2A5863C700EE46EF /* ChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipView.swift; sourceTree = "<group>"; };
 		21B97E802A586DB900EE46EF /* RegularConversationStarterEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularConversationStarterEditorView.swift; sourceTree = "<group>"; };
 		21B97E822A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentConversationStarterEditorView.swift; sourceTree = "<group>"; };
+		21B97E842A5875DE00EE46EF /* DateMetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMetView.swift; sourceTree = "<group>"; };
 		21BD01BA29A1158F00C53F71 /* GradientButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButtonStyle.swift; sourceTree = "<group>"; };
 		21C8BA0128E8D83F005298CE /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		21C8BA0328E8D97D005298CE /* Int+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Additions.swift"; sourceTree = "<group>"; };
@@ -465,6 +467,7 @@
 				218B391A271C9A3B002720BC /* BadgeView.swift */,
 				218CAC57272F1B130048F54C /* ContactCardView.swift */,
 				21DE77C02A4DF053007EA909 /* ActionButtonGridView.swift */,
+				21B97E842A5875DE00EE46EF /* DateMetView.swift */,
 			);
 			path = ContactSheet;
 			sourceTree = "<group>";
@@ -683,6 +686,7 @@
 				2106407C277E5E270065AD50 /* FollowUpsView.swift in Sources */,
 				218CAC58272F1B130048F54C /* ContactCardView.swift in Sources */,
 				21CB9CA1273F1A1600471C34 /* PhoneNumber.swift in Sources */,
+				21B97E852A5875DE00EE46EF /* DateMetView.swift in Sources */,
 				218B390927137FE2002720BC /* ContactsInteractor.swift in Sources */,
 				21B97E7C2A5863C700EE46EF /* ChipView.swift in Sources */,
 				21E69F8C299660000043F9FF /* AsyncButton.swift in Sources */,
