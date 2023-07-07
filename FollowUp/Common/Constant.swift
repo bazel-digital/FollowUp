@@ -166,6 +166,17 @@ enum Constant {
     
     // MARK: - Conversation Starter
     enum ConversationStarter {
+        
+        enum Token: String, CaseIterable {
+            case name = "<NAME>"
+            
+            var title: String {
+                switch self {
+                case .name: return "Name"
+                }
+            }
+        }
+        
         static let defaultMaxTokenGenerationLength: Int = 1000
     }
 }

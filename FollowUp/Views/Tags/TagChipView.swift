@@ -15,23 +15,12 @@ struct TagChipView: View {
     
     // MARK: - Computed Properties
     var body: some View {
-        Button(action: {
-            action?()
-        }, label: {
-            Label(title: {
-                Text(tag.title)
-            }, icon: {
-                if let icon = tag.icon {
-                    Image(icon: icon)
-                }
-            })
-        })
-        .fontWeight(.semibold)
-        .foregroundColor(.white)
-        .padding(.horizontal, Constant.Tag.horiztontalPadding)
-        .padding(.vertical, Constant.Tag.verticalPadding)
-        .background(tag.colour)
-        .cornerRadius(Constant.Tag.cornerRadius)
+        ChipView(
+            title: tag.title,
+            icon: tag.icon,
+            colour: tag.colour,
+            action: action
+        )
     }
 }
 

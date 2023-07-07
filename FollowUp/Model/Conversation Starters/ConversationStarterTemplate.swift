@@ -180,11 +180,11 @@ extension ConversationStarterTemplate {
 // MARK: - Default Values
 extension ConversationStarterTemplate {
     static var arrangeForCoffee: ConversationStarterTemplate {
-        .init(label: "Arrange for coffee", template: "Hey <NAME>! How are you? I was wondering if you'd be free for a coffee this week?", platform: .whatsApp)
+        .init(label: "Arrange for coffee", template: "Hey \(Constant.ConversationStarter.Token.name)! How are you? I was wondering if you'd be free for a coffee this week?", platform: .whatsApp)
     }
     
     static var howAreYou: ConversationStarterTemplate {
-        .init(label: "How are you?", template: "Hey <NAME>! How are you?", platform: .whatsApp)
+        .init(label: "How are you?", template: "Hey \(Constant.ConversationStarter.Token.name)! How are you?", platform: .whatsApp)
     }
     
     static var examples: [ConversationStarterTemplate] = [

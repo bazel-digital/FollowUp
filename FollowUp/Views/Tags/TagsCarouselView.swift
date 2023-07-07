@@ -82,7 +82,7 @@ struct TagsCarouselView: View {
             .padding(.vertical, Constant.Tag.verticalPadding)
             .focused($textFieldIsFocused)
             .onSubmit(onCreateTagSubmit)
-        .submitLabel(.go)
+            .submitLabel(.go)
         }
         
     

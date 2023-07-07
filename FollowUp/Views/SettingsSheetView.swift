@@ -134,25 +134,27 @@ struct SettingsSheetView: View {
         let _ = Self._printChanges()
         #endif
         
-        VStack {
-            closeButton
-                .padding([.leading, .trailing, .top])
-            
-            Text("Settings")
-                .font(.title)
-                .bold()
-            
-            Form {
-                dailyGoalSectionView
-                conversationStartersSectionView
-                groupingSelectionSectionView
-                openAIKeySectionView
+        NavigationView {
+            VStack {
+                closeButton
+                    .padding([.leading, .trailing, .top])
+                
+                Text("Settings")
+                    .font(.title)
+                    .bold()
+                
+                Form {
+                    dailyGoalSectionView
+                    conversationStartersSectionView
+                    groupingSelectionSectionView
+                    openAIKeySectionView
+                }
             }
-        }.navigationTitle("Settings")
-        .background(Color(.systemGroupedBackground))
-        .sheet(item: self.$currentlyEditingConversationStarter, content: { conversationStarter in
-            EditConversationStarterView(conversationStarter: conversationStarter)
-        })
+                .background(Color(.systemGroupedBackground))
+                .sheet(item: self.$currentlyEditingConversationStarter, content: { conversationStarter in
+                    EditConversationStarterView(conversationStarter: conversationStarter)
+                })
+        }
     }
     
     // MARK: - Methods

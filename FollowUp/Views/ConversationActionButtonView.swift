@@ -106,8 +106,8 @@ struct ConversationActionButtonView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             HStack {
-                ConversationActionButtonView(template: .init(template: "Hey <NAME>!", platform: .whatsApp), contact: Contact.mocked)
-                ConversationActionButtonView(template: .init(template: "Hey <NAME>!", platform: .whatsApp), contact: Contact.mocked)
+                ConversationActionButtonView(template: .init(template: "Hey \(Constant.ConversationStarter.Token.name)!", platform: .whatsApp), contact: Contact.mocked)
+                ConversationActionButtonView(template: .init(template: "Hey \(Constant.ConversationStarter.Token.name)!", platform: .whatsApp), contact: Contact.mocked)
                 ConversationActionButtonView(template: .init(prompt: "Something", context: "Else", platform: .whatsApp), contact: Contact.mocked, isLoading: true)
             }
             ConversationActionButtonView(template: .init(prompt: "Something", context: "Else", platform: .whatsApp), contact: Contact.mocked, isLoading: true)
