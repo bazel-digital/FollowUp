@@ -11,6 +11,7 @@ struct SettingsSheetView: View {
 
     @State var dailyFollowUpGoal: Int = 0
     @State var contactListGrouping: FollowUpSettings.ContactListGrouping = .dayMonthYear
+    @State var openAIKey: String = ""
     @EnvironmentObject var settings: FollowUpSettings
     @Environment(\.dismiss) private var dismiss
     @FocusState var dailyGoalInputActive: Bool
@@ -112,9 +113,20 @@ struct SettingsSheetView: View {
             })
         }).onAppear {
             self.contactListGrouping = self.settings.contactListGrouping
-        }.onChange(of: self.contactListGrouping, perform: { newValue in
-            self.settings.set(contactListGrouping: newValue)
-        })
+        }.onChange(of: self.contactListGrouping, perform:self.settings.set(contactListGrouping:))
+    }
+    
+    private var openAIKeySectionView: some View {
+        Section(content: {
+            TextField("OpenAI Key", text: $openAIKey)
+        }, header: {
+            Text("OpenAI Key")
+        }, footer: {
+            Text("Required for Intelligent conversation starters. Register yours at https://platform.openai.com/account/api-keys/")
+        }).onAppear {
+            self.openAIKey = self.settings.openAIKey
+        }.onChange(of: self.openAIKey, perform: self.settings.set(openAIKey:))
+        .submitLabel(.done)
     }
     
     var body: some View {
@@ -122,24 +134,27 @@ struct SettingsSheetView: View {
         let _ = Self._printChanges()
         #endif
         
-        VStack {
-            closeButton
-                .padding([.leading, .trailing, .top])
-            
-            Text("Settings")
-                .font(.title)
-                .bold()
-            
-            Form {
-                dailyGoalSectionView
-                conversationStartersSectionView
-                groupingSelectionSectionView
+        NavigationView {
+            VStack {
+                closeButton
+                    .padding([.leading, .trailing, .top])
+                
+                Text("Settings")
+                    .font(.title)
+                    .bold()
+                
+                Form {
+                    dailyGoalSectionView
+                    conversationStartersSectionView
+                    groupingSelectionSectionView
+                    openAIKeySectionView
+                }
             }
-        }.navigationTitle("Settings")
-        .background(Color(.systemGroupedBackground))
-        .sheet(item: self.$currentlyEditingConversationStarter, content: { conversationStarter in
-            EditConversationStarterView(conversationStarter: conversationStarter)
-        })
+                .background(Color(.systemGroupedBackground))
+                .sheet(item: self.$currentlyEditingConversationStarter, content: { conversationStarter in
+                    EditConversationStarterView(conversationStarter: conversationStarter)
+                })
+        }
     }
     
     // MARK: - Methods

@@ -13,6 +13,25 @@ enum Networking {
     static let jsonDecoder: JSONDecoder = .init()
     static let jsonEncoder: JSONEncoder = .init()
     
+    static var openAIKey: String? {
+        guard
+            let data = UserDefaults.standard.data(forKey: Constant.Secrets.openAIUserDefaultsKey),
+            let decodedValue = try? FollowUpApp.decoder.decode(String.self, from: data)
+        else { return nil }
+        return decodedValue
+    }
+    
+    enum NetworkingError: String, Error, Identifiable {
+        case openAIKeyMissing
+        var id: String { self.rawValue }
+        
+        var description: String {
+            switch self {
+            case .openAIKeyMissing: return "Open AI Key Is Missing. Please add one in Settings."
+            }
+        }
+    }
+    
     enum Endpoint {
         case gptTextCompletion
         case gptChatCompletion
@@ -29,8 +48,12 @@ enum Networking {
     }
     
     static func sendTextCompletionRequest(prompt: String) -> AnyPublisher<String, Error> {
+        
+        guard let apiKey = self.openAIKey else {
+            return Fail(error: NetworkingError.openAIKeyMissing).eraseToAnyPublisher()
+        }
+
         let endpoint: Endpoint = .gptTextCompletion
-        let apiKey = Constant.Secrets.chatGPTApiKey
         let requestURL = URL(string: endpoint.rawValue)!
         var request = URLRequest(url: requestURL)
         
@@ -46,8 +69,10 @@ enum Networking {
     
     static func sendTextCompletionRequest(prompt: String) -> Future<String, Error> {
         return Future { promise in
+            guard let apiKey = self.openAIKey else {
+                return promise(.failure(NetworkingError.openAIKeyMissing))
+            }
             let endpoint: Endpoint = .gptTextCompletion
-            let apiKey = Constant.Secrets.chatGPTApiKey
             let requestURL = URL(string: endpoint.rawValue)!
             var request = URLRequest(url: requestURL)
             request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
@@ -76,8 +101,10 @@ enum Networking {
         prompt: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
+        guard let apiKey = self.openAIKey else {
+            return completion(.failure(NetworkingError.openAIKeyMissing))
+        }
         let endpoint: Endpoint = .gptTextCompletion
-        let apiKey = Constant.Secrets.chatGPTApiKey
         let requestURL = URL(string: endpoint.rawValue)!
         var request = URLRequest(url: requestURL)
         request.httpMethod = "POST"
@@ -112,8 +139,10 @@ enum Networking {
     }
         
     static func sendChatCompletionRequest(_ chatCompletionRequest: ChatCompletionRequest, completion: @escaping (Result<ChatCompletionResponse, Error>) -> Void) {
+        guard let apiKey = self.openAIKey else {
+            return completion(.failure(NetworkingError.openAIKeyMissing))
+        }
         let endpoint: Endpoint = .gptChatCompletion
-        let apiKey = Constant.Secrets.chatGPTApiKey
         let requestURL = URL(string: endpoint.rawValue)!
         var request = URLRequest(url: requestURL)
         request.httpMethod = "POST"

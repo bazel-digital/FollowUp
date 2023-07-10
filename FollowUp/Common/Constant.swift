@@ -148,6 +148,7 @@ enum Constant {
     enum ContactList {
         static let maxContactsForNonLazyVStack: Int = 20
         static let verticalSpacing: CGFloat = 20.0
+        static let newContactsBadgeSize: CGFloat = 22.0
     }
     
     // MARK: - Search
@@ -161,11 +162,22 @@ enum Constant {
     
     // MARK: - Secrets
     enum Secrets {
-        static let chatGPTApiKey: String = "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"
+        static let openAIUserDefaultsKey: String = "openAIKey"
     }
     
     // MARK: - Conversation Starter
     enum ConversationStarter {
+        
+        enum Token: String, CaseIterable {
+            case name = "<NAME>"
+            
+            var title: String {
+                switch self {
+                case .name: return "Name"
+                }
+            }
+        }
+        
         static let defaultMaxTokenGenerationLength: Int = 1000
     }
 }

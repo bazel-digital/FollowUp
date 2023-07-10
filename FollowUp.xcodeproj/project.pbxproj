@@ -70,6 +70,10 @@
 		21A102D729C3589B00EDAE78 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A102D629C3589B00EDAE78 /* String+Additions.swift */; };
 		21A74CCD28F85C9400B9EAC1 /* DailyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */; };
 		21B7FEFF278091BA00138819 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7FEFE278091BA00138819 /* ContactListView.swift */; };
+		21B97E7C2A5863C700EE46EF /* ChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E7B2A5863C700EE46EF /* ChipView.swift */; };
+		21B97E812A586DB900EE46EF /* RegularConversationStarterEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E802A586DB900EE46EF /* RegularConversationStarterEditorView.swift */; };
+		21B97E832A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E822A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift */; };
+		21B97E852A5875DE00EE46EF /* DateMetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B97E842A5875DE00EE46EF /* DateMetView.swift */; };
 		21BD01BB29A1158F00C53F71 /* GradientButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD01BA29A1158F00C53F71 /* GradientButtonStyle.swift */; };
 		21C8BA0228E8D83F005298CE /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C8BA0128E8D83F005298CE /* Log.swift */; };
 		21C8BA0428E8D97D005298CE /* Int+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C8BA0328E8D97D005298CE /* Int+Additions.swift */; };
@@ -169,6 +173,10 @@
 		21A102D629C3589B00EDAE78 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalView.swift; sourceTree = "<group>"; };
 		21B7FEFE278091BA00138819 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
+		21B97E7B2A5863C700EE46EF /* ChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipView.swift; sourceTree = "<group>"; };
+		21B97E802A586DB900EE46EF /* RegularConversationStarterEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularConversationStarterEditorView.swift; sourceTree = "<group>"; };
+		21B97E822A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentConversationStarterEditorView.swift; sourceTree = "<group>"; };
+		21B97E842A5875DE00EE46EF /* DateMetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMetView.swift; sourceTree = "<group>"; };
 		21BD01BA29A1158F00C53F71 /* GradientButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButtonStyle.swift; sourceTree = "<group>"; };
 		21C8BA0128E8D83F005298CE /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		21C8BA0328E8D97D005298CE /* Int+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Additions.swift"; sourceTree = "<group>"; };
@@ -316,6 +324,7 @@
 		2159CFFF2711F4AE005A2387 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				21B97E7F2A586D9A00EE46EF /* ConversationStarter */,
 				21DE77BF2A4DF01D007EA909 /* ContactSheet */,
 				2147644A29B0D2C90098A789 /* Animation */,
 				21E69F8A29965FEF0043F9FF /* Button */,
@@ -331,10 +340,10 @@
 				21A74CCC28F85C9400B9EAC1 /* DailyGoalView.swift */,
 				21312190297ED14D00C9E1EE /* HeroMessageView.swift */,
 				21312198297EDEF200C9E1EE /* SettingsSheetView.swift */,
-				21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */,
 				21DA66BC29B0E3F100B5CAFD /* ContactNoteView.swift */,
 				210378EB29A3CFBC001599EE /* Feature Showcase */,
 				215654B32A3F4A3B00233DE4 /* ConditionalLazyVStack.swift */,
+				21B97E7B2A5863C700EE46EF /* ChipView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -440,6 +449,16 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		21B97E7F2A586D9A00EE46EF /* ConversationStarter */ = {
+			isa = PBXGroup;
+			children = (
+				21D7CF282982B7C7003E1277 /* EditConversationStarterView.swift */,
+				21B97E802A586DB900EE46EF /* RegularConversationStarterEditorView.swift */,
+				21B97E822A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift */,
+			);
+			path = ConversationStarter;
+			sourceTree = "<group>";
+		};
 		21DE77BF2A4DF01D007EA909 /* ContactSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -448,6 +467,7 @@
 				218B391A271C9A3B002720BC /* BadgeView.swift */,
 				218CAC57272F1B130048F54C /* ContactCardView.swift */,
 				21DE77C02A4DF053007EA909 /* ActionButtonGridView.swift */,
+				21B97E842A5875DE00EE46EF /* DateMetView.swift */,
 			);
 			path = ContactSheet;
 			sourceTree = "<group>";
@@ -620,6 +640,7 @@
 				21A102D329C33D1D00EDAE78 /* LegacyCompletion.swift in Sources */,
 				218B390D271C695F002720BC /* Grouping.swift in Sources */,
 				21064076277D04950065AD50 /* ContactSheet.swift in Sources */,
+				21B97E812A586DB900EE46EF /* RegularConversationStarterEditorView.swift in Sources */,
 				218B390F271C6D5A002720BC /* Sequence+Additions.swift in Sources */,
 				21D7CF272982AD4F003E1277 /* ConversationStarterTemplate.swift in Sources */,
 				2115FCC328E8E732001A6E4E /* ConversationActionButtonView.swift in Sources */,
@@ -658,13 +679,16 @@
 				2147644929AE64490098A789 /* IntelligentConversationStarter.swift in Sources */,
 				2115FCC528E8E83D001A6E4E /* ButtonAction.swift in Sources */,
 				2159D0082711FABC005A2387 /* ContactBadge.swift in Sources */,
+				21B97E832A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift in Sources */,
 				21BD01BB29A1158F00C53F71 /* GradientButtonStyle.swift in Sources */,
 				21D7CF292982B7C7003E1277 /* EditConversationStarterView.swift in Sources */,
 				21C8BA0228E8D83F005298CE /* Log.swift in Sources */,
 				2106407C277E5E270065AD50 /* FollowUpsView.swift in Sources */,
 				218CAC58272F1B130048F54C /* ContactCardView.swift in Sources */,
 				21CB9CA1273F1A1600471C34 /* PhoneNumber.swift in Sources */,
+				21B97E852A5875DE00EE46EF /* DateMetView.swift in Sources */,
 				218B390927137FE2002720BC /* ContactsInteractor.swift in Sources */,
+				21B97E7C2A5863C700EE46EF /* ChipView.swift in Sources */,
 				21E69F8C299660000043F9FF /* AsyncButton.swift in Sources */,
 				21312191297ED14D00C9E1EE /* HeroMessageView.swift in Sources */,
 				21A102D529C3429E00EDAE78 /* Result+Additions.swift in Sources */,

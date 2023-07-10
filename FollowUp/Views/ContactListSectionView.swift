@@ -34,10 +34,25 @@ struct ContactListSectionView: View {
     // MARK: - Local State
     @State var expanded: Bool = true
     
-    private var sectionTitle: some View {
+    private var verticalSectionTitle: some View {
         Text("\(section.title)")
             .font(.headline)
             .padding(.bottom)
+    }
+    
+    private var horizontalSectionTitle: some View {
+        HStack {
+            Text(section.grouping.title)
+            Spacer()
+            Circle()
+                .frame(width: Constant.ContactList.newContactsBadgeSize, height: Constant.ContactList.newContactsBadgeSize)
+                .foregroundColor(.red)
+                .overlay {
+                    Text("\(section.contacts.count)")
+                        .font(.caption.bold())
+                        .foregroundColor(.white)
+                }
+        }
     }
 
     @ViewBuilder
@@ -112,7 +127,7 @@ struct ContactListSectionView: View {
                 .listRowInsets(.init(verticalListRowItemEdgeInsets))
             }
         }, label: {
-            sectionTitle
+            verticalSectionTitle
         })
         .accentColor(Color(.secondaryLabel))
         .padding(.horizontal)
@@ -120,7 +135,7 @@ struct ContactListSectionView: View {
     
     private var horizontalContactList: some View {
         VStack {
-            sectionTitle
+            horizontalSectionTitle
                 .font(.headline)
                 .foregroundColor(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)

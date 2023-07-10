@@ -56,7 +56,7 @@ struct IntelligentConversationStarter: ConversationStarting {
 
         let promptString = self.constructChatGPTRequestString(for: contact, withPrompt: prompt, context: context)
         let request = ChatCompletionRequest(model: .gpt35Turbo, messages: [
-            .init(role: .system, content: "You are the AI behind a mobile app used to help users follow up with contacts. Your role is to write messages that can be sent on behalf of the user submitting the prompts. The platforms vary from WhatsApp to Messages. Respond only with the exact text that will be sent to the user, nothing else. You do not support chatting with the user, only fulfilling their request with a direct answer that can be copied and pasted into their messaging app. Make sure to use the information given by the user's prompt in order to make each message personalised and relevant."),
+            .init(role: .system, content: "You are the AI behind a mobile app used to help users follow up with contacts. Your role is to write messages that can be sent on behalf of the user submitting the prompts. The platforms vary from WhatsApp to Messages. Respond only with the exact text that will be sent to the user, nothing else. You do not support chatting with the user, only fulfilling their request with a direct answer that can be copied and pasted into their messaging app. Make sure to use the information given by the user's prompt, and provided information about the contact in order to make each message personalised, relevant and relatable."),
             .init(role: .user, content: promptString)
         ])
         

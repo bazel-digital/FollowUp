@@ -29,13 +29,13 @@ struct StandardConversationStarter: ConversationStarting {
     // MARK: - Methods
     func generateFormattedText(withContact contact: any Contactable) async -> Result<String, Error> {
         guard let template = template else { return .failure(StandardConversationStarterError.couldNotUnwrapTemplate)}
-        return .success(template.replacingOccurrences(of: "<NAME>", with: contact.firstName))
+        return .success(template.replacingOccurrences(of: Constant.ConversationStarter.Token.name.rawValue, with: contact.firstName))
     }
     
     func generateFormattedText(withContact contact: any Contactable, completion: @escaping ((Result<String, Error>) -> Void)) {
         guard let template = template else {
             return completion(.failure(StandardConversationStarterError.couldNotUnwrapTemplate))
         }
-        return completion(.success(template.replacingOccurrences(of: "<NAME>", with: contact.firstName)))
+        return completion(.success(template.replacingOccurrences(of: Constant.ConversationStarter.Token.name.rawValue, with: contact.firstName)))
     }
 }

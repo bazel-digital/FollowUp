@@ -32,7 +32,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "123"
             endingLineNumber = "123"
-            landmarkName = "loadSettingsFromRealm()"
+            landmarkName = "init(realm:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -160,7 +160,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "135"
             endingLineNumber = "135"
-            landmarkName = "loadSettingsFromRealm()"
+            landmarkName = "updateWithFetchedContacts(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -176,8 +176,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "125"
             endingLineNumber = "125"
-            landmarkName = "loadSettingsFromRealm()"
-            landmarkType = "7">
+            landmarkName = "FollowUpStore"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -191,7 +191,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "214"
-            endingLineNumber = "214">
+            endingLineNumber = "214"
+            landmarkName = "configureContactsObserver()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -205,7 +207,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "207"
-            endingLineNumber = "207">
+            endingLineNumber = "207"
+            landmarkName = "FollowUpStore"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -219,7 +223,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "212"
-            endingLineNumber = "212">
+            endingLineNumber = "212"
+            landmarkName = "configureContactsObserver()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -280,8 +286,8 @@
             filePath = "FollowUp/Views/SettingsSheetView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "groupingSelectionSectionView"
             landmarkType = "24">
             <Locations>
@@ -328,8 +334,8 @@
             filePath = "FollowUp/Views/SettingsSheetView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "groupingSelectionSectionView"
             landmarkType = "24">
          </BreakpointContent>
@@ -473,6 +479,21 @@
                   endingLineNumber = "160"
                   offsetFromSymbolStart = "260">
                </Location>
+               <Location
+                  uuid = "F387754E-2697-455C-A97D-4E4A24C743DD - 907f408cce8d6ef8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FollowUp.ContactsInteractor.removeIfOrphaned(tag: FollowUp.Tag) -&gt; ()"
+                  moduleName = "FollowUp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aaronbaw/Code/FollowUp/FollowUp/Interactors/ContactsInteractor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "160"
+                  endingLineNumber = "160"
+                  offsetFromSymbolStart = "60">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -488,7 +509,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "132"
             endingLineNumber = "132"
-            landmarkName = "loadSettingsFromRealm()"
+            landmarkName = "updateWithFetchedContacts(_:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -535,35 +556,41 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "216"
-            endingLineNumber = "216">
+            endingLineNumber = "216"
+            landmarkName = "configureContactsObserver()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "B8FF39B5-8B7F-4987-9AE7-15FDB45F310B"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FollowUp/Model/FollowUpStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "228"
-            endingLineNumber = "228">
+            endingLineNumber = "228"
+            landmarkName = "configureTagsObserver()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "1EFD61C5-33F7-4A43-B551-FAE7E18860A2"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FollowUp/Model/FollowUpStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "204"
-            endingLineNumber = "204">
+            endingLineNumber = "204"
+            landmarkName = "computeFilteredTags()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -586,7 +613,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "C0B683C6-3039-45AD-AB65-0366E5ADD57E"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FollowUp/Model/FollowUpStore.swift"
@@ -594,24 +621,71 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "181"
             endingLineNumber = "181"
-            landmarkName = "defaultFollowUpStoreString"
-            landmarkType = "24">
+            landmarkName = "computeSortedContacts()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7AEC5422-EB99-4180-A0EB-8B371CB80447"
+            uuid = "094D4162-31ED-473E-B781-780C67375F9C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FollowUp/Model/FollowUpStore.swift"
+            filePath = "FollowUp/Model/Networking/Networking.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "contact(forID:)"
-            landmarkType = "7">
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "openAIKey"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "094D4162-31ED-473E-B781-780C67375F9C - da698eaf660d0567"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static FollowUp.Networking.openAIKey.getter : Swift.Optional&lt;Swift.String&gt;"
+                  moduleName = "FollowUp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aaronbaw/Code/FollowUp/FollowUp/Model/Networking/Networking.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "094D4162-31ED-473E-B781-780C67375F9C - da698eaf660d0546"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static FollowUp.Networking.openAIKey.getter : Swift.Optional&lt;Swift.String&gt;"
+                  moduleName = "FollowUp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aaronbaw/Code/FollowUp/FollowUp/Model/Networking/Networking.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "094D4162-31ED-473E-B781-780C67375F9C - da698eaf660d0546"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static FollowUp.Networking.openAIKey.getter : Swift.Optional&lt;Swift.String&gt;"
+                  moduleName = "FollowUp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aaronbaw/Code/FollowUp/FollowUp/Model/Networking/Networking.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "232">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
