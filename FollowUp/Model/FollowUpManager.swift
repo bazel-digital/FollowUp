@@ -164,7 +164,7 @@ final class FollowUpManager: ObservableObject {
     }
     
     func calculateNewlyMetContactsAndScheduleFollowUpReminderNotification() {
-        self.store.numberOfContacts(metWithinTimeframe: .today) { numberOfContacts in
+        self.store.numberOfContacts(.thatAreNew) { numberOfContacts in
             guard let numberOfContacts = numberOfContacts else {
                 Log.error("Unable to determine number of contacts met within specified timeframe.")
                 return

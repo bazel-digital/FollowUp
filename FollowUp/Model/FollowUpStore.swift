@@ -21,7 +21,7 @@ protocol FollowUpStoring: ObservableObject {
 
     func updateWithFetchedContacts(_ contacts: [any Contactable])
     func contact(forID contactID: ContactID) -> (any Contactable)?
-    func numberOfContacts(metWithinTimeframe timeFrame: RelativeDateGrouping, completion: @escaping (Int?) -> Void)
+    func numberOfContacts(_ searchPredicate: NewContactSearchPredicate, completion: @escaping (Int?) -> Void)
     func set(contactSearchQuery searchQuery: String)
     func set(tagSearchQuery searchQuery: String)
     func set(selectedTagSearchTokens tagSearchTokens: [Tag])
@@ -150,8 +150,8 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
             (first.lastInteractedWith ?? .distantPast) > (second.lastInteractedWith ?? .distantPast) ? first : second
         }
     }
-
-    func numberOfContacts(metWithinTimeframe timeFrame: RelativeDateGrouping, completion: @escaping (Int?) -> Void) {
+    
+    func numberOfContacts(_ searchPredicate: NewContactSearchPredicate, completion: @escaping (Int?) -> Void) {
         // This needs to take place on a background thread, as it is typically performed by a background task.
         DispatchQueue.global(qos: .background).async {
 
@@ -159,14 +159,25 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
                 let backgroundRealm = try Realm(configuration: .defaultConfiguration)
                 let contacts = backgroundRealm.objects(Contact.self)
                 
-                // This background task tends to fail when the contact list is relatively large (in the 100s), due to the processing time required to evaluate and compare each individual contact. We sort the contacts and prefix the number of contacts to something reasonable (e.g. 100) to prevent the task from failing.
-                let filteredContacts = contacts
-                    .sorted(by: \.createDate, ascending: false)
-                    .prefix(upTo: Constant.Processing.numberOfContactsToProcessInBackground)
-                    .filter({
-                    $0.relativeDateGrouping == timeFrame
-                })
-                return completion(filteredContacts.count)
+                switch searchPredicate {
+                case let .metWithinTimeframe(timeFrame):
+                    // This background task tends to fail when the contact list is relatively large (in the 100s), due to the processing time required to evaluate and compare each individual contact. We sort the contacts and prefix the number of contacts to something reasonable (e.g. 100) to prevent the task from failing.
+                    let filteredContacts = contacts
+                        .sorted(by: \.createDate, ascending: false)
+                        .prefix(upTo: Constant.Processing.numberOfContactsToProcessInBackground)
+                        .filter({
+                        $0.relativeDateGrouping == timeFrame
+                    })
+                    
+                    return completion(filteredContacts.count)
+                case .thatAreNew:
+                    let filteredContacts = contacts
+                        .prefix(upTo: Constant.Processing.numberOfContactsToProcessInBackground)
+                        .filter(\.isNew)
+                    return completion(filteredContacts.count)
+                }
+                
+                
             } catch {
                 Log.error("Could not initialise background realm to count number of new contacts: \(error.localizedDescription)")
                 return completion(nil)
@@ -174,6 +185,30 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
 
         }
     }
+
+//    func numberOfContacts(metWithinTimeframe timeFrame: RelativeDateGrouping, completion: @escaping (Int?) -> Void) {
+//        // This needs to take place on a background thread, as it is typically performed by a background task.
+//        DispatchQueue.global(qos: .background).async {
+//
+//            do {
+//                let backgroundRealm = try Realm(configuration: .defaultConfiguration)
+//                let contacts = backgroundRealm.objects(Contact.self)
+//                
+//                // This background task tends to fail when the contact list is relatively large (in the 100s), due to the processing time required to evaluate and compare each individual contact. We sort the contacts and prefix the number of contacts to something reasonable (e.g. 100) to prevent the task from failing.
+//                let filteredContacts = contacts
+//                    .sorted(by: \.createDate, ascending: false)
+//                    .prefix(upTo: Constant.Processing.numberOfContactsToProcessInBackground)
+//                    .filter({
+//                    $0.relativeDateGrouping == timeFrame
+//                })
+//                return completion(filteredContacts.count)
+//            } catch {
+//                Log.error("Could not initialise background realm to count number of new contacts: \(error.localizedDescription)")
+//                return completion(nil)
+//            }
+//
+//        }
+//    }
     
     func contact(forID contactID: ContactID) -> (any Contactable)? {
         guard

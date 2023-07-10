@@ -10,14 +10,12 @@ import Foundation
 class MockFollowUpStore: FollowUpStoring {
     var contacts: [any Contactable] = []
     
-    func numberOfContacts(metWithinTimeframe timeFrame: RelativeDateGrouping) -> Int? {
-        return self.contacts.filter { $0.relativeDateGrouping == timeFrame }.count
+    func numberOfContacts(_ searchPredicate: NewContactSearchPredicate, completion: @escaping (Int?) -> Void) {
+        switch searchPredicate {
+        case let .metWithinTimeframe(timeFrame): return completion(self.contacts.filter { $0.relativeDateGrouping == timeFrame }.count)
+        case .thatAreNew: return completion(self.contacts.filter(\.isNew).count)
+        }
     }
-
-    func numberOfContacts(metWithinTimeframe timeFrame: RelativeDateGrouping, completion: @escaping (Int?) -> Void) {
-        return completion(self.contacts.filter { $0.relativeDateGrouping == timeFrame }.count)
-    }
-    
     
     var dailyFollowUpGoal: Int? = nil
     var tagSearchQuery: String = ""
