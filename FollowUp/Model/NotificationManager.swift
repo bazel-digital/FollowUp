@@ -59,9 +59,9 @@ class NotificationManager: NotificationManaging {
     func requestNotificationAuthorization(completion: @escaping () -> Void){
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: {
             success, error in
-            print("Start Up | \(success ? "Successfully" : "Unsuccessfully") granted notification authorization.")
+            Log.info("Start Up | \(success ? "Successfully" : "Unsuccessfully") granted notification authorization.")
             if let error = error {
-                print("Start Up | Error requesting notification authorization: \(error.localizedDescription)")
+                Log.error("Start Up | Error requesting notification authorization: \(error.localizedDescription)")
             }
             completion()
         })

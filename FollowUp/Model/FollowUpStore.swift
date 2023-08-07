@@ -346,14 +346,14 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     func loadSettingsFromRealm() {
         if let followUpSettings = self.realm?.objects(FollowUpSettings.self).first {
             self.settings = followUpSettings
-            print("Loaded FollowUpSettings from realm.")
+            Log.info("Loaded FollowUpSettings from realm.")
         } else {
-            print("FollowUpSettings not found in realm. Creating a new instance.")
+            Log.warn("FollowUpSettings not found in realm. Creating a new instance.")
             let followUpSettings = FollowUpSettings()
             do {
                 try self.realm?.write {
                     self.realm?.add(followUpSettings)
-                    print("Added instance of FollowUpSettings to realm.")
+                    Log.info("Added instance of FollowUpSettings to realm.")
                     self.settings = followUpSettings
                 }
             } catch {

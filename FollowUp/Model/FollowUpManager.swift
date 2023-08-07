@@ -97,7 +97,7 @@ final class FollowUpManager: ObservableObject {
         do {
             return try Realm()
         } catch {
-            print("Could not open realm: \(error.localizedDescription)")
+            Log.error("Could not open realm: \(error.localizedDescription)")
             return nil
         }
     }

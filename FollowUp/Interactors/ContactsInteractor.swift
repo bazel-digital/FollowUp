@@ -216,7 +216,9 @@ extension ContactsInteractor {
                 self.fetchCNContacts { cnContacts in
                     let mergedContacts = self.merged(cnContacts: cnContacts.map(Contact.init(from:)), withABContacts: abContacts)
                     DispatchQueue.main.async {
-                        print(mergedContacts)
+                        #if DEBUG || TESTING
+                            print(mergedContacts)
+                        #endif
                         self._contactsPublisher.send(mergedContacts)
                         self.objectWillChange.send()
                     }
@@ -237,11 +239,11 @@ extension ContactsInteractor {
     }
     
     private func fetchCNContacts(completion: (([CNContact]) -> Void)? = nil) {
-        print("Fetching contacts.")
+        Log.info("Fetching CNContacts.")
         let contactStore = CNContactStore()
         contactStore.requestAccess(for: .contacts) { authorizationResult, error in
             if let error = error {
-                print("Error fetching contacts: \(error.localizedDescription)")
+                Log.error("Error fetching CNContacts: \(error.localizedDescription)")
             }
             
             self.contactsAuthorized = authorizationResult
@@ -261,15 +263,16 @@ extension ContactsInteractor {
                         CNContactDatesKey
                     ] as [CNKeyDescriptor]
                 )
-                print("Received contacts:", fetchedContacts)
+                Log.info("Received CNContacts: \(fetchedContacts.description)")
                 completion?(fetchedContacts)
             } catch {
-                print("Unable to fetch CNContacts: \(error.localizedDescription)")
+                Log.error("Unable to fetch CNContacts: \(error.localizedDescription)")
             }
         }
     }
 
     private func fetchABContacts(completion: @escaping ([any Contactable]) -> Void) {
+        Log.info("Fetching ABContacts.")
         switch ABAddressBookGetAuthorizationStatus() {
         case .authorized: self.processABContacts(completion: completion)
         case .denied, .restricted:
@@ -299,7 +302,7 @@ extension ContactsInteractor {
                 self.processABContacts(completion: completion)
             }
             else {
-                print("Unable to request access to Address Book.", error?.localizedDescription ?? "Unknown error.")
+                Log.error("Unable to request access to Address Book \(error?.localizedDescription ?? "Unknown error.")")
             }
         })
     }

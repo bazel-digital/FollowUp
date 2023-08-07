@@ -32,7 +32,7 @@ struct FollowUpApp: App {
                 .onAppear(perform: self.followUpManager.configureNotifications)
             #if DEBUG
                 .onAppear {
-                    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
+                    Log.info(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
                 }
             #endif
         }
