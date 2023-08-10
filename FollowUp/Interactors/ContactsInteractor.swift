@@ -18,7 +18,7 @@ typealias ContactID = String
 
 // MARK: -
 protocol ContactsInteracting {
-    var contactsPublisher: AnyPublisher<[any Contactable], Never> { get }
+    var contactsPublisher: AnyPublisher<[any Contactable], FollowUpError> { get }
     var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> { get }
     var statePublisher: AnyPublisher<ContactInteractorState, Never> { get }
     var contactSheet: ContactSheet? { get }
@@ -61,12 +61,12 @@ enum ContactInteractorState {
 class ContactsInteractor: ContactsInteracting, ObservableObject {
 
     // MARK: - Private Properties
-    private var _contactsPublisher: PassthroughSubject<[any Contactable], Never> = .init()
+    private var _contactsPublisher: PassthroughSubject<[any Contactable], FollowUpError> = .init()
     private var realm: Realm?
     private let backgroundQueue: DispatchQueue = .init(label: "com.bazel.followup.contacts.background", qos: .background)
 
     // MARK: - Public Properties
-    var contactsPublisher: AnyPublisher<[any Contactable], Never> { _contactsPublisher.eraseToAnyPublisher() }
+    var contactsPublisher: AnyPublisher<[any Contactable], FollowUpError> { _contactsPublisher.eraseToAnyPublisher() }
 
     var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> { self.$contactSheet.eraseToAnyPublisher() }
     
@@ -212,15 +212,36 @@ extension ContactsInteractor {
     // MARK: - Public Methods
     public func fetchContacts() {
         self.backgroundQueue.async {
-            self.fetchABContacts { abContacts in
-                self.fetchCNContacts { cnContacts in
-                    let mergedContacts = self.merged(cnContacts: cnContacts.map(Contact.init(from:)), withABContacts: abContacts)
-                    DispatchQueue.main.async {
-                        #if DEBUG || TESTING
-                            print(mergedContacts)
-                        #endif
-                        self._contactsPublisher.send(mergedContacts)
-                        self.objectWillChange.send()
+            self.fetchABContacts { abContactResult in
+                
+                switch abContactResult {
+
+                case let .failure(error):
+                    self._contactsPublisher.send(completion: .failure(error))
+                    return
+                    
+                case let .success(abContacts):
+                    self.fetchCNContacts { cnContactResult in
+                        
+                        switch cnContactResult {
+                        case let .failure(error):
+                            self._contactsPublisher.send(completion: .failure(error))
+                        case let .success(cnContacts):
+                            let mergedContacts = self.merged(
+                                cnContacts: cnContacts.map(
+                                    Contact.init(from:)
+                                ),
+                                withABContacts: abContacts
+                            )
+                            
+                            DispatchQueue.main.async {
+                                #if DEBUG || TESTING
+                                    print(mergedContacts)
+                                #endif
+                                self._contactsPublisher.send(mergedContacts)
+                                self.objectWillChange.send()
+                            }
+                        }
                     }
                 }
             }
@@ -238,12 +259,13 @@ extension ContactsInteractor {
         }
     }
     
-    private func fetchCNContacts(completion: (([CNContact]) -> Void)? = nil) {
+    private func fetchCNContacts(completion: ((Result<[CNContact], FollowUpError>) -> Void)? = nil) {
         Log.info("Fetching CNContacts.")
         let contactStore = CNContactStore()
         contactStore.requestAccess(for: .contacts) { authorizationResult, error in
             if let error = error {
                 Log.error("Error fetching CNContacts: \(error.localizedDescription)")
+                completion?(.failure(.requestAccessError(error)))
             }
             
             self.contactsAuthorized = authorizationResult
@@ -264,14 +286,15 @@ extension ContactsInteractor {
                     ] as [CNKeyDescriptor]
                 )
                 Log.info("Received CNContacts: \(fetchedContacts.description)")
-                completion?(fetchedContacts)
+                completion?(.success(fetchedContacts))
             } catch {
                 Log.error("Unable to fetch CNContacts: \(error.localizedDescription)")
+                completion?(.failure(.cnContactQueryError(error)))
             }
         }
     }
 
-    private func fetchABContacts(completion: @escaping ([any Contactable]) -> Void) {
+    private func fetchABContacts(completion: @escaping (Result<[any Contactable], FollowUpError>) -> Void) {
         Log.info("Fetching ABContacts.")
         switch ABAddressBookGetAuthorizationStatus() {
         case .authorized: self.processABContacts(completion: completion)
@@ -293,7 +316,7 @@ extension ContactsInteractor {
         return Array(dictionary.values)
     }
 
-    private func requestAuthorization(completion: @escaping ([any Contactable]) -> Void) {
+    private func requestAuthorization(completion: @escaping (Result<[any Contactable], FollowUpError>) -> Void) {
         self.setState(.requestingAuthorization)
         let addressBook = ABAddressBookCreate().takeRetainedValue()
         ABAddressBookRequestAccessWithCompletion(addressBook, { success, error in
@@ -303,11 +326,14 @@ extension ContactsInteractor {
             }
             else {
                 Log.error("Unable to request access to Address Book \(error?.localizedDescription ?? "Unknown error.")")
+                if let error = error {
+                    completion(.failure(.requestAccessError(error)))
+                }
             }
         })
     }
 
-    private func processABContacts(completion: ([any Contactable]) -> Void) {
+    private func processABContacts(completion: (Result<[any Contactable], FollowUpError>) -> Void) {
         self.setState(.fetchingContacts)
         var errorRef: Unmanaged<CFError>?
         var addressBook: ABAddressBook? = extractABAddressBookRef(abRef: ABAddressBookCreateWithOptions(nil, &errorRef))
@@ -318,15 +344,18 @@ extension ContactsInteractor {
             
             let abRecord = record as ABRecord
             let recordID = Int(getID(for: abRecord))
-
+            
             guard
                 let firstName = get(property: kABPersonFirstNameProperty, fromRecord: abRecord, castedAs: NSString.self, returnedAs: String.self),
                 let middleName = get(property: kABPersonMiddleNameProperty, fromRecord: abRecord, castedAs: NSString.self, returnedAs: String.self),
                 let lastName = get(property: kABPersonLastNameProperty, fromRecord: abRecord, castedAs: NSString.self, returnedAs: String.self),
                 let creationDate = get(property: kABPersonCreationDateProperty, fromRecord: abRecord, castedAs: NSDate.self, returnedAs: Date.self)
                     // TODO: CHANGE!
-            else { return Contact.mocked }
-
+            else {
+                Log.warn("Unable to retrieve contact details for Contact with record ID: \(recordID).")
+                return nil
+            }
+            
             let email =  get(property: kABPersonEmailProperty, fromRecord: abRecord, castedAs: NSString.self, returnedAs: String.self)
             let phoneNumbers = getPhoneNumbers(fromRecord: abRecord)
             let thumbnailImage = get(imageOfSize: .thumbnail, from: abRecord)?.uiImage
@@ -341,12 +370,8 @@ extension ContactsInteractor {
                 createDate: creationDate
             )
         }
-
-            // TODO: Check this
-//            self.objectWillChange.send()
-//            self.setState(.loaded)
-//            self._contactsPublisher.send(contacts)
-            completion(contacts)
+        
+        completion(.success(contacts))
 
     }
 

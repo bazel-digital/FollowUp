@@ -18,6 +18,8 @@
 		2115FCC328E8E732001A6E4E /* ConversationActionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115FCC228E8E732001A6E4E /* ConversationActionButtonView.swift */; };
 		2115FCC528E8E83D001A6E4E /* ButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115FCC428E8E83D001A6E4E /* ButtonAction.swift */; };
 		21194CC52A4B896F005DC77E /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21194CC42A4B896F005DC77E /* Networking.swift */; };
+		2124029F2A851A7E00A6F391 /* LocalizedAlertError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2124029E2A851A7E00A6F391 /* LocalizedAlertError.swift */; };
+		212402A12A85255600A6F391 /* FollowUpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212402A02A85255600A6F391 /* FollowUpError.swift */; };
 		21312191297ED14D00C9E1EE /* HeroMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21312190297ED14D00C9E1EE /* HeroMessageView.swift */; };
 		21312193297ED17B00C9E1EE /* LocalisedTextKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21312192297ED17B00C9E1EE /* LocalisedTextKey.swift */; };
 		21312195297ED1CF00C9E1EE /* Text+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21312194297ED1CF00C9E1EE /* Text+Additions.swift */; };
@@ -122,6 +124,8 @@
 		2115FCC228E8E732001A6E4E /* ConversationActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationActionButtonView.swift; sourceTree = "<group>"; };
 		2115FCC428E8E83D001A6E4E /* ButtonAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonAction.swift; sourceTree = "<group>"; };
 		21194CC42A4B896F005DC77E /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		2124029E2A851A7E00A6F391 /* LocalizedAlertError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedAlertError.swift; sourceTree = "<group>"; };
+		212402A02A85255600A6F391 /* FollowUpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUpError.swift; sourceTree = "<group>"; };
 		21312190297ED14D00C9E1EE /* HeroMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroMessageView.swift; sourceTree = "<group>"; };
 		21312192297ED17B00C9E1EE /* LocalisedTextKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalisedTextKey.swift; sourceTree = "<group>"; };
 		21312194297ED1CF00C9E1EE /* Text+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Additions.swift"; sourceTree = "<group>"; };
@@ -358,6 +362,7 @@
 		2159D0022711F4D3005A2387 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				21C828E92A814D48003079BC /* Error */,
 				21A102CF29C33CAE00EDAE78 /* Networking */,
 				2147644329AE640D0098A789 /* Conversation Starters */,
 				2159D0032711F4DF005A2387 /* Contactable.swift */,
@@ -468,6 +473,15 @@
 				21B97E822A586EA100EE46EF /* IntelligentConversationStarterEditorView.swift */,
 			);
 			path = ConversationStarter;
+			sourceTree = "<group>";
+		};
+		21C828E92A814D48003079BC /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				2124029E2A851A7E00A6F391 /* LocalizedAlertError.swift */,
+				212402A02A85255600A6F391 /* FollowUpError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		21DE77BF2A4DF01D007EA909 /* ContactSheet */ = {
@@ -714,11 +728,13 @@
 				2159CFD52711F49C005A2387 /* FollowUpApp.swift in Sources */,
 				21312193297ED17B00C9E1EE /* LocalisedTextKey.swift in Sources */,
 				218B39062712240F002720BC /* Data+Additions.swift in Sources */,
+				212402A12A85255600A6F391 /* FollowUpError.swift in Sources */,
 				2159D0162712081C005A2387 /* View+Additions.swift in Sources */,
 				218B391B271C9A3B002720BC /* BadgeView.swift in Sources */,
 				21A102D729C3589B00EDAE78 /* String+Additions.swift in Sources */,
 				2196759E2A3A20A5003C9A20 /* TagChipView.swift in Sources */,
 				2159D0012711F4C5005A2387 /* NewContactsView.swift in Sources */,
+				2124029F2A851A7E00A6F391 /* LocalizedAlertError.swift in Sources */,
 				2159D0062711F887005A2387 /* ContactRowView.swift in Sources */,
 				2159D00D27120230005A2387 /* Mock.swift in Sources */,
 			);

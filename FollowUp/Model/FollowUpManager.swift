@@ -20,6 +20,9 @@ final class FollowUpManager: ObservableObject {
     // If one doesn't exist, then we create one and add it to the realm.
     // If a follow up store has been passed as an argument, than this supercedes any store that we find in the realm.
     var store: FollowUpStore
+    
+    /// Error to be displayed to the user.
+    @Published var error: FollowUpError? = .requestAccessError(nil)
 
     var contactsInteractor: ContactsInteracting
     private var subscriptions: Set<AnyCancellable> = .init()
@@ -50,7 +53,16 @@ final class FollowUpManager: ObservableObject {
     private func subscribeForNewContacts() {
         self.contactsInteractor
             .contactsPublisher
-            .sink(receiveValue: { newContacts in
+            .sink(
+                receiveCompletion: { completion in
+                    switch completion {
+                    case .finished:
+                        return
+                    case let .failure(error):
+                        self.error = error
+                    }
+                },
+                receiveValue: { newContacts in
                 self.store.updateWithFetchedContacts(newContacts)
             })
             .store(in: &self.subscriptions)

@@ -11,15 +11,14 @@ import SwiftUI
 
 class MockContactsInteractor: ContactsInteracting, ObservableObject {
     
-    
     @Published var contactSheet: ContactSheet?
 
     @Published var contacts: [any Contactable] = []
     
     @Published var state: ContactInteractorState = .fetchingContacts
     
-    var contactsPublisher: AnyPublisher<[any Contactable], Never> {
-        $contacts.eraseToAnyPublisher()
+    var contactsPublisher: AnyPublisher<[any Contactable], FollowUpError> {
+        $contacts.setFailureType(to: FollowUpError.self).eraseToAnyPublisher()
     }
 
     var contactSheetPublisher: AnyPublisher<ContactSheet?, Never> {

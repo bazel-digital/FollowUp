@@ -238,8 +238,8 @@
             filePath = "FollowUp/Interactors/ContactsInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "297"
-            endingLineNumber = "297"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
             landmarkName = "requestAuthorization(completion:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -14,6 +14,7 @@ struct FollowUpApp: App {
 
     // MARK: - State Objects
     @StateObject var followUpManager: FollowUpManager = .init()
+    @State private var errorIsPresented: Bool = false
     
     // MARK: - Environment Objects
     @Environment(\.scenePhase) var scenePhase
@@ -30,6 +31,14 @@ struct FollowUpApp: App {
                 .environmentObject(followUpManager.store)
                 .environmentObject(followUpManager.store.settings)
                 .onAppear(perform: self.followUpManager.configureNotifications)
+//                .alert(item: $followUpManager.error, content: { error in
+//                    Alert(
+//                        title: Text("Unable To Generate Message"),
+//                        message: Text(error.localizedDescription),
+//                        dismissButton: .cancel()
+//                    )
+//                })
+                .errorAlert(error: $followUpManager.error)
             #if DEBUG
                 .onAppear {
                     Log.info(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
