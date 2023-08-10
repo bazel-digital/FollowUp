@@ -22,7 +22,7 @@ final class FollowUpManager: ObservableObject {
     var store: FollowUpStore
     
     /// Error to be displayed to the user.
-    @Published var error: FollowUpError? = .requestAccessError(nil)
+    @Published var error: FollowUpError?
 
     var contactsInteractor: ContactsInteracting
     private var subscriptions: Set<AnyCancellable> = .init()
