@@ -70,14 +70,7 @@ class FollowUpStore: FollowUpStoring, ObservableObject {
     @Published var tagSuggestions: [Tag] = []
     @Published var allTags: [Tag] = []
     @Published var selectedTagSearchTokens: [Tag] = []
-    private var tagsResults: Results<Tag>? {
-        didSet {
-            self.allTags = tagsResults?
-            .array
-            .prefix(Constant.Search.maxNumberOfDisplayedSearchTagSuggestions)
-            .map { $0 } ?? []
-        }
-    }
+    private var tagsResults: Results<Tag>? { didSet { self.allTags = tagsResults?.array ?? [] } }
     
     // MARK: - Realm Properties
     // We subscribe to this to observe changes to the contacts within the Realm DB.

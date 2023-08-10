@@ -30,10 +30,16 @@ struct ContactListView: View {
         trailing: 0
     )
     
+    var prefixedSuggestedTagSearchTokens: [Tag] {
+        self.suggestedTagSearchTokens
+            .prefix(Constant.Search.maxNumberOfDisplayedSearchTagSuggestions)
+            .map { $0 }
+    }
+    
     // MARK: - Computed Properties
     private var searchSuggestionView: some View {
         WrappingHStack(alignment: .leading) {
-            ForEach(suggestedTagSearchTokens) { tag in
+            ForEach(prefixedSuggestedTagSearchTokens) { tag in
                 TagChipView(tag: tag, action: {
                     self.selectedTagSearchTokens.append(tag)
                 })
