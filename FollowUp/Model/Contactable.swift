@@ -24,7 +24,7 @@ protocol Contactable: Object, Identifiable {
     var highlighted: Bool { get }
     var containedInFollowUps: Bool { get }
 
-    /// New contacts are not older than one week, and have not been interacted with.
+    /// New contacts younger than one week, and have not been interacted with.
     var isNew: Bool { get }
 
     // MARK: - Interaction Indicators
@@ -37,7 +37,7 @@ protocol Contactable: Object, Identifiable {
 // MARK: - Default Implementations
 extension Contactable {
     var isNew: Bool {
-        self.relativeDateGrouping == .week && lastInteractedWith == nil
+        self.relativeDateGrouping <= .week && lastInteractedWith == nil
     }
     
     /// Creates a hash value of the contact which does _not_ contain the 'note', 'id', or 'createDate' properties. This is used for merging.
