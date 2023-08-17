@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 enum Log {
     
@@ -21,10 +22,22 @@ enum Log {
             case .error: return "❌"
             }
         }
+        
+        var osLogType: OSLogType {
+            switch self {
+            case .error: return .error
+            case .warn: return .default
+            case .info: return .info
+            }
+        }
     }
 
     static func log(_ level: Level, message: String) {
-        print("\(level.emoji) [\(level.rawValue.uppercased())] \(message)")
+        let message = "\(level.emoji) [\(level.rawValue.uppercased())] \(message)"
+        print(message)
+        
+        let logObject = OSLog(subsystem: Constant.appIdentifier, category: "AppLogs")
+        os_log("%{public}@", log: logObject, type: level.osLogType, message)
     }
 
     static func info(_ message: String) {

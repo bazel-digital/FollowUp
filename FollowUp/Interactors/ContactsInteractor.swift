@@ -285,7 +285,7 @@ extension ContactsInteractor {
                         CNContactDatesKey
                     ] as [CNKeyDescriptor]
                 )
-                Log.info("Received CNContacts: \(fetchedContacts.description)")
+                Log.info("Received CNContacts: \(fetchedContacts.count)")
                 completion?(.success(fetchedContacts))
             } catch {
                 Log.error("Unable to fetch CNContacts: \(error.localizedDescription)")
@@ -437,7 +437,6 @@ extension ContactsInteractor {
         for index in 0..<ABMultiValueGetCount(emailArray)  {
             var emailAdd = ABMultiValueCopyValueAtIndex(emailArray, index)
             var myString = extractABEmailAddress(abEmailAddress: emailAdd)
-            print("email: \(myString!)")
         }
     }
 
