@@ -11,7 +11,6 @@ import SwiftUI
 
 class MockContactsInteractor: ContactsInteracting, ObservableObject {
     
-    
     @Published var contactSheet: ContactSheet?
 
     @Published var contacts: ContactSignal = .overwrite([])
@@ -41,10 +40,6 @@ class MockContactsInteractor: ContactsInteracting, ObservableObject {
 
     func fetchContacts() {
 //        self.contacts.append(contentsOf: generateContacts(withCount: 10))
-    }
-    
-    func fetchRecentlyAddedContacts(completion: @escaping ([any Contactable]) -> Void) {
-        
     }
     
     func updateContactInStore(withCNContactID ID: ContactID) {

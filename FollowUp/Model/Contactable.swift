@@ -187,7 +187,7 @@ extension Contact {
                 contact.givenName,
                 contact.middleName.isEmpty ? nil : contact.middleName,
                 contact.familyName
-            ].compactMap( { $0 }).joined(separator: " ").trimmingWhitespace(),
+            ].compactMap( { $0 }).joined(separator: " "),
             phoneNumber: .init(contact.phoneNumbers.first),
             email: nil,
             thumbnailImage: (contact.thumbnailImageData ?? contact.thumbnailImageData)?.uiImage,
