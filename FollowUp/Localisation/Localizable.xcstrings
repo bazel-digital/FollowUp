@@ -793,6 +793,9 @@
         }
       }
     },
+    "Debugging" : {
+
+    },
     "Delete" : {
       "comment" : "",
       "extractionState" : "manual",
@@ -1816,6 +1819,9 @@
         }
       }
     },
+    "Pressing these forces the app to show the onboarding / new features screen on next launch." : {
+
+    },
     "Previous" : {
       "comment" : "",
       "extractionState" : "manual",
@@ -2034,6 +2040,12 @@
           }
         }
       }
+    },
+    "Reset First Launch" : {
+
+    },
+    "Reset New Version" : {
+
     },
     "Sample" : {
       "comment" : "",

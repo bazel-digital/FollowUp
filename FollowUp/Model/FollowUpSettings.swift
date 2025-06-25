@@ -14,7 +14,7 @@ class FollowUpSettings: Object {
     @Persisted var dailyFollowUpGoal: Int? = 10
     @Persisted var conversationStarters: RealmSwift.List<ConversationStarterTemplate>
     @Persisted var contactListGrouping: ContactListGrouping = .dayMonthYear
-    @Persisted var followUpRemindersActive: Bool = false
+    @Persisted var followUpRemindersActive: Bool = true
     
     // Used only for development.
     #if DEBUG

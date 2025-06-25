@@ -12,6 +12,8 @@ struct SettingsSheetView: View {
     @State var dailyFollowUpGoal: Int = 0
     @State var contactListGrouping: FollowUpSettings.ContactListGrouping = .dayMonthYear
     @State var followUpRemindersActive: Bool = false
+    @AppStorage("firstLaunch") var firstLaunch: Bool = true
+    @AppStorage("v.7FirstLaunch") var newVersionLaunch: Bool = true
     @EnvironmentObject var settings: FollowUpSettings
     @EnvironmentObject var followUpManager: FollowUpManager
     @Environment(\.dismiss) private var dismiss
@@ -93,6 +95,36 @@ struct SettingsSheetView: View {
     }
     #endif
     
+    #if DEBUG
+    private var resetOnboardingView: some View {
+        Section(content: {
+            Button(action: {
+                self.firstLaunch = true
+            }, label: {
+                Text("Reset First Launch")
+                .font(.headline)
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .greatestFiniteMagnitude)
+            })
+            
+            Button(action: {
+                self.newVersionLaunch = true
+            }, label: {
+                Text("Reset New Version")
+                .font(.headline)
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .greatestFiniteMagnitude)
+            })
+        }, header: {
+            Text("Debugging")
+        }, footer: {
+            Text("Pressing these forces the app to show the onboarding / new features screen on next launch.")
+        })
+    }
+    #endif
+    
     private var followUpRemindersToggleView: some View {
         Section(content: {
             Toggle(isOn: $followUpRemindersActive, label: { Text(.followUpReminderToggleText) })
@@ -129,6 +161,7 @@ struct SettingsSheetView: View {
                 
                 #if DEBUG
                 openAIKeySectionView
+                resetOnboardingView
                 #endif
             }
             .background(Color(.systemGroupedBackground))

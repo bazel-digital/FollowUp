@@ -107,6 +107,16 @@ enum Constant {
             }
         }
     }
+    
+    // MARK: - Graphic
+    enum Graphic: String {
+        case onboardingAddPeopleEffortlessly
+        case onboardingContactTimeline
+        case onboardingFollowupRows
+        case onboardingNeverLoseTouch
+        case onboardingNotificationGraphic
+        case onboardingStartBetterConversationsGraphic
+    }
 
     // MARK: - Contact Card
     enum ContactCard {
@@ -209,6 +219,38 @@ enum Constant {
     enum Notification {
         static let defaultNotificationTriggerHour: Int = 9
         static let defaultNotificationTriggerMinute: Int = 0
+    }
+    
+    // MARK: - Onboarding
+    enum Onboarding {
+        static let defaultPages: [OnboardingPage] = [
+            .init(
+                graphic: .onboardingNeverLoseTouch,
+                title: "Never lose touch again",
+                description: "FollowUp helps you stay connected to the people that matter."),
+            .init(
+                graphic: .onboardingAddPeopleEffortlessly,
+                title: "Add people, effortlessly",
+                description: "Add new contacts to your phone, they’ll show up here too, automatically.",
+                onAppear: [.requestContactsPermission(delay: 0)]
+            ),
+            .init(
+                graphic: .onboardingStartBetterConversationsGraphic,
+                title: "Start better conversations",
+                description: "Use AI-generated messages – tailored for each contact and moment."
+            ),
+            .init(
+                graphic: .onboardingNotificationGraphic,
+                title: "Get a nudge",
+                description: "FollowUp sends you a gentle reminder to reconnect with people you’ve met.",
+                onAppear: [.requestNotificationPermission(delay: 0.5)]
+            ),
+            .init(
+                graphic: .onboardingContactTimeline,
+                title: "Remember every interaction",
+                description: "FollowUp helps you keep track of your every interaction – calls, text, and more."
+            )
+        ]
     }
     
     // MARK: - Processing

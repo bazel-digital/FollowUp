@@ -86,16 +86,16 @@ struct ContentView: View {
                         followUpManager.contactsInteractor.hideContactSheet()
                     })
             })
-//            .sheet(isPresented: $firstLaunch, onDismiss: {
-//                self.firstLaunch = false
-//            }, content: {
-//                WelcomeView()
-//            })
-            .sheet(isPresented: $newVersionLaunch, onDismiss: {
-                self.newVersionLaunch = false
+            .sheet(isPresented: $firstLaunch, onDismiss: {
+                self.firstLaunch = false
             }, content: {
-                NewFeaturesView()
+                OnboardingView()
             })
+//            .sheet(isPresented: $newVersionLaunch, onDismiss: {
+//                self.newVersionLaunch = false
+//            }, content: {
+//                NewFeaturesView()
+//            })
             .onReceive(followUpManager.contactsInteractor.contactSheetPublisher, perform: { contactSheet in
                 self.contactSheet = contactSheet
             })
@@ -110,6 +110,9 @@ struct ContentView: View {
                 default: break
                 }
             })
+            .onAppear {
+                if (!firstLaunch) { self.followUpManager.configureNotifications() }
+            }
     }
 
 }

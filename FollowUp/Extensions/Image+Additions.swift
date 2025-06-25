@@ -15,4 +15,8 @@ extension Image {
         case .sfSymbol: self.init(systemName: icon.rawValue)
         }
     }
+    
+    init(graphic: Constant.Graphic) {
+        self.init(graphic.rawValue)
+    }
 }

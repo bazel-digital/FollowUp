@@ -30,7 +30,6 @@ struct FollowUpApp: App {
                 .environmentObject(followUpManager)
                 .environmentObject(followUpManager.store)
                 .environmentObject(followUpManager.store.settings)
-                .onAppear(perform: self.followUpManager.configureNotifications)
 //                .alert(item: $followUpManager.error, content: { error in
 //                    Alert(
 //                        title: Text("Unable To Generate Message"),

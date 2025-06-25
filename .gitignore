@@ -1,2 +1,18 @@
 FollowUp/Configurations/DebugSecrets.xcconfig
 FollowUp/Configurations/ReleaseSecrets.xcconfig
+*.xcbkptlist
+
+# Xcode
+*.xcuserstate
+*.xcscmblueprint
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Derived data
+DerivedData/
+build/
+
+# Swift Package Manager
+.build/
+Packages/
